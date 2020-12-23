@@ -1,4 +1,4 @@
-# app
+# svara
 
 ## Project setup
 ```

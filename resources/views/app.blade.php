@@ -1,16 +1,1 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Svara</title>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <link href="http://localhost:8080/js/app.js" rel="preload" as="script">
-        <link href="http://localhost:8080/js/chunk-vendors.js" rel="preload" as="script">
-    </head>
-    <body>
-       <div id="app"></div>
-        <script src="http://localhost:8080/js/chunk-vendors.js"></script>
-        <script src="http://localhost:8080/js/app.js"></script>
-    </body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.ico"><title>svara</title><link href="/js/chunk-2d0d63f1.6b01f00b.js" rel="prefetch"><link href="/js/chunk-2d0d6d35.7c989ab7.js" rel="prefetch"><link href="/js/chunk-2d2086b7.7714ab25.js" rel="prefetch"><link href="/css/app.c700bf99.css" rel="preload" as="style"><link href="/js/app.b3e659e8.js" rel="preload" as="script"><link href="/js/chunk-vendors.ece925b5.js" rel="preload" as="script"><link href="/css/app.c700bf99.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but svara doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><script src="/js/chunk-vendors.ece925b5.js"></script><script src="/js/app.b3e659e8.js"></script></body></html>

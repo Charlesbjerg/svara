@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 // Defaults to '/' for any route unless it starts with '/api/'
 Route::get('/{any}', [\App\Http\Controllers\ViewController::class, 'app'])->where('any','^(?!api).*$');
+
+require __DIR__.'/auth.php';

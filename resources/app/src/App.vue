@@ -4,9 +4,28 @@
     <router-link to="/login">Login</router-link>
     <router-link to="/register">Register</router-link>
     <router-link to="/dashboard">Dashboard</router-link>
+    <button @click="logout">Logout</button>
   </div>
   <router-view />
 </template>
+
+<script>
+import axios from "axios";
+export default {
+  name: "App",
+  methods: {
+    logout() {
+      axios.post('/api/logout')
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.error("Logout failed", err);
+      })
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 #app {

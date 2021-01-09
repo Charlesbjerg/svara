@@ -1,51 +1,29 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/login">Login</router-link>
-    <router-link to="/register">Register</router-link>
-    <router-link to="/dashboard">Dashboard</router-link>
-    <button @click="logout">Logout</button>
+  <div class="app">
+    <Navigation />
+    <main>
+      <router-view />
+    </main>
   </div>
-  <router-view />
 </template>
 
 <script>
-import axios from "axios";
+import Navigation from "@/components/common/Navigation";
+
 export default {
   name: "App",
-  methods: {
-    logout() {
-      axios.post('/api/logout')
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.error("Logout failed", err);
-      })
-    }
-  }
-}
+  components: {
+    Navigation,
+  },
+};
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.app {
+  display: grid;
+  grid-template-columns: 300px auto;
+  gap: 30px;
+  height: 100vh;
+  overflow: hidden;
 }
 </style>

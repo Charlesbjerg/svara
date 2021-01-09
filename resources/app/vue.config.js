@@ -11,5 +11,19 @@ module.exports = {
   // ? '../resources/views/app.blade.php'
   // : 'index.html',
   indexPath: "../resources/views/app.blade.php",
-  lintOnSave: false
+  lintOnSave: false,
+
+  css: {
+    loaderOptions: {
+      scss: {
+        // List all imports here
+        prependData: `
+          @import "~@/scss/_variables.scss";
+          @import "~@/scss/_normalize.scss";
+          @import "~@/scss/_base.scss";
+        `
+      },
+    }
+  }
+
 };

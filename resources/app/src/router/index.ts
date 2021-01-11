@@ -3,6 +3,9 @@ import Home from "../views/Home.vue";
 
 // Import separate route files
 import ProjectRoutes from './projects';
+import TeamsRoutes from './teams';
+import ClientsRoutes from './clients';
+import CompanyRoutes from './company';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -26,7 +29,9 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Register.vue")
   },
   ...ProjectRoutes,
-
+  ...ClientsRoutes,
+  ...TeamsRoutes,
+  ...CompanyRoutes,
 ];
 
 const router = createRouter({

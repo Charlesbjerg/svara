@@ -16,4 +16,13 @@ use Illuminate\Support\Facades\Route;
 // Defaults to '/' for any route unless it starts with '/api/'
 Route::get('/{any}', [\App\Http\Controllers\ViewController::class, 'app'])->where('any','^(?!api).*$');
 
-require __DIR__.'/auth.php';
+// Api Routes
+Route::prefix('api')->group(function() {
+
+    require __DIR__ . '/app/auth.php';
+    require __DIR__ . '/app/projects.php';
+    require __DIR__ . '/app/clients.php';
+    require __DIR__ . '/app/teams.php';
+    require __DIR__ . '/app/company.php';
+
+});

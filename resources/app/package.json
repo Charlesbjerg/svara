@@ -15,9 +15,12 @@
     "core-js": "^3.6.5",
     "loadash": "^1.0.0",
     "normalize-css": "^2.3.1",
+    "svg-to-vue-component": "^0.3.8",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-0",
+    "vue-svg-loader": "^0.17.0-beta.2",
+    "vue-template-compiler": "^2.6.12",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {

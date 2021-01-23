@@ -1,6 +1,6 @@
 <template>
   <div class="component">
-
+    Team Index
   </div>
 </template>
 

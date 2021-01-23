@@ -135,7 +135,7 @@
         </svg>
         Home
       </router-link>
-      <router-link to="/" class="nav__link">
+      <router-link to="/projects" class="nav__link">
         <svg
           id="jigsaw"
           xmlns="http://www.w3.org/2000/svg"
@@ -171,7 +171,7 @@
         </svg>
         Projects
       </router-link>
-      <router-link to="/" class="nav__link">
+      <router-link to="/clients" class="nav__link">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="25"
@@ -227,7 +227,7 @@
         </svg>
         Clients
       </router-link>
-      <router-link to="/" class="nav__link">
+      <router-link to="/teams" class="nav__link">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="25"
@@ -324,7 +324,7 @@
         </svg>
         Teams
       </router-link>
-      <router-link to="/" class="nav__link">
+      <router-link to="/company" class="nav__link">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="25"
@@ -371,9 +371,6 @@ import axios from "axios";
 
 export default {
   name: "Navigation.vue",
-  components: {
-    Logo
-  },
   methods: {
     logout() {
       axios
@@ -405,15 +402,24 @@ export default {
     margin: 30px 0;
   }
   &__link {
-    display: block;
+    display: flex;
+    align-items: center;
     background-color: #fff;
     text-decoration: none;
     border: 0;
-    padding: 10px 0;
+    padding: 15px 0;
     margin: 0;
     font-family: $font-heading;
     font-size: 18px;
     color: #000;
+    line-height: 1em;
+    @include transition-default;
+    &:hover {
+      color: $accent-colour;
+      svg {
+        fill: $accent-colour;
+      }
+    }
   }
   &__link-icon {
     margin-right: 10px;

@@ -11,7 +11,11 @@ import HelloWorld from "@/components/HelloWorld.vue";
 @Options({
   components: {
     HelloWorld
-  }
+  },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  mounted() {
+    this.$http.get('/api/user').then(res => console.log(res));
+  }
+}
 </script>

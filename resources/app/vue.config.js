@@ -1,6 +1,10 @@
 module.exports = {
   // local Laravel server address for api proxy
-  devServer: { proxy: "http://127.0.0.1:8000" },
+  devServer: {
+    proxy: "http://app.svara.io:8000",
+    host: 'app.svara.io',
+    port: 80
+  },
 
   // outputDir should be Laravel public dir
   outputDir: "../../public",

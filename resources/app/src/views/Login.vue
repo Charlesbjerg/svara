@@ -15,14 +15,13 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "Login",
   methods: {
     login(e) {
         e.preventDefault();
-        axios.post('/api/login', {
+        this.$http.post('http://app.svara.io/api/login',
+        {
           email: this.$refs.email.value,
           password: this.$refs.password.value,
         })

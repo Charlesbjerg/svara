@@ -19,6 +19,17 @@ export default {
   components: {
     Navigation,
   },
+  data() {
+    return {
+      token: '',
+    };
+  },
+  mounted() {
+    this.$http.get('http://app.svara.io/sanctum/csrf-cookie')
+      .then(response => {
+        // console.log(response);
+    });
+  },
 };
 </script>
 

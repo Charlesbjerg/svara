@@ -26,8 +26,4 @@ Route::prefix('api')->group(function() {
     require __DIR__ . '/app/teams.php';
     require __DIR__ . '/app/company.php';
 
-    Route::get('user', function() {
-        return response()->json(\Illuminate\Support\Facades\Auth::user());
-    });
-
 });

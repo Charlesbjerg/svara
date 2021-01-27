@@ -24,6 +24,7 @@ module.exports = {
         prependData: `
           @import "~@/scss/_variables.scss";
           @import "~@/scss/_normalize.scss";
+          @import "~@/scss/_animate.scss";
           @import "~@/scss/_base.scss";
         `
       }

@@ -1,9 +1,12 @@
 <template>
   <div class="app">
     <Navigation />
-    <main>
+    <main class="app-view">
         <router-view class="view" v-slot="slotProps">
-          <transition name="slide-fade">
+          <transition name="custom-transition"
+                      enter-active-class="animate__animated animate__fadeInLeft"
+                      leave-active-class="animate__animated animate__fadeOutLeft"
+                      mode="out-in">
             <component :is="slotProps.Component"></component>
           </transition>
         </router-view>
@@ -22,13 +25,13 @@ export default {
   data() {
     return {
       token: '',
+      transitionName: ''
     };
   },
   mounted() {
-    this.$http.get('http://app.svara.io/sanctum/csrf-cookie')
-      .then(response => {
-        // console.log(response);
-    });
+    // Setup CSRF for App
+    this.$http.get('http://app.svara.io/sanctum/csrf-cookie');
+    // Check Auth
   },
 };
 </script>
@@ -37,18 +40,11 @@ export default {
 .app {
   display: grid;
   grid-template-columns: 300px auto;
-  gap: 30px;
   height: 100vh;
   overflow: hidden;
 }
-.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter, .slide-fade-leave-to{
-  transform: translateX(10px);
-  opacity: 0;
+.app-view {
+  padding: 0 30px;
+  overflow-x: auto;
 }
 </style>

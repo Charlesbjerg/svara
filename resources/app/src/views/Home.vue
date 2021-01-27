@@ -1,21 +1,20 @@
 <template>
   <div class="home">
     Homepage
+    <br/>
+    <hello-world/>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent } from 'vue';
 import HelloWorld from "@/components/HelloWorld.vue";
 
-@Options({
+export default defineComponent({
+  name: 'Home',
   components: {
     HelloWorld
-  },
-})
-export default class Home extends Vue {
-  mounted() {
-    this.$http.get('/api/user').then(res => console.log(res));
   }
-}
+});
+
 </script>

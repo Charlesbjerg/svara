@@ -51,4 +51,15 @@ class AuthenticatedSessionController extends Controller
 
         return send_true_response();
     }
+
+    /**
+     * @param Request $request
+     */
+    public function isAuth(Request $request) {
+        if (Auth::check()) {
+            return response()->json(['status' => 'ok', 'user' => Auth::user()]);
+        }
+        return response('User is not logged in.', 401);
+    }
+
 }

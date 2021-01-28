@@ -16,6 +16,7 @@
 
 <script>
 import Navigation from "@/components/common/Navigation";
+import axios from 'axios';
 
 export default {
   name: "App",
@@ -30,9 +31,21 @@ export default {
   },
   mounted() {
     // Setup CSRF for App
-    this.$http.get('sanctum/csrf-cookie');
+    axios.get('sanctum/csrf-cookie');
     // Check Auth
-  },
+    axios.get('/api/auth/user')
+      .then(response => {
+        // Update user in VueX store if needed
+        console.log(response);
+      })
+      .catch(error => {
+        // If 401, redirect to login page
+        if (error.response.status === 401) {
+          console.log("Not auth, need to login");
+          this.$router.push('/login');
+        } 
+      });
+  }
 };
 </script>
 

@@ -20,12 +20,4 @@ async function api(route: string, requestType: Method, payload?: object) {
 
 }
 
-export default {
-    install: (app: any) => {
-        console.log(app);
-        console.log(typeof app)
-        app.prototype.$svaraApi = api;
-    }
-}
-
-export const svaraApi = api;
+export default api;

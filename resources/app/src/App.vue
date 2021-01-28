@@ -30,7 +30,7 @@ export default {
   },
   mounted() {
     // Setup CSRF for App
-    this.$http.get('http://app.svara.io/sanctum/csrf-cookie');
+    this.$http.get('sanctum/csrf-cookie');
     // Check Auth
   },
 };

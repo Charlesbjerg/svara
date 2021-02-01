@@ -1,8 +1,7 @@
-import axios, { Method } from "axios";
-import Vue, { App } from 'vue';
+import axios from "axios";
 
 // Simple method for working with the API
-async function api(route: string, requestType: Method, payload?: object) {
+async function api(route, requestType, payload) {
 
     const url = `http://app.svara.io/${route}`;
 

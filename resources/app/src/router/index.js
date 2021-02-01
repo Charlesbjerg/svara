@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 
 // Import separate route files
@@ -7,7 +7,7 @@ import TeamsRoutes from './teams';
 import ClientsRoutes from './clients';
 import CompanyRoutes from './company';
 
-const routes: Array<RouteRecordRaw> = [
+const routes = [
   {
     path: "/",
     name: "Home",
@@ -37,6 +37,13 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+});
+
+// Check auth on route change
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = true;
+  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  else next()
 });
 
 export default router;

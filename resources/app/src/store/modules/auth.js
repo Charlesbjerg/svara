@@ -1,5 +1,3 @@
-import {ActionContext, ActionHandler, Commit} from "vuex";
-
 const state = () => ({
    // State
 });
@@ -7,7 +5,7 @@ const state = () => ({
 const getters = {};
 
 const actions = {
-    getUser(context: Commit){
+    getUser(context){
         // Get the current user
         const user = {};
         context.commit('getUser', user);

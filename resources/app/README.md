@@ -1,4 +1,4 @@
-# svara
+# app-w-ts
 
 ## Project setup
 ```

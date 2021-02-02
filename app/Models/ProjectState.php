@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectPipeline extends Model
+class ProjectState extends Model
 {
     use HasFactory;
+
 }

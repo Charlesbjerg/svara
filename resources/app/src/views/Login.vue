@@ -10,7 +10,7 @@
         <label for="password">Password:</label>
         <input type="password" name="password" id="password" ref="password">
       </div>
-      <button class="btn btn-default">Login</button>
+      <button class="btn btn-default btn-block">Login</button>
     </form>
   </div>
 </template>
@@ -47,7 +47,11 @@ export default {
 }
 .form-card {
   border-radius: $border-radius;
-  @include box-shadow;
   padding: 20px;
+  width: 400px;
+  @include box-shadow;
+  h1 {
+    text-align: center;
+  }
 }
 </style>

@@ -10,6 +10,7 @@
     padding: 10px;
     font-size: $font-base;
     border-radius: $border-radius;
+    width: 100%;
   }
 }
 
@@ -41,4 +42,9 @@
   &:hover {
     @include gradient-purple-hover;
   }
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
 }

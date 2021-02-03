@@ -1,11 +1,23 @@
 // Colours
 $accent-colour: #8515DB;
+$light-grey: #eee;
+$grey: #777777;
 
 // Fonts
 $font-heading: 'Montserrat', sans-serif;
 $font-primary: 'Lato', sans-serif;
 $font-base: 16px;
 
+// Other
+$border-radius: 5px;
+
+// Gradients
+@mixin gradient-purple {
+ background: linear-gradient(45deg, rgba(133,21,219,1) 0%, rgba(210,1,250,1) 100%);
+}
+@mixin gradient-purple-hover {
+ background: linear-gradient(45deg, rgba(210,1,250,1) 0%, rgba(210,1,250,1) 100%);
+}
 
 // Box Shadows
 @mixin box-shadow {

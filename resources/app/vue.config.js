@@ -26,6 +26,7 @@ module.exports = {
           @import "~@/scss/_normalize.scss";
           @import "~@/scss/_animate.scss";
           @import "~@/scss/_base.scss";
+          @import "~@/scss/_ui.scss";
         `
       }
     }

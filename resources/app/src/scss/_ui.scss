@@ -1,0 +1,44 @@
+.form-item {
+  display: block;
+  margin-bottom: 15px;
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input, select {
+    border: 1px solid $grey;
+    padding: 10px;
+    font-size: $font-base;
+    border-radius: $border-radius;
+  }
+}
+
+.btn {
+  padding: 10px 15px;
+  border: 0;
+  margin: 0;
+  font-family: $font-heading;
+  cursor: pointer;
+  @include transition-default;
+}
+
+.btn-default {
+  @include gradient-purple;
+  color: #fff;
+  position: relative;
+  clip-path: url('/assets/button-path.svg');
+  &::after {
+    content: "";
+    width: 20px;
+    height: 100%;
+    display: block;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
+  &:hover {
+    @include gradient-purple-hover;
+  }
+}

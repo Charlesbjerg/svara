@@ -10,6 +10,12 @@
         <label for="password">Password:</label>
         <input type="password" name="password" id="password" ref="password">
       </div>
+      <div class="form-item form-item--checkbox">
+        <label for="remember">
+          <input type="checkbox" name="remember" id="remember" ref="remember">
+          Remember me after login
+        </label>
+      </div>
       <button class="btn btn-default btn-block">Login</button>
     </form>
   </div>
@@ -19,20 +25,13 @@
 export default {
   name: "Login",
   methods: {
-    login(e) {
+    async login(e) {
         e.preventDefault();
-        this.$http.post('http://app.svara.io/api/login',
-        {
+        const response = await this.$api('api/auth/login', 'POST', {
           email: this.$refs.email.value,
           password: this.$refs.password.value,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.error("Login Failed!", err);
         });
-        console.log(e);
+        console.log(response);
     }
   }
 };

@@ -16,10 +16,10 @@ class CreateClientsTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('logo_path');
+            $table->string('logo_path')->nullable();
             $table->string('contact_number');
             $table->string('contact_email');
-            $table->unsignedBigInteger('main_contact');
+            $table->unsignedBigInteger('main_contact')->nullable();
             $table->foreign('main_contact')->references('id')->on('users')->onDelete('cascade');
         });
     }

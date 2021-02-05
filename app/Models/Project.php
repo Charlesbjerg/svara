@@ -9,8 +9,22 @@ class Project extends Model
 {
     use HasFactory;
 
+    public $fillable = ['name'];
+
     public function state() {
-        return $this->hasOne(ProjectState::class);
+        return $this->hasOne(ProjectState::class, 'id', 'project_state_id');
+    }
+
+    public function client() {
+        return $this->belongsTo(Client::class);
+    }
+
+    /**
+     * TODO: Setup the migration for this relationship.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function staff() {
+        return $this->hasMany(User::class);
     }
 
 }

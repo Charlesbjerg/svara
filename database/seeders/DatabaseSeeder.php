@@ -17,6 +17,14 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
+        // Call seeder classes
+        $this->call([
+            ProjectStateSeeder::class,
+            ClientSeeder::class,
+            ProjectSeeder::class,
+        ]);
+
+        // Manually add super admin
         DB::table('users')->insert([
             'name' => 'Charlie Underhill',
             'email' => 'charlie@charlesbjerg.com',

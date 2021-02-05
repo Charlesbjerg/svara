@@ -10,18 +10,24 @@
             <component :is="slotProps.Component"></component>
           </transition>
         </router-view>
+      <Notification />
+      <Loader />
     </main>
   </div>
 </template>
 
 <script>
 import Navigation from "@/components/common/Navigation";
-import { mapGetters } from 'vuex';
+import Notification from "@/components/common/Notification";
+import Loader from "@/components/common/Loader";
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: "App",
   components: {
     Navigation,
+    Notification,
+    Loader
   },
   data() {
     return {
@@ -30,9 +36,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      getUser: 'auth/getUser',
-    })
+    ...mapMutations({
+      setNotification: 'util/setGlobalNotif',
+    }),
   },
   async mounted() {
 
@@ -44,6 +50,8 @@ export default {
     } else {
       this.$store.commit('auth/setUser', response.data.user);
     }
+
+    this.$store.commit('util/setGlobalNotif', { message: 'This is a notification message', type: 'error'});
 
   }
 };
@@ -59,5 +67,6 @@ export default {
 .app-view {
   padding: 0 30px;
   overflow-x: auto;
+  position: relative;
 }
 </style>

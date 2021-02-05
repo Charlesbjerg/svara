@@ -376,7 +376,7 @@ export default {
         this.$router.push('/login');
         this.$store.commit('auth/unsetUser');
       }
-    }
+    },
   }
 };
 </script>

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from '@/store/index';
 import Home from "../views/Home.vue";
 
 // Import separate route files
@@ -40,10 +41,9 @@ const router = createRouter({
 });
 
 // Check auth on route change
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = true;
-  if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-  else next()
-});
+router.beforeRouteUpdate = (to, from, next) => {
+  console.log("About to enter a route", store.getters['auth/isUserAuthenticated']);
+  !store.getters['auth/isUserAuthenticated'] && to.name !== 'Login' ? next({ name: 'Login' }) : next();
+};
 
 export default router;

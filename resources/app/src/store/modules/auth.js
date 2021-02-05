@@ -1,21 +1,25 @@
 const state = () => ({
-   // State
+   user: {},
 });
 
-const getters = {};
-
-const actions = {
-    getUser(context){
-        // Get the current user
-        const user = {};
-        context.commit('getUser', user);
-    }
+const getters = {
+  isUserAuthenticated: state => {
+    return Object.keys(state.user).length !== 0;
+  },
+  getUser: state => {
+    return state.user;
+  },
 };
 
+const actions = {};
+
 const mutations = {
-    setUser(state, user) {
-        state.user = user;
-    }
+    setUser(state, payload) {
+        state.user = payload;
+    },
+  unsetUser(state) {
+      state.user = {};
+  }
 };
 
 export default {

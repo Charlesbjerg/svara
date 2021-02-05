@@ -371,8 +371,11 @@ export default {
   name: "Navigation.vue",
   methods: {
     async logout() {
-      await this.$api('api/auth/logout');
-      this.$router.push('/login');
+      const response = await this.$api('api/auth/logout', 'POST');
+      if (response.data.success) {
+        this.$router.push('/login');
+        this.$store.commit('auth/unsetUser');
+      }
     }
   }
 };

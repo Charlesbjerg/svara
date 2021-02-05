@@ -50,9 +50,9 @@ export default {
           })
           this.showError(response.message);
         } else {
+          this.$store.commit('auth/setUser', response.data.user);
           this.$router.push('/dashboard');
         }
-
 
     },
     showError(message) {

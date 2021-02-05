@@ -16,7 +16,7 @@
 
 <script>
 import Navigation from "@/components/common/Navigation";
-import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 export default {
   name: "App",
@@ -29,10 +29,22 @@ export default {
       transitionName: ''
     };
   },
-  mounted() {
+  computed: {
+    ...mapGetters({
+      getUser: 'auth/getUser',
+    })
+  },
+  async mounted() {
+
     // Setup CSRF for App and check auth state
-    this.$api('sanctum/csrf-cookie', 'GET');
-    this.$api('api/auth/user', 'GET')
+    await this.$api('sanctum/csrf-cookie', 'GET');
+    const response = await this.$api('api/auth/user', 'GET')
+    if (response.status === 'Error') {
+      await this.$router.push('/login');
+    } else {
+      this.$store.commit('auth/setUser', response.data.user);
+    }
+
   }
 };
 </script>

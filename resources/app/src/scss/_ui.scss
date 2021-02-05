@@ -6,11 +6,20 @@
     margin-bottom: 10px;
   }
   input, select {
-    border: 1px solid $grey;
+    border: 2px solid $grey;
     padding: 10px;
     font-size: $font-base;
     border-radius: $border-radius;
     width: 100%;
+    outline: none;
+    @include transition-default;
+
+    &:hover,
+    &:focus,
+    &:active {
+      border: 2px solid $accent-colour;
+    }
+
   }
 
   /* Modifiers */
@@ -22,6 +31,12 @@
     input {
       flex-basis: 15px;
       margin-right: 10px;
+    }
+  }
+
+  &--error {
+    input {
+      border: 2px solid $error-red;
     }
   }
 

@@ -367,20 +367,12 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "Navigation.vue",
   methods: {
-    logout() {
-      axios
-        .post("/api/logout")
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.error("Logout failed", err);
-        });
+    async logout() {
+      await this.$api('api/auth/logout');
+      this.$router.push('/login');
     }
   }
 };

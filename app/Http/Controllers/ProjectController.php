@@ -3,18 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Repositories\ProjectRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+
+    private $projectRepo;
+
+    public function __construct(ProjectRepositoryInterface $projectRepo) {
+        $this->projectRepo = $projectRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index() : JsonResponse
     {
-        //
+        $projects = $this->projectRepo->getProjects();
+        return response()->json($projects);
     }
 
     /**

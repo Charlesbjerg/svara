@@ -27,6 +27,7 @@ module.exports = {
           @import "~@/scss/_animate.scss";
           @import "~@/scss/_base.scss";
           @import "~@/scss/_ui.scss";
+          @import "~@/scss/_utils.scss";
         `
       }
     }

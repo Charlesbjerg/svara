@@ -1,38 +1,50 @@
 <template>
-  <div class="projects-index">
-    <header>
-      Some info about all projects, maybe a graph.
-    </header>
-    <section class="grid">
-      <ProjectCard v-for="(project, index) in projects" :key="index" :project="project" />
-    </section>
-  </div>
+    <div class="projects-index">
+        <PageHead title="Ongoing Projects" :subtitle="pageSubtitle">A Graph Might go Here</PageHead>
+        <div class="filters">
+            Project Filters to appear here
+        </div>
+        <section class="grid">
+            <ProjectCard v-for="(project, index) in projects" :key="index" :project="project"/>
+        </section>
+    </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 import ProjectCard from "@/components/projects/ProjectCard";
+import PageHead from "@/components/common/PageHead";
+
 export default {
-  name: "ProjectsIndex",
-  components: {
-    ProjectCard,
-  },
-  computed: {
-    ...mapGetters({
-      projects: 'projects/getAllProjects',
-    }),
-  },
-  async mounted() {
-    const response = await this.$api('api/projects', 'GET');
-    this.$store.commit('projects/setProjects', response.data);
-  }
+    name: "ProjectsIndex",
+    components: {
+        ProjectCard,
+        PageHead,
+    },
+    computed: {
+        ...mapGetters({
+            projects: 'projects/getAllProjects',
+        }),
+        pageSubtitle() {
+            return `There are currently ${this.projects.length} in the pipeline`;
+        }
+    },
+    async mounted() {
+        const response = await this.$api('api/projects', 'GET');
+        this.$store.commit('projects/setProjects', response.data);
+    }
 };
 </script>
 
 <style lang="scss">
 .grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    @include custom-scrollbar;
+}
+.filters {
+    width: 100%;
+    margin-bottom: 2rem;
 }
 </style>

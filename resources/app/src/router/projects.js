@@ -1,22 +1,22 @@
 export default [
     {
         path: '/projects',
-        name: 'All Projects',
+        name: 'projects',
         component: () => import('../views/projects/index.vue')
     },
     {
         path: '/projects/:id',
-        name: 'View Project',
+        name: 'projects.single',
         component: () => import('../views/projects/single.vue')
     },
     {
         path: '/projects/create',
-        name: 'Create Project',
+        name: 'projects.create',
         component: () => import('../views/projects/create.vue')
     },
     {
         path: '/projects/edit/:id',
-        name: 'Edit Project',
+        name: 'projects.edit',
         component: () => import('../views/projects/edit.vue')
     }
 ]

@@ -35,8 +35,9 @@ const routes = [
   ...CompanyRoutes,
 ];
 
+console.log(process.env.BASE_URL);
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory('/'),
   routes
 });
 

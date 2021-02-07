@@ -5,7 +5,7 @@
             <h2 class="page-head__subtitle" v-if="subtitle">{{ subtitle }}</h2>
         </div>
         <div class="page-head__aside">
-            {{ slot }}
+            <slot></slot>
         </div>
     </header>
 </template>
@@ -28,6 +28,9 @@ export default {
 
 <style lang="scss">
 .page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin: 0 -30px;
     background-color: $background-grey;
     color: #fff;

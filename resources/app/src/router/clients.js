@@ -6,17 +6,17 @@ export default [
     },
     {
         path: '/clients/:id',
-        name: 'View Project',
+        name: 'View Client',
         component: () => import('../views/clients/single.vue')
     },
     {
         path: '/clients/create',
-        name: 'Create Project',
+        name: 'Create Client',
         component: () => import('../views/clients/create.vue')
     },
     {
         path: '/clients/edit/:id',
-        name: 'Edit Project',
+        name: 'Edit Client',
         component: () => import('../views/clients/edit.vue')
     }
 ]

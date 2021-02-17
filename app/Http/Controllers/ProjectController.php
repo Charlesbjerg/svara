@@ -42,11 +42,11 @@ class ProjectController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Project $project)
     {
-        //
+        return response()->json($project->load(['client', 'state']));
     }
 
     /**

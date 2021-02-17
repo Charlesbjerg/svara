@@ -5,7 +5,7 @@
         </PageHead>
         <tabs v-model="selectedTab" class="project-tabs">
             <tab
-                class="tab"
+                :class="'tab-outer ' + getActiveTab(i)"
                 v-for="(tab, i) in tabs"
                 :key="`t${i}`"
                 :val="tab.name"
@@ -65,12 +65,23 @@ export default {
             return `For ${this.project.client.name}`;
         }
     },
+    methods: {
+        getActiveTab(index) {
+            return index === 0 ? 'active' : '';
+        },
+    },
+    watch: {
+        // Remove active state from first tab
+        selectedTab(newTabName) {
+            if (newTabName !== this.tabs[0].name) {
+                document.querySelectorAll('.project-tabs .tab-outer.active').forEach(elem => elem.classList.remove('active'));
+            }
+        },
+    },
+    // Fetch project data and commit to store
     async mounted() {
-        console.log(this.tabs);
-
         this.$store.commit('util/enableLoader');
         const response = await this.$api(`/api/projects/${this.$route.params.id}`)
-        console.log(response);
         this.project = response.data;
         this.$store.commit('projects/setCurrentProject', response.data);
         this.$store.commit('util/disableLoader');
@@ -80,13 +91,44 @@ export default {
 
 <style lang="scss">
 .project-tabs {
-    margin: 0 -30px;
-    .tab {
+    margin: -30px -30px 0;
+    .tab-outer {
         flex: 1;
         text-align: center;
         background-color: $light-grey;
         font-size: $font-sm;
         font-family: $font-heading;
+        padding: 5px 15px;
+        position: relative;
+        cursor: pointer;
+        @include transition-default;
+        &::after {
+            content: "";
+            display: block;
+            height: 3px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: scaleY(0);
+            transform-origin: top;
+            @include gradient-purple;
+            @include transition-bounce;
+        }
+        &.active,
+        &:hover {
+            background-color: darken($light-grey, 10%);
+            border-bottom: 0;
+            color: $accent-colour;
+            &::after {
+                opacity: 1;
+                transform: scaleY(1);
+            }
+        }
     }
+}
+.tab-panel {
+    padding: 30px 0;
 }
 </style>

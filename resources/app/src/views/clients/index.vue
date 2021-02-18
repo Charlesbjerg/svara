@@ -1,11 +1,8 @@
 <template>
-  <div class="clients-index">
-    Clients Index
-  </div>
     <div class="clients-index">
         <PageHead title="Clients" :subtitle="pageSubtitle"></PageHead>
         <div class="filters">
-            Project Filters to appear here
+            Client Filters to appear here
         </div>
         <section class="grid">
             <client-card v-for="(client, index) in clients" :key="index" :client="client"/>
@@ -29,12 +26,14 @@ export default {
             clients: 'clients/getAllClients',
         }),
         pageSubtitle() {
-            return `There are currently ${this.clients.length} in the pipeline`;
+            return `Your currently have ${this.clients.length} clients`;
         }
     },
     async mounted() {
+        this.$store.commit('util/enableLoader');
         const response = await this.$api('api/clients', 'GET');
         this.$store.commit('clients/setClients', response.data);
+        this.$store.commit('util/disableLoader');
     }
 }
 </script>

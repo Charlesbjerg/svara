@@ -3,11 +3,12 @@
         <router-link :to="clientUrl">
             <div class="client-card__body">
                 <div class="client-card__client">
-                    <img :src="clientLogo" :alt="clientLogoAlt" class="client-card__logo"/>
+<!--                    <img :src="clientLogo" :alt="clientLogoAlt" class="client-card__logo"/>-->
+                    <span class="client-card__logo logo-placeholder"></span>
                 </div>
                 <div class="client-card__content">
                     <h2 class="client-card__name">{{ client.name }}</h2>
-                    <span class="client-card__phase">{{ client.totalNumberProject }}</span>
+                    <span class="client-card__subtitle">{{ client.totalNumberProject }} projects in the pipeline</span>
                 </div>
             </div>
         </router-link>
@@ -53,52 +54,28 @@ export default {
         transform: translate3d(0, -5px, 0);
         @include box-shadow-hover;
     }
-    &__top {
+
+    &__body {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-    }
-    &__client {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-    }
-    &__client-name {
-        font-size: $font-xxs;
     }
     &__logo {
         border-radius: $border-radius;
         border: 2px solid $light-grey;
-        width: 30px;
-        height: 30px;
+        width: 60px;
+        height: 60px;
         object-fit: cover;
         object-position: center;
         margin-right: 10px;
     }
     &__name {
         font-size: $font-sm;
-        margin-bottom: 0.3rem;
+        margin-bottom: 5px;
     }
-    &__phase {
+    &__subtitle {
         display: inline-block;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0;
         font-size: $font-xs;
-    }
-    &__bottom {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    &__completion {
-        font-size: $font-xs;
-    }
-    &__avatar {
-        width: 30px;
-        height: 30px;
-        border-radius: $border-radius;
-        border: 2px solid $light-grey;
-        @include gradient-purple;
     }
 }
 
@@ -107,6 +84,11 @@ export default {
     border-radius: 10px;
     color: #fff;
     font-size: $font-xxs;
+    @include gradient-red;
+}
+
+.logo-placeholder {
+    display: block;
     @include gradient-red;
 }
 </style>

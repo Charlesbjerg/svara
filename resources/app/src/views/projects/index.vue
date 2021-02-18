@@ -30,8 +30,10 @@ export default {
         }
     },
     async mounted() {
+        this.$store.commit('util/enableLoader');
         const response = await this.$api('api/projects', 'GET');
         this.$store.commit('projects/setProjects', response.data);
+        this.$store.commit('util/disableLoader');
     }
 };
 </script>

@@ -42,7 +42,7 @@ export default {
 
 .activity-item {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 15px;
     &:last-child {
         margin-bottom: 0;
@@ -57,6 +57,7 @@ export default {
     }
     &__message {
         flex: 1;
+        margin-bottom: 0;
     }
 }
 </style>

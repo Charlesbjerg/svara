@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
+    use \Eloquence\Behaviours\CamelCasing;
 
     public function projects() {
         return $this->hasMany(Project::class);

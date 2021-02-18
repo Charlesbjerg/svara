@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ProjectState extends Model
 {
     use HasFactory;
+    use \Eloquence\Behaviours\CamelCasing;
 
 }

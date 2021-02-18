@@ -71,4 +71,17 @@ class ProjectController extends Controller
     {
         //
     }
+
+    /**
+     * Returns all staff members for a given project
+     *
+     * @param Project $project
+     * @return JsonResponse
+     */
+    public function allStaffMembers(Project $project) {
+        // TODO: Should fetch all staff for a project, not just the lead
+        // Only fetching lead to help setup frontend as relations don't exist yet
+        return response()->json(['staff' => [0 => $project->projectLead]]);
+    }
+
 }

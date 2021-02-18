@@ -40,7 +40,11 @@ export default {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 30px;
-    &__column {
+    &__column > * {
+        margin-bottom: 30px;
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 }
 </style>

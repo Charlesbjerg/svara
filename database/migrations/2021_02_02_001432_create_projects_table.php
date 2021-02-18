@@ -18,8 +18,10 @@ class CreateProjectsTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('client_id');
             $table->string('name');
+            $table->unsignedBigInteger('project_lead_id')->nullable();
             $table->unsignedBigInteger('project_state_id');
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreign('project_lead_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('project_state_id')->references('id')->on('project_states')->onDelete('cascade');
         });
     }

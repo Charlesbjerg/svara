@@ -19,6 +19,10 @@ class Project extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function projectLead() {
+        return $this->hasOne(User::class, 'id', 'project_lead_id');
+    }
+
     /**
      * TODO: Setup the migration for this relationship.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

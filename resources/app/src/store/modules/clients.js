@@ -1,6 +1,7 @@
 const state = () => ({
     clients: [],
     currentClient: {},
+    searchTerm: '',
 });
 
 const getters = {
@@ -9,6 +10,9 @@ const getters = {
     },
     getCurrentClient: state => {
         return state.currentClient;
+    },
+    getSearchTerm: state => {
+        return state.searchTerm;
     }
 };
 
@@ -20,6 +24,10 @@ const mutations = {
     },
     setCurrentClient: (state, payload) => {
         state.currentClient = payload;
+    },
+    setSearchTerm: (state, payload) => {
+        console.log(payload);
+        state.searchTerm = payload;
     }
 };
 

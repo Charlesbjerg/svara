@@ -2,7 +2,7 @@
     <div class="clients-index">
         <PageHead title="Clients" :subtitle="pageSubtitle"></PageHead>
         <div class="filters">
-            Client Filters to appear here
+            <client-filters />
         </div>
         <section class="grid">
             <client-card v-for="(client, index) in clients" :key="index" :client="client"/>
@@ -13,6 +13,7 @@
 <script>
 import PageHead from "../../components/common/PageHead";
 import ClientCard from "../../components/clients/ClientCard";
+import ClientFilters from "../../components/clients/ClientFilters";
 import {mapGetters} from "vuex";
 
 export default {
@@ -20,10 +21,12 @@ export default {
     components: {
         ClientCard,
         PageHead,
+        ClientFilters
     },
     computed: {
         ...mapGetters({
             clients: 'clients/getAllClients',
+            searchTerm: 'clients/getSearchTerm',
         }),
         pageSubtitle() {
             return `Your currently have ${this.clients.length} clients`;
@@ -34,6 +37,9 @@ export default {
         const response = await this.$api('api/clients', 'GET');
         this.$store.commit('clients/setClients', response.data);
         this.$store.commit('util/disableLoader');
+    },
+    watch: {
+        
     }
 }
 </script>

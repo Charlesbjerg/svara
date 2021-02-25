@@ -6,7 +6,10 @@
         </div>
         <div class="filter-bar__input form-item">
 <!--            <label for="clientAccountManager">Filter By Account Manager</label>-->
-            <input type="text" name="clientAccountManager" id="clientAccountManager" placeholder="Filter by Account Manager" />
+            <input type="text" name="clientAccountManager" id="clientAccountManager" placeholder="Filter by Account Manager" @keyup="findAccountManager" v-model="accountManager" />
+            <div class="inline-search" v-if="results" v-for="(item, index) in results" :key="index">
+                <inline-search-result :image="item.avatar" :results="item.name" @click="selectResult" />
+            </div>
         </div>
         <div class="filter-bar__input form-item">
 <!--            <label for="clientProjectLead">Filter By Project Lead</label>-->
@@ -25,8 +28,19 @@
 </template>
 
 <script>
+import InlineSearchResult from '@/components/clients/InlineSearchResult';
+
 export default {
     name: "ClientFilters.vue",
+    components: {
+        InlineSearchResult
+    },
+    data() {
+        return {
+            accountManager: '',
+            results: [],
+        };
+    },
     computed: {
         searchTerm: {
             get() {
@@ -37,6 +51,18 @@ export default {
             }
         }
     },
+    methods: {
+        async findAccountManager(e) {
+            clearTimeout(window.inlineSearchTimeout);
+            window.inlineSearchTimeout = setTimeout(() => {
+                // Query API and store in results
+                console.log(this.accountManager, e)
+            }, 300);
+        },
+        selectResult() {
+
+        }
+    }
 }
 </script>
 

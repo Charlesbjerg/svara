@@ -3,10 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Repositories\ClientRepositoryInterface;
 
 class ClientController extends Controller
 {
+
+    private $clientRepository;
+
+    public function __construct(ClientRepositoryInterface $clientRepository)
+    {
+        $this->clientRepository = $clientRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -61,4 +71,16 @@ class ClientController extends Controller
     {
         //
     }
+
+    /**
+     * Searches through all clients based on passed filters.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function filter(Request $request) : JsonResponse {
+        $clients = $this->clientRepository->filterClients($request->all());
+        return response()->json($clients);
+    }
+
 }

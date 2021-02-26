@@ -15,23 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
 
         // Call seeder classes
         $this->call([
             ProjectStateSeeder::class,
             ClientSeeder::class,
             ProjectSeeder::class,
-        ]);
-
-        // Manually add super admin
-        DB::table('users')->insert([
-            'name' => 'Charlie Underhill',
-            'email' => 'charlie@charlesbjerg.com',
-            'password' => Hash::make('password'),
-            'email_verified_at' => now(),
-            'created_at' => now(),
-            'updated_at' => now(),
+            UserSeeder::class,
         ]);
 
     }

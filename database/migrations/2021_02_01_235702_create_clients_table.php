@@ -19,8 +19,10 @@ class CreateClientsTable extends Migration
             $table->string('logo_path')->nullable();
             $table->string('contact_number');
             $table->string('contact_email');
-            $table->unsignedBigInteger('main_contact')->nullable();
-            $table->foreign('main_contact')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('main_contact_id')->nullable();
+            $table->unsignedBigInteger('account_manager_id')->nullable();
+            $table->foreign('main_contact_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('account_manager_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

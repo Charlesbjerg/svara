@@ -43,6 +43,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /*
+     * TODO: Remake this with constants
+     */
     protected $types = [
         0 => 'staff',
         1 => 'manager',

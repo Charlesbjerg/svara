@@ -1,0 +1,103 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Client;
+
+class UserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+
+        // Manually add a user of each needed type
+        $users = [
+            [
+                'name' => 'Charlie Underhill',
+                'email' => 'charlie@charlesbjerg.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+                'job_role' => 'Frontend Developer',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'type_id' => 2,
+            ],
+            [
+                'name' => 'Sophie Hibberd',
+                'email' => 'sophie@svara.io',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'job_role' => 'Graphic Designer',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'type_id' => 0,
+            ],
+            [
+                'name' => 'Sam Benge',
+                'email' => 'sam@svara.io',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'job_role' => 'Lead Developer',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'type_id' => 1,
+            ],
+            [
+                'name' => 'Ryan Hissey',
+                'email' => 'ryan@svara.io',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'job_role' => 'Account Manager',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'type_id' => 1,
+            ],
+            [
+                'name' => 'Steve Jobs',
+                'email' => 'steve@apple.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'job_role' => 'CEO',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'type_id' => 3,
+            ],
+        ];
+        DB::table('users')->insert($users);
+
+        // Use factory to make 10 more random users
+        \App\Models\User::factory(10)->create();
+
+        $this->setupRelationalData();
+
+    }
+
+    /**
+     * Sets up relational data for the new users
+     */
+    protected function setupRelationalData() {
+
+        // Users to projects
+
+        // Users to teams
+
+        // Users to clients
+        $clientUser = User::where('name', 'Steve Jobs')->first();
+        $clients = Client::all();
+        foreach ($clients as $client) {
+            $client->main_contact_id = $clientUser->id;
+//            $client->
+            $client->save();
+        }
+
+    }
+
+}

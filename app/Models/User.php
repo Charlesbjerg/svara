@@ -67,7 +67,7 @@ class User extends Authenticatable
 
     public function team() {
         if ($this->isStaff()) {
-            return $this->belongsTo(Team::class);
+            return $this->belongsToMany(Team::class, 'users_to_teams', 'user_id');
         }
     }
 

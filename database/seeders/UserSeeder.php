@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\Project;
+use App\Models\Team;
 
 class UserSeeder extends Seeder
 {
@@ -85,9 +87,21 @@ class UserSeeder extends Seeder
      */
     protected function setupRelationalData() {
 
+        $users = User::whereNotIn('type_id', [2, 3])->get();
+        $projectLeadUser = User::where('type_id', 1)->first();
+
         // Users to projects
+        $projects = Project::all();
+        foreach($projects as $project) {
+            $project->staff()->saveMany($users->random(5));
+            $project->projectLead()->associate($projectLeadUser);
+        }
 
         // Users to teams
+        $teams = Team::all();
+        foreach ($users as $user) {
+            $user->team()->save($teams->random());
+        }
 
         // Users to clients
         $clientUser = User::where('name', 'Steve Jobs')->first();

@@ -22,7 +22,7 @@ class Project extends Model
     }
 
     public function projectLead() {
-        return $this->hasOne(User::class, 'id', 'project_lead_id');
+        return $this->belongsTo(User::class, 'project_lead_id', 'id');
     }
 
     public function staff() {

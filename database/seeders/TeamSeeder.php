@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TeamSeeder extends Seeder
 {
@@ -13,6 +14,10 @@ class TeamSeeder extends Seeder
      */
     public function run()
     {
-        //
+        // Only need two teams for now, no need for a factory
+        DB::table('teams')->insert([
+            ['name' => 'Development'],
+            ['name' => 'Marketing']
+        ]);
     }
 }

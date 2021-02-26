@@ -12,7 +12,7 @@ class Team extends Model
     use CamelCasing;
 
     public function members() {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class, 'users_to_teams', 'team_id');
     }
 
 }

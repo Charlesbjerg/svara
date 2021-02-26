@@ -16,11 +16,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        // Call seeder classes
+        /**
+         * UserSeeder MUST run last as it depends on data provided
+         * by the other seeder classes.
+         */
         $this->call([
             ProjectStateSeeder::class,
             ClientSeeder::class,
             ProjectSeeder::class,
+            TeamSeeder::class,
             UserSeeder::class,
         ]);
 

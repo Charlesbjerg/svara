@@ -21,8 +21,12 @@ class ClientRepository implements ClientRepositoryInterface
 
         $filters = [];
 
-        foreach($request as $key => $value) {
-            $filters[] = [$key, $value];
+        if (isset($request['name'])) {
+            $filters[] = ['name', 'like', '%'.$request['name'].'%'];
+        }
+
+        if (isset($request['account_manager_id'])) {
+            $filters[] = ['account_manager_id', $request['account_manager_id']];
         }
 
         return Client::where($filters)->get();

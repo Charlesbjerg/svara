@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Repositories\ClientRepositoryInterface;
@@ -22,9 +23,15 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Client::all()->sortBy('name'));
+        $clients = [];
+        if (empty($request->all())) {
+            $clients = Client::all()->sortBy('name');
+        } else {
+            $clients = $this->clientRepository->filterClients($request->all());
+        }
+        return response()->json($clients);
     }
 
     /**

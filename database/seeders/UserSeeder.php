@@ -95,6 +95,7 @@ class UserSeeder extends Seeder
         foreach($projects as $project) {
             $project->staff()->saveMany($users->random(5));
             $project->projectLead()->associate($projectLeadUser);
+            $project->save();
         }
 
         // Users to teams
@@ -105,10 +106,11 @@ class UserSeeder extends Seeder
 
         // Users to clients
         $clientUser = User::where('name', 'Steve Jobs')->first();
+        $accountManagers = User::where('type_id', 1)->get();
         $clients = Client::all();
         foreach ($clients as $client) {
             $client->main_contact_id = $clientUser->id;
-//            $client->
+            $client->account_manager_id = $accountManagers->random()->id;
             $client->save();
         }
 

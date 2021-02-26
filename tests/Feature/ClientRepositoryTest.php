@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Client;
+use App\Models\Project;
 use App\Repositories\ClientRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,7 +19,7 @@ class ClientRepositoryTest extends TestCase
      * Sets up an instance of the ClientRepository for use in
      * testing.
      */
-    public function setupRepository() {
+    protected function setupRepository() {
         $this->repository = new ClientRepository();
     }
 
@@ -27,8 +28,17 @@ class ClientRepositoryTest extends TestCase
      *
      * @return Client
      */
-    public function fetchClient() {
+    protected function fetchClient() {
         return Client::first();
+    }
+
+    /**
+     * Fetches any project from the DB for use in testing
+     *
+     * @return Client
+     */
+    protected function fetchProject() {
+        return Project::first();
     }
 
     /**
@@ -50,6 +60,10 @@ class ClientRepositoryTest extends TestCase
         $this->assertNotEmpty($filterResults);
         $this->assertInstanceOf(Collection::class, $filterResults);
 
+        // Grab random client for testing
+        $exampleClient = $filterResults->random();
+        $this->assertStringContainsString($searchTerm, $exampleClient->name);
+
     }
 
     public function testAccountManagerFilter()
@@ -59,21 +73,40 @@ class ClientRepositoryTest extends TestCase
         $exampleClient = $this->fetchClient();
 
         // Filter by account manager ID
-        $accountManagerId = $exampleClient->accountManager;
-        $filterResults = $this->repository->filterClients(['account_manager_id', $accountManagerId]);
+        $accountManagerId = $exampleClient->accountManager->id;
+        $filterResults = $this->repository->filterClients(['account_manager_id' => $accountManagerId]);
+
+        // Assert results are returned
+        $this->assertNotEmpty($filterResults);
+
+        // Grab a random client and check ID's match up
+        $randomClient = $filterResults->random();
+        $this->assertEquals($accountManagerId, $randomClient->accountManager->id);
+
+    }
+
+    public function testCombinedFilters()
+    {
+        // Test setup
+        $this->setupRepository();
+        $exampleClient = $this->fetchClient();
+
+        // Filter by account manager ID and search term
+        $searchTerm = $exampleClient->name;
+        $accountManagerId = $exampleClient->accountManager->id;
+        $filterResults = $this->repository->filterClients([
+            'account_manager_id' => $accountManagerId,
+            'name' => $searchTerm,
+        ]);
 
         // Assert results are returned
         $this->assertNotEmpty($filterResults);
         $this->assertInstanceOf(Collection::class, $filterResults);
-    }
 
-    public function testProjectLeadFilter()
-    {
-
-    }
-
-    public function testSortByFilter() {
-
+        // Grab a random client, check ID's match up and searchTerm is accurate
+        $randomClient = $filterResults->random();
+        $this->assertEquals($accountManagerId, $randomClient->accountManager->id);
+        $this->assertStringContainsString($searchTerm, $exampleClient->name);
     }
 
 }

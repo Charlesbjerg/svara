@@ -25,6 +25,10 @@ class Client extends Model
         return $this->hasOne(User::class, 'id', 'main_contact_id');
     }
 
+    public function accountManager() {
+        return $this->hasOne(User::class, 'id', 'account_manager_id');
+    }
+
     // TODO: Need a method for setting the main contact
     // Have to make sure it has the right user type
 

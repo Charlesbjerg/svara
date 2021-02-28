@@ -69,9 +69,11 @@ export default {
         grid-column: 1;
         z-index: 2;
         opacity: 0;
+        pointer-events: none;
         @include transition-default;
         &.active {
             opacity: 1;
+            pointer-events: all;
         }
     }
 }

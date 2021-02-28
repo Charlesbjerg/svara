@@ -23,6 +23,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 30px;
     &__step {
         width: 45px;
         height: 45px;

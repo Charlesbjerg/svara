@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Defaults to '/' for any route unless it starts with '/api/'
-//Route::get('/csrf-cookie', [\App\Http\Controllers\ViewController::class, 'cookie'])->middleware('web');
 Route::get('/{any}', [\App\Http\Controllers\ViewController::class, 'app'])->where('any','^(?!api).*$');
 
 // Api Routes
@@ -25,5 +24,6 @@ Route::prefix('api')->group(function() {
     require __DIR__ . '/app/clients.php';
     require __DIR__ . '/app/teams.php';
     require __DIR__ . '/app/company.php';
+    require __DIR__ . '/app/users.php';
 
 });

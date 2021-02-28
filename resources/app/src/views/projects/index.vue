@@ -3,6 +3,7 @@
         <PageHead title="Ongoing Projects" :subtitle="pageSubtitle">A Graph Might go Here</PageHead>
         <div class="filters">
             Project Filters to appear here
+            <router-link to="/projects/create" class="btn btn-default">Create New Project</router-link>
         </div>
         <section class="grid">
             <ProjectCard v-for="(project, index) in projects" :key="index" :project="project"/>
@@ -11,7 +12,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 import ProjectCard from "@/components/projects/ProjectCard";
 import PageHead from "@/components/common/PageHead";
 

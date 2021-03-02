@@ -2,6 +2,7 @@ const state = () => ({
     projects: [],
     currentProject: {},
     currentStep: 0,
+    newProject: {},
 });
 
 const getters = {
@@ -13,6 +14,9 @@ const getters = {
     },
     getCurrentStep: state => {
         return state.currentStep;
+    },
+    getNewProject: state => {
+        return state.newProject;
     }
 };
 
@@ -27,6 +31,11 @@ const mutations = {
     },
     setCurrentStep: (state, payload) => {
         state.currentStep = payload;
+    },
+    addNewProjectData: (state, payload) => {
+        for (const [key, value] of Object.entries(payload)) {
+            state.newProject[key] = value;
+        }
     }
 };
 

@@ -1,9 +1,9 @@
 <template>
     <article class="pc-steps">
         <div class="pc-steps__step">1</div>
-        <div class="pc-steps__step pc-steps__step--disabled">2</div>
-        <div class="pc-steps__step pc-steps__step--disabled">3</div>
-        <div class="pc-steps__step pc-steps__step--disabled">4</div>
+        <div class="pc-steps__step" :class="currentStep === 2 ? '' : 'pc-steps__step--disabled'">2</div>
+        <div class="pc-steps__step" :class="currentStep === 3 ? '' : 'pc-steps__step--disabled'">3</div>
+        <div class="pc-steps__step" :class="currentStep === 4 ? '' : 'pc-steps__step--disabled'">4</div>
     </article>
 </template>
 

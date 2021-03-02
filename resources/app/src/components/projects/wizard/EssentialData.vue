@@ -1,35 +1,38 @@
 <template>
     <article class="pw-data">
         <h2>Setup a New Project</h2>
-        <div class="form-item">
-            <label for="projectName">Project Name</label>
-            <input type="text" name="projectName" id="projectName"  />
-        </div>
-        <div class="form-item">
-            <label for="client">Client</label>
-            <input type="text" name="client" id="client" @keyup="findClient" />
-            <div class="search-results" v-if="clientResults.length !== 0">
-                <article class="search-results__result" v-for="client in clientResults" :key="client.id" @click="selectClient(client)">
-                    <span class="search-results__name">{{ client.name }}</span>
-                </article>
+        <form @submit.prevent="nextStep">
+            <div class="form-item">
+                <label for="projectName">Project Name</label>
+                <input type="text" name="projectName" id="projectName"  />
             </div>
-        </div>
-        <div class="form-item">
-            <label for="team">Project Team</label>
-            <select id="team" name="team">
-                <option disabled selected>Select a Team</option>
-                <option v-for="team in teams" :key="team.id" :value="team.id">{{ team.name }}</option>
-            </select>
-        </div>
-        <div class="form-item">
-            <label for="projectLead">Project Lead</label>
-            <input type="text" name="projectLead" id="projectLead" @keyup="findProjectLead" />
-            <div class="search-results" v-if="projectLeadResults.length !== 0">
-                <article class="search-results__result" v-for="user in projectLeadResults" :key="user.id" @click="selectProjectLead(user)">
-                    <span class="search-results__name">{{ user.name }}</span>
-                </article>
+            <div class="form-item">
+                <label for="client">Client</label>
+                <input type="text" name="client" id="client" @keyup="findClient" />
+                <div class="search-results" v-if="clientResults.length !== 0">
+                    <article class="search-results__result" v-for="client in clientResults" :key="client.id" @click="selectClient(client)">
+                        <span class="search-results__name">{{ client.name }}</span>
+                    </article>
+                </div>
             </div>
-        </div>
+            <div class="form-item">
+                <label for="team">Project Team</label>
+                <select id="team" name="team">
+                    <option disabled selected>Select a Team</option>
+                    <option v-for="team in teams" :key="team.id" :value="team.id">{{ team.name }}</option>
+                </select>
+            </div>
+            <div class="form-item">
+                <label for="projectLead">Project Lead</label>
+                <input type="text" name="projectLead" id="projectLead" @keyup="findProjectLead" />
+                <div class="search-results" v-if="projectLeadResults.length !== 0">
+                    <article class="search-results__result" v-for="user in projectLeadResults" :key="user.id" @click="selectProjectLead(user)">
+                        <span class="search-results__name">{{ user.name }}</span>
+                    </article>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-default">Next Step</button>
+        </form>
     </article>
 </template>
 
@@ -66,6 +69,15 @@ export default {
             this.projectLead = user;
             this.projectLeadResults = [];
             document.getElementById('projectLead').value = user.name;
+        },
+        nextStep(e) {
+            const formData = new FormData(e.target);
+            let data = {};
+            formData.forEach((item, key) => {
+                data[key] = item;
+            });
+            this.$store.commit('projects/addNewProjectData', data);
+            this.$store.commit('projects/setCurrentStep', 2);
         }
     },
     async mounted() {

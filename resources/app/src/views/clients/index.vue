@@ -39,7 +39,7 @@ export default {
         this.$store.commit('util/disableLoader');
     },
     watch: {
-        
+
     }
 }
 </script>

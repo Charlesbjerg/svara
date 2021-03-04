@@ -1,9 +1,9 @@
 <template>
     <article class="pc-steps">
-        <div class="pc-steps__step">1</div>
-        <div class="pc-steps__step" :class="currentStep === 2 ? '' : 'pc-steps__step--disabled'">2</div>
-        <div class="pc-steps__step" :class="currentStep === 3 ? '' : 'pc-steps__step--disabled'">3</div>
-        <div class="pc-steps__step" :class="currentStep === 4 ? '' : 'pc-steps__step--disabled'">4</div>
+        <div class="pc-steps__step" @click="changeStep(1, $event)">1</div>
+        <div class="pc-steps__step" :class="currentStep >= 2 ? '' : 'pc-steps__step--disabled'" @click="changeStep(2, $event)">2</div>
+        <div class="pc-steps__step" :class="currentStep >= 3 ? '' : 'pc-steps__step--disabled'" @click="changeStep(3, $event)">3</div>
+        <div class="pc-steps__step" :class="currentStep >= 4 ? '' : 'pc-steps__step--disabled'" @click="changeStep(4, $event)">4</div>
     </article>
 </template>
 
@@ -13,6 +13,13 @@ export default {
     computed: {
         currentStep() {
             return this.$store.state.projects.currentStep;
+        }
+    },
+    methods: {
+        changeStep(step, e) {
+            if (!e.target.classList.contains('pc-steps__step--disabled')) {
+                this.$store.commit('projects/setCurrentStep', step);
+            }
         }
     }
 }

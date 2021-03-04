@@ -23,6 +23,7 @@ module.exports = {
         // List all imports here
         prependData: `
           @import "~@/scss/_variables.scss";
+          @import "~@/scss/_mixins.scss";
           @import "~@/scss/_normalize.scss";
           @import "~@/scss/_animate.scss";
           @import "~@/scss/_base.scss";

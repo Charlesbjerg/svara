@@ -51,18 +51,23 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 30px;
 }
 .pc-wizard {
     @include box-shadow;
     border-radius: $border-radius;
-    height: 600px;
     width: 100%;
     max-width: 1200px;
-    padding: 30px;
+    height: 900px;
     &__view {
+        padding: 0 30px 30px;
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
+        height: 100%;
+        max-height: 900px;
+        overflow-y: auto;
+        @include custom-scrollbar;
     }
     &__item {
         grid-row: 1;

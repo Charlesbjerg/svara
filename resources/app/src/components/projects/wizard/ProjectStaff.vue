@@ -24,7 +24,7 @@
                     </article>
                 </div>
             </div>
-            <div class="pw-staff__team-list">
+            <div class="pw-staff__team-list" v-if="extraStaffMembers.length !== 0">
                 <staff-member-card v-for="user in extraStaffMembers" :key="user.id" :user="user"
                                    :deletable="true"
                                    @deleted="removeStaffMember(user)" />
@@ -110,11 +110,12 @@ export default {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 20px;
         margin-bottom: 30px;
-        padding-bottom: 30px;
+        padding-bottom: 35px;
         border-bottom: 1px solid $light-grey;
     }
     &__search &__team-list {
         border-bottom: 0;
+        padding-bottom: 0;
     }
 }
 </style>

@@ -2,7 +2,11 @@ const state = () => ({
     projects: [],
     currentProject: {},
     currentStep: 0,
-    newProject: {},
+    newProject: {
+        newPipeline: false,
+        usingTemplate: false,
+        staff: [],
+    },
 });
 
 const getters = {
@@ -36,7 +40,20 @@ const mutations = {
         for (const [key, value] of Object.entries(payload)) {
             state.newProject[key] = value;
         }
-    }
+    },
+    addNewProjectStaff: (state, payload) => {
+        state.newProject.staff.concat(payload);
+    },
+    newProjectNewPipeline: state => {
+        // Make sure opposite option is false
+        state.newProject.usingTemplate = false;
+        state.newProject.newPipeline = true;
+    },
+    newProjectUsingTemplate: state => {
+        // Make sure opposite option is false
+        state.newProject.newPipeline = false;
+        state.newProject.usingTemplate = true;
+    },
 };
 
 export default {

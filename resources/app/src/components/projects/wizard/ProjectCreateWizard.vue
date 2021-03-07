@@ -6,7 +6,9 @@
                 <essential-data :class="activeView(1)" class="pc-wizard__item" />
                 <project-staff :class="activeView(2)" class="pc-wizard__item" />
                 <pipeline-setup :class="activeView(3)" class="pc-wizard__item" />
-                <confirm-project :class="activeView(4)" class="pc-wizard__item" />
+                <pipeline-templates :class="activeView(4)" class="pc-wizard__item" v-if="this.usingTemplates" />
+                <create-pipeline :class="activeView(4)" class="pc-wizard__item" v-if="this.usingNewPipeline" />
+                <confirm-project :class="activeView(5)" class="pc-wizard__item" />
             </div>
         </section>
     </div>
@@ -18,15 +20,19 @@ import EssentialData from "./EssentialData";
 import ProjectStaff from "./ProjectStaff";
 import PipelineSetup from "./PipelineSetup";
 import ConfirmProject from "./ConfirmProject";
+import PipelineTemplates from "./PipelineTemplates";
+import CreatePipeline from "./CreatePipeline";
 
 export default {
     name: "ProjectCreateWizard",
     components: {
+        PipelineTemplates,
         ConfirmProject,
         PipelineSetup,
         ProjectStaff,
         EssentialData,
         WizardSteps,
+        CreatePipeline
     },
     mounted() {
       this.$store.commit('projects/setCurrentStep', 1);
@@ -34,7 +40,13 @@ export default {
     computed: {
         currentStep() {
             return this.$store.state.projects.currentStep;
-        }
+        },
+        usingTemplates() {
+            return this.$store.state.projects.newProject.usingTemplate;
+        },
+        usingNewPipeline() {
+            return this.$store.state.projects.newProject.newPipeline;
+        },
     },
     methods: {
         activeView(step) {

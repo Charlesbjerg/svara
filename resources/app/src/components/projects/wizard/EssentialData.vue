@@ -56,7 +56,7 @@ export default {
     methods: {
         async findClient(e) {
             const searchTerm = e.target.value;
-            const response = await this.$api('/api/clients', 'GET', { name: searchTerm });
+            const response = await this.$api('api/clients', 'GET', { name: searchTerm });
             this.clientResults = response.data;
         },
         selectClient(client) {
@@ -66,7 +66,7 @@ export default {
         },
         async findProjectLead(e) {
             const searchTerm = e.target.value;
-            const response = await this.$api('/api/users/staff', 'GET', { name: searchTerm });
+            const response = await this.$api('api/users/staff', 'GET', { name: searchTerm });
             this.projectLeadResults = response.data;
         },
         selectProjectLead(user) {
@@ -90,7 +90,7 @@ export default {
         }
     },
     async mounted() {
-        const response = await this.$api('/api/teams');
+        const response = await this.$api('api/teams');
         this.teams = response.data;
     }
 }

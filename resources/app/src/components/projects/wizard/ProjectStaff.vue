@@ -68,13 +68,13 @@ export default {
     methods: {
         async init() {
             this.$store.commit('util/enableLoader');
-            const response = await this.$api(`/api/teams/${this.teamId}`);
+            const response = await this.$api(`api/teams/${this.teamId}`);
             this.team = response.data;
             this.$store.commit('util/disableLoader');
         },
         async searchStaff() {
             if (this.searchTerm !== "") {
-                const response = await this.$api('/api/users/staff', 'GET', { name: this.searchTerm });
+                const response = await this.$api('api/users/staff', 'GET', { name: this.searchTerm });
                 this.staffSearchResults = response.data;
                 // TODO: Need to filter results to show staff that haven't already been selected
             }

@@ -17,7 +17,7 @@
                     <!-- TODO: Should be its own component -->
                     <article class="pc-entity">
                         <h4 class="pc-entity__name">Project Design Must Have's</h4>
-                        <p class="pc-entity__type">Board</p>
+                        <p class="pc-entity__type">Board </p>
                         <!-- TODO: Add minus icon as ::after -->
                     </article>
                 </div>
@@ -42,7 +42,7 @@ export default {
     },
     async mounted() {
         this.$store.commit('util/enableLoader');
-        const response = await this.$api('api/pipeline/entities');
+        const response = await this.$api('api/projects/pipeline/entities');
         this.entities = response.data;
         this.$store.commit('util/disableLoader');
     }

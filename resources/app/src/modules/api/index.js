@@ -8,8 +8,11 @@ export default {
         app.config.globalProperties.$api = async (route, requestType = 'GET', payload = []) => {
 
             // Setup the full URL and initial response object
-            const url = `http://app.svara.io/${route}`;
+            const port = ':1024';
+            const url = `http://app.svara.io${port}/${route}`;
             let response = {};
+
+            console.log(`Route passed: ${route} - Full URL: ${url}`);
 
             try {
 
@@ -28,7 +31,7 @@ export default {
                 // Sends the request via axios
                 response = await axios({
                     method: requestType,
-                    url: route += urlAppend,
+                    url: `${url}${urlAppend}`,
                     data: payload,
                 });
 

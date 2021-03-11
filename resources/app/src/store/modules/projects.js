@@ -2,6 +2,8 @@ const state = () => ({
     projects: [],
     currentProject: {},
     currentStep: 0,
+    entityModalActive: false,
+    entityModalSection: null,
     newProject: {
         newPipeline: false,
         usingTemplate: false,
@@ -54,6 +56,14 @@ const mutations = {
         state.newProject.newPipeline = false;
         state.newProject.usingTemplate = true;
     },
+    openEntityModal: (state, payload) => {
+        state.entityModalActive = true;
+        state.entityModalSection = payload;
+    },
+    closeEntityModal: state => {
+        state.entityModalActive = false;
+        state.entityModalSection = null;
+    }
 };
 
 export default {

@@ -22,18 +22,18 @@
 <script>
 export default {
     name: "SelectEntityModal",
-    props: {
-        index: {
-            required: true,
-            type: Number,
-        }
-    },
     data() {
       return {
           entities: [],
       }
     },
+    computed: {
+        index() {
+            return this.$store.state.projects.entityModalSection;
+        }
+    },
     async mounted() {
+        console.log("Mounting modal");
         this.$store.commit('util/enableLoader');
         const response = await this.$api('api/projects/pipeline/entities');
         this.entities = response.data;
@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         closeModal() {
-            this.$emit('modalClosed');
+            this.$store.commit('projects/closeEntityModal');
         },
         selectEntity(entity) {
             this.$emit('entitySelected', entity, this.index);

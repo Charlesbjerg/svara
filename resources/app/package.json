@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",
     "vue": "^3.0.0",
+    "vue-draggable-next": "^2.0.1",
     "vue-router": "^4.0.0-0",
     "vue3-tabs": "^0.1.9",
     "vuex": "^4.0.0-0"

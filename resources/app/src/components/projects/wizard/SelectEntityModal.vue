@@ -11,7 +11,11 @@
                 <div class="entity-list">
                     <button class="entity-item" v-for="entity in entities" :key="entity.id" @click="selectEntity(entity)">
                         <!-- TODO: Need to display entity icon -->
-                        {{ entity.name }}
+                        <i class="entity-item__icon">
+                            An icon
+                        </i>
+                        <span class="entity-item__name">{{ entity.name }}</span>
+                        <span class="entity-name__desc">A short description of what this entitiy is used for</span>
                     </button>
                 </div>
             </div>
@@ -96,5 +100,28 @@ export default {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 30px;
+}
+
+.entity-item {
+    border-radius: $border-radius;
+    background-color: #fff;
+    border: 0;
+    padding: 20px;
+    cursor: pointer;
+    @include box-shadow;
+    @include transition-default;
+    &:hover {
+        background-color: #f0f0f0;
+    }
+    &__icon {
+        margin: 0 0 10px;
+    }
+    &__name {
+        display: block;
+        font-family: $font-heading;
+        font-weight: $font-weight-heading;
+        font-size: $font-sm;
+        margin: 0 0 10px;
+    }
 }
 </style>

@@ -57,6 +57,7 @@
   color: #fff;
   position: relative;
   clip-path: url('/assets/button-path.svg');
+  border-radius: $border-radius;
   &::after {
     content: "";
     width: 20px;

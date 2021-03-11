@@ -57,6 +57,10 @@ export default {
         log(event) {
             console.log(event)
         },
+        nextStep() {
+            // TODO: Take all pipeline data and store in newProject in vuex
+            // TODO: Go to next step, project setup review 
+        }
     },
     
 }

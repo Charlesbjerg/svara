@@ -19,9 +19,15 @@
         <i class="far fa-plus-square"></i>
       </button>
     </div>
-    <div class="pc-card__entities">
-      <article class="pc-entity" v-for="(entity, index) in section.entities" :key="index">
-        {{ entity.name }}
+    <div class="pc-card__entities" v-if="section.entities.length > 0">
+      <article class="pc-entity" v-for="(entity, entityIndex) in section.entities" :key="entityIndex">
+            <i class="pc-entity__icon fa" :class="entityIcon(entity)"></i>
+            <h4 class="pc-entity__name">{{ entity.name }}</h4>
+            <button type="button" class="pc-entity__remove" 
+                    aria-label="Remove this entity from the pipeline" 
+                    @click="remove(entityIndex)">
+                <i class="fas fa-trash"></i>
+            </button>
       </article>
     </div>
   </article>
@@ -51,6 +57,14 @@ export default {
             this.$store.commit('projects/openEntityModal', index);
             console.log(`State value of`, this.$store.state.projects);
         },
+        remove(index) {
+            // TODO: Remove entity from pipeline section
+            console.log(`Need to remove entity at index ${index}`);
+            this.section.entities.splice(index, 1);
+        },
+        entityIcon(entity) {
+            return 'fa-border-none';
+        }
     },
     directives: {
         focus: {
@@ -64,12 +78,13 @@ export default {
 
 <style lang="scss">
 .pc-card {
+    margin: 0 0 15px;
     cursor: grab;
     &__inner {
         padding: 20px;
-        border-radius: $border-radius;
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
         background-color: darken($light-grey, 5%);
-        margin: 0 0 15px;
         position: relative;
         display: flex;
         align-items: center;
@@ -93,9 +108,51 @@ export default {
         display: block;
         outline: none;
     }
+    &__entities {
+        padding: 20px;
+        background-color: $light-grey;
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+    }
+
+    /* Modifiers */
     &--dragged {
         @include box-shadow-hover;
         opacity: 0.5;
+    }
+}
+
+.pc-entity {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    &:last-child {
+        margin-bottom: 0;
+    }
+    &__icon {
+
+    }
+    &__name {
+        flex-grow: 1;
+        margin: 0 0 0 10px;
+    }
+    &__remove {
+        border: 2px solid transparent;
+        border-radius: $border-radius;
+        margin: 0 5px 0 0;
+        padding: 5px 8px;
+        background-color: transparent;
+        cursor: pointer;
+        transform-origin: center;
+        @include transition-bounce;
+        &:hover {
+            transform: scale(1.1);
+            border-color: $error-red;
+            color: $error-red;
+        }
+        &:focus {
+            outline: none;
+        }
     }
 }
 </style>

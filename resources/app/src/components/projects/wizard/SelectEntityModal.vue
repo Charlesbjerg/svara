@@ -10,12 +10,11 @@
             <div class="entity-modal__content">
                 <div class="entity-list">
                     <button class="entity-item" v-for="entity in entities" :key="entity.id" @click="selectEntity(entity)">
-                        <!-- TODO: Need to display entity icon -->
-                        <i class="entity-item__icon">
-                            An icon
+                        <i class="entity-item__icon" :class="largeIcon(entity)">
+
                         </i>
                         <span class="entity-item__name">{{ entity.name }}</span>
-                        <span class="entity-name__desc">A short description of what this entitiy is used for</span>
+                        <span class="entity-name__desc">{{ entity.description }}</span>
                     </button>
                 </div>
             </div>
@@ -50,6 +49,9 @@ export default {
         selectEntity(entity) {
             this.$emit('entitySelected', entity, this.index);
             this.closeModal();
+        },
+        largeIcon(entity) {
+            return `icon icon--${entity.largeIcon}`;
         }
     }
 }

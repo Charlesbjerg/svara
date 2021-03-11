@@ -17,6 +17,9 @@ class CreatePipelineEntitiesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('component_name');
+            $table->string('icon_large')->nullable();
+            $table->string('icon_small')->nullable();
+            $table->string('description')->nullable();
         });
     }
 

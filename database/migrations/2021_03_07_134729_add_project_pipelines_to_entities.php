@@ -17,7 +17,7 @@ class AddProjectPipelinesToEntities extends Migration
             $table->id();
             $table->unsignedBigInteger('pipeline_id');
             $table->unsignedBigInteger('entity_id');
-            $table->foreign('pipeline_id')->references('id')->on('project_pipelines')->onDelete('cascade');
+            $table->foreign('pipeline_id')->references('id')->on('pipeline_phases')->onDelete('cascade');
             $table->foreign('entity_id')->references('id')->on('pipeline_entities')->onDelete('cascade');
         });
     }

@@ -63,7 +63,7 @@ export default {
             this.section.entities.splice(index, 1);
         },
         entityIcon(entity) {
-            return 'fa-border-none';
+            return entity.iconSmall;
         }
     },
     directives: {

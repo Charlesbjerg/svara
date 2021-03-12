@@ -3,8 +3,8 @@
         <h2>Setup a New Project</h2>
         <form @submit.prevent="nextStep" autocomplete="off">
             <div class="form-item">
-                <label for="projectName">Project Name *</label>
-                <input type="text" name="projectName" id="projectName" required/>
+                <label for="name">Project Name *</label>
+                <input type="text" name="name" id="name" required/>
             </div>
             <div class="form-item">
                 <label for="client">Client *</label>
@@ -45,7 +45,7 @@ export default {
     name: "EssentialData",
     data() {
         return {
-            projectName: '',
+            name: '',
             clientResults: [],
             client: null,
             teams: [],

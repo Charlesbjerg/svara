@@ -30,6 +30,11 @@
             </button>
       </article>
     </div>
+    <button type="button" class="pc-card__remove" 
+            aria-label="Remove this entity from the pipeline" 
+            @click="removePhase">
+        <i class="fas fa-trash"></i>
+    </button>
   </article>
 </template>
 
@@ -57,6 +62,9 @@ export default {
             this.$store.commit('projects/openEntityModal', index);
             console.log(`State value of`, this.$store.state.projects);
         },
+        removePhase() {
+            // TODO: Remove phase
+        },
         remove(index) {
             // TODO: Remove entity from pipeline section
             console.log(`Need to remove entity at index ${index}`);
@@ -80,6 +88,7 @@ export default {
 .pc-card {
     margin: 0 0 15px;
     cursor: grab;
+    position: relative;
     &__inner {
         padding: 20px;
         border-top-left-radius: $border-radius;
@@ -113,6 +122,30 @@ export default {
         background-color: $light-grey;
         border-bottom-left-radius: $border-radius;
         border-bottom-right-radius: $border-radius;
+    }
+    &__remove {
+        position: absolute;
+        top: 0;
+        right: -20px;
+        z-index: -1;
+        height: 100%;
+        width: 35px;
+        background-color: $grey;
+        color: #fff;
+        opacity: 0.3;
+        border: 0;
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+        cursor: pointer;
+        @include transition-bounce;
+        &:hover { 
+            background-color: $error-red;
+            transform: translate3d(12px, 0, 0);
+            opacity: 1;
+        }
+        &:focus {
+            outline: none;
+        }
     }
 
     /* Modifiers */

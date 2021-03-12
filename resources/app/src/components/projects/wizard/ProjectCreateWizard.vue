@@ -72,12 +72,13 @@ export default {
     max-width: 1200px;
     height: 900px;
     &__view {
-        padding: 0 30px 30px;
+        padding: 0 50px 30px;
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
         height: 100%;
-        max-height: 900px;
+        max-height: 795px;
+        margin-bottom: 30px;
         overflow-y: auto;
         @include custom-scrollbar;
     }

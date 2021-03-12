@@ -1,12 +1,18 @@
 <template>
     <article class="pw-data">
-        Project Wizard - Confirm New Project
+        <h2>Confirm New Project</h2>
+        <pre>{{ projectData }}</pre>
     </article>
 </template>
 
 <script>
 export default {
-    name: "ConfirmProject"
+    name: "ConfirmProject",
+    computed: {
+        projectData() {
+            return this.$store.state.projects.newProject;
+        }
+    }
 }
 </script>
 

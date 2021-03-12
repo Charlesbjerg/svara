@@ -17,6 +17,13 @@
             </button>
         </div>
 
+        <div class="pc-bottom">
+            <button class="btn btn-default" @click="nextStep">
+                Next Step
+                <i class="fas fa-long-arrow-alt-right"></i>
+            </button>
+        </div>
+
         <select-entity-modal v-if="entityModalActive" @entitySelected="entitySelected" />
 
     </section>
@@ -58,8 +65,8 @@ export default {
             console.log(event)
         },
         nextStep() {
-            // TODO: Take all pipeline data and store in newProject in vuex
-            // TODO: Go to next step, project setup review 
+            this.$store.commit('projects/addPipelineToProject', this.pipelineSections);
+            this.$store.commit('projects/setCurrentStep', 5);
         }
     },
     
@@ -80,5 +87,10 @@ export default {
 }
 .pc-head {
     margin-bottom: 20px;
+}
+.pc-bottom {
+    margin: 30px 0 ;
+    padding-top: 30px;
+    border-top: 1px solid $light-grey;
 }
 </style>

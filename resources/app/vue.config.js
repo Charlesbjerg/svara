@@ -29,6 +29,7 @@ module.exports = {
           @import "~@/scss/_base.scss";
           @import "~@/scss/_ui.scss";
           @import "~@/scss/_utils.scss";
+          @import "~@/scss/_icons.scss";
         `
       }
     }

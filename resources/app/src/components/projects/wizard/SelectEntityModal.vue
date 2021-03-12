@@ -51,7 +51,7 @@ export default {
             this.closeModal();
         },
         largeIcon(entity) {
-            return `icon icon--${entity.largeIcon}`;
+            return `icon icon--${entity.iconLarge}`;
         }
     }
 }
@@ -73,7 +73,7 @@ export default {
         width: 100%;
         background-color: #fff;
         border-radius: $border-radius;
-        padding: 20px;
+        padding: 40px;
         margin: 20px;
     }
     &__head {
@@ -116,7 +116,7 @@ export default {
         background-color: #f0f0f0;
     }
     &__icon {
-        margin: 0 0 10px;
+        margin: 0 0 20px;
     }
     &__name {
         display: block;

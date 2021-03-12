@@ -8,6 +8,7 @@ const state = () => ({
         newPipeline: false,
         usingTemplate: false,
         staff: [],
+        pipeline: [],
     },
 });
 
@@ -63,6 +64,9 @@ const mutations = {
     closeEntityModal: state => {
         state.entityModalActive = false;
         state.entityModalSection = null;
+    },
+    addPipelineToProject: (state, payload) => {
+        state.newProject.pipeline = payload;
     }
 };
 

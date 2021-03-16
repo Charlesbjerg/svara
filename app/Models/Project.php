@@ -26,7 +26,11 @@ class Project extends Model
     }
 
     public function staff() {
-        return $this->belongsToMany(User::class, 'users_to_projects');
+        return $this->belongsToMany(User::class, 'users_to_projects', 'project_id', 'user_id');
+    }
+
+    public function pipeline() {
+        return $this->hasMany(PipelinePhase::class);
     }
 
 }

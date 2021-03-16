@@ -11,4 +11,6 @@ class ProjectState extends Model
     use HasFactory;
     use CamelCasing;
 
+    public $timestamps = false;
+
 }

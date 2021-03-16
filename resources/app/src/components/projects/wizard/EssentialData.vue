@@ -21,7 +21,7 @@
                 <label for="team">Project Team *</label>
                 <select id="team" name="team" required>
                     <option disabled selected>Select a Team</option>
-                    <option v-for="team in teams" :key="team.id" :value="team.id">{{ team.name }}</option>
+                    <option v-for="(team, index) in teams" :key="index" :value="index">{{ team.name }}</option>
                 </select>
             </div>
             <div class="form-item">
@@ -82,6 +82,9 @@ export default {
             const formData = new FormData(e.target);
             let data = {};
             formData.forEach((item, key) => {
+                if (key === 'team') {
+                    item = this.teams[item];
+                }
                 data[key] = item;
             });
             this.$store.commit('projects/addNewProjectData', data);

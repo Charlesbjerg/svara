@@ -13,11 +13,13 @@ class PipelinePhase extends Model
 
     public $timestamps = false;
 
+    protected $fillable = ['name', 'sort_order', 'project_id'];
+
     /**
      * Entities used in this pipeline section
      */
     public function entities() {
-        return $this->belongsToMany(PipelineEntity::class, 'project_pipelines_to_entities', 'pipeline_id');
+        return $this->belongsToMany(PipelineEntity::class, 'project_pipelines_to_entities', 'pipeline_id', 'entity_id');
     }
 
     public function project() {

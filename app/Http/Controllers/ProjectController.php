@@ -35,7 +35,8 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $project = $this->projectRepo->create($request->all());
+        return response()->json($project);
     }
 
     /**

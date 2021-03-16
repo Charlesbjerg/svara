@@ -8,11 +8,12 @@
             <em>Confirm the data for the new project is correct.</em>
         </header>
 
-        <div class="confirm-panel-inner">
+        <div class="confirm-panel-inner" v-if="currentStep === 5">
 
             <section class="confirm-section">
-                <h3>{{ project.name }}</h3>
-                <p>{{ project.team }}</p>
+                <h3 class="confirm-project__name">{{ project.name }}</h3>
+                <h4>For {{ project.client }}</h4>
+                <em>Assigned to the {{ project.team.name }} Team</em>
             </section>
 
             <!-- TODO: Display all staff added to the project -->
@@ -44,9 +45,12 @@
 
         <!-- TODO: Click confirm button to create project -->
         <footer class="confirm-footer">
-            <p>On creation all project staff, including the client, will be notified that the project has been
-                created. </p>
-            <button class="btn btn-default">Create Project</button>
+            <p>
+                <i class="fas fa-info-circle"></i>
+                On creation all project staff, including the client, will be notified that the project has been
+                created. 
+            </p>
+            <button class="btn btn-default" @click="createProject">Create Project</button>
         </footer>
 
     </section>
@@ -70,6 +74,17 @@ export default {
     computed: {
         project() {
             return this.$store.state.projects.newProject;
+        },
+        currentStep() {
+            return this.$store.state.projects.currentStep;
+        }
+    },
+    methods: {
+        async createProject() {
+            this.$store.commit('util/enableLoader');
+            const response = await this.$api('api/projects', 'POST', this.project);
+            this.$store.commit('util/disableLoader');
+            this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
         }
     }
 }
@@ -79,6 +94,9 @@ export default {
 .confirm-project {
     &__head {
         margin-bottom: 20px;
+    }
+    &__name {
+        font-size: $font-lg;
     }
 }
 .confirm-panel-inner {

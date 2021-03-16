@@ -92,8 +92,9 @@ export default {
             })
         },
         nextStep() {
-            // Keep track of all team members
-            this.$store.commit('projects/addNewProjectStaff', this.extraStaffMembers.concat(this.team));
+            // Keep track of all team membersst
+            console.log(this.team.members.concat(this.extraStaffMembers));
+            this.$store.commit('projects/addNewProjectStaff', this.team.members.concat(this.extraStaffMembers));
             this.$store.commit('projects/setCurrentStep', 3);
         }
     }

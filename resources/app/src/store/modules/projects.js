@@ -45,7 +45,11 @@ const mutations = {
         }
     },
     addNewProjectStaff: (state, payload) => {
-        state.newProject.staff.concat(payload);
+        if (state.newProject.staff.length > 0) {
+            state.newProject.staff.concat(payload);
+        } else {
+            state.newProject.staff = payload;
+        }
     },
     newProjectNewPipeline: state => {
         // Make sure opposite option is false

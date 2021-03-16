@@ -10,7 +10,6 @@
 
         <div class="confirm-panel-inner">
 
-            <!-- TODO: Display essential Data -->
             <section class="confirm-section">
                 <h3>{{ project.name }}</h3>
                 <p>{{ project.team }}</p>
@@ -26,12 +25,19 @@
             </section>
 
             <!-- TODO: Make sure the project lead is highlighted -->
-
-            <!-- TODO: Show pipeline outline -->
             <section class="confirm-section">
                 <h3>Project Pipeline</h3>
-                <pipeline-phase-card v-for="(section, index) in project.pipeline" :key="index" :section="section"
-                                     :index="index"/>
+                <div class="pipe-items-card">
+                    <div class="pipe-item" v-for="(section, index) in project.pipeline" :key="index">
+                        <strong class="pipe-item__name">{{ section.name }}</strong>
+                        <ul class="pipe-item__entities">
+                            <li class="pipe-item__entity" v-for="(entity, index) in section.entities" :key="index">
+                                <i class="pipe-item__icon fa" :class="entity.iconSmall"></i>
+                                {{entity.name}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
         </div>
@@ -77,13 +83,56 @@ export default {
 }
 .confirm-panel-inner {
     padding: 20px;
-    background-color: $light-grey;
     border-radius: $border-radius;
     margin-bottom: 20px;
+    border: 2px solid $light-grey;
+    @include box-shadow;
 }
 .confirm-staff {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
+}
+.confirm-section {
+    margin: 0 0 20px;
+}
+.pipe-items-card {
+    border-radius: $border-radius;
+    @include box-shadow;
+    padding: 20px;
+    background-color: $light-grey;
+}
+.pipe-item {
+    &__name {
+        font-family: $font-heading;
+    }
+    &__entities {
+        list-style-type: none;
+        padding: 0;
+    }
+    &__entity {
+        font-family: $font-heading;
+        position: relative;
+        padding: 0 0 0 30px;
+        margin-bottom: 5px;
+        &::before {
+            content: "";
+            display: block;
+            width: 15px;
+            height: 23px;
+            position: absolute;
+            top: -13px;
+            left: 10px;
+            border-bottom: 1px solid $grey;
+            border-left: 1px solid $grey;
+        }
+        &:first-child::before {
+            top: 0;
+            height: 10px;
+        }
+    }
+    &__icon {
+        width: 20px;
+    }
 }
 </style>

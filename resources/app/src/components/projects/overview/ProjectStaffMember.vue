@@ -8,7 +8,7 @@
         </div>
         <div class="ps-member__info">
             <h3 class="ps-member__name">{{ member.name }}</h3>
-            <p class="ps-member__role">{{ member.role }}</p>
+            <p class="ps-member__role">{{ member.jobRole }}</p>
             <span class="ps-member__lead" v-if="member.lead">Project Lead</span>
         </div>
     </article>

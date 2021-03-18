@@ -5,8 +5,8 @@
             <!-- TODO: Replace O with options icon -->
             <button @click="viewOptions" class="project-staff__options">O</button>
         </header>
-        <div class="project-staff__members">
-            <project-staff-member v-if="members" v-for="(member, index) in members" :key="index" :member="member"  />
+        <div class="project-staff__members" v-if="project.staff">
+            <project-staff-member v-for="(member, index) in condensedStaffList" :key="index" :member="member"  />
         </div>
     </section>
 </template>
@@ -22,14 +22,14 @@ export default {
         ProjectStaffMember,
     },
     data() {
-        return {
-            members: [],
-        };
     },
     computed: {
         ...mapState({
             project: state => state.currentProject,
         }),
+        condensedStaffList() {
+            return this.project.staff.slice(0, 5)
+        }
     },
     methods: {
         viewOptions() {},

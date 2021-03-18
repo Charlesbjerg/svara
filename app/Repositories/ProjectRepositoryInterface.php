@@ -31,7 +31,7 @@ interface ProjectRepositoryInterface {
      * 
      * @param array $data
      * @param int $projectId
-     * @return array $phases
+     * @return Collection $phases
      */
     public function createPipeline(array $data, int $projectId);
 

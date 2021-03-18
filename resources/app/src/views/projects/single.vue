@@ -1,8 +1,8 @@
 <template>
     <div class="projects-single" v-if="projectIsset">
-        <PageHead :title="project.name" :subtitle="projectSubtitle">
+        <page-head :title="project.name" :subtitle="projectSubtitle">
             Need project state pills to appear below title
-        </PageHead>
+        </page-head>
         <tabs v-model="selectedTab" class="project-tabs">
             <tab
                 :class="'tab-outer ' + getActiveTab(i)"
@@ -81,7 +81,7 @@ export default {
     // Fetch project data and commit to store
     async mounted() {
         this.$store.commit('util/enableLoader');
-        const response = await this.$api(`/api/projects/${this.$route.params.id}`)
+        const response = await this.$api(`api/projects/${this.$route.params.id}`)
         this.project = response.data;
         this.$store.commit('projects/setCurrentProject', response.data);
         this.$store.commit('util/disableLoader');

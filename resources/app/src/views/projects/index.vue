@@ -50,5 +50,8 @@ export default {
 .filters {
     width: 100%;
     margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 </style>

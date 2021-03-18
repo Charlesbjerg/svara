@@ -31,6 +31,11 @@ export default {
         ProjectStaff,
         ProjectOverviewMini,
         ProjectActivityLog
+    },
+    computed: {
+        project(){ 
+            return this.$store.state.projects.currentProject;
+        }
     }
 }
 </script>

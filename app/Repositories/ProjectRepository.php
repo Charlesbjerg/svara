@@ -21,7 +21,7 @@ class ProjectRepository implements ProjectRepositoryInterface {
      */
     public function getProjects(): Collection
     {
-        return Project::all()->load(['client', 'state']);
+        return Project::all()->load(['client', 'state', 'pipeline', 'currentPhase', 'staff']);
     }
 
     /**
@@ -61,6 +61,7 @@ class ProjectRepository implements ProjectRepositoryInterface {
         // Setup pipeline
         $phases = $this->createPipeline($data, $project->id);
         $project->pipeline()->saveMany($phases);
+        $project->currentPhase()->save($phases->first());
 
         // Trigger notification event 
         ProjectCreated::dispatch($project);
@@ -76,11 +77,11 @@ class ProjectRepository implements ProjectRepositoryInterface {
      * 
      * @param array $data
      * @param int $projectId
-     * @return array $phases
+     * @return Collection $phases
      */
     public function createPipeline(array $data, int $projectId) {
 
-        $phases = array();
+        $phases = collect();
 
         // Loop through each entity
         foreach ($data['pipeline'] as $key => $pipeline) {
@@ -95,7 +96,7 @@ class ProjectRepository implements ProjectRepositoryInterface {
                 $entities[] = PipelineEntity::where('id', $entity['id'])->first();
             }
             $phase->entities()->saveMany($entities);
-            $phases[] = $phase;
+            $phases->push($phase);
         }
 
         return $phases;

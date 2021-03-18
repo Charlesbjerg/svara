@@ -33,4 +33,8 @@ class Project extends Model
         return $this->hasMany(PipelinePhase::class);
     }
 
+    public function currentPhase() {
+        return $this->hasOne(PipelinePhase::class, 'id', 'current_phase_id');
+    }
+
 }

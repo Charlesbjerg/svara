@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pipeline;
 
 use App\Models\PipelinePhase;
+use App\Models\Project;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -32,12 +33,17 @@ class ProjectPipelineController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PipelinePhase  $projectPipeline
+     * @param  \App\Models\Project $project
      * @return \Illuminate\Http\Response
      */
-    public function show(PipelinePhase $projectPipeline)
+    public function show(Project $project)
     {
-        //
+        $project->load('pipeline');
+        $phases = $project->pipeline;
+        $phases->each(function($item, $key){
+            $item->load('entities');
+        });
+        return response()->json($phases);
     }
 
     /**

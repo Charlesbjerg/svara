@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\ProjectState;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 
 class ProjectRepository implements ProjectRepositoryInterface {
 
@@ -61,7 +62,10 @@ class ProjectRepository implements ProjectRepositoryInterface {
         // Setup pipeline
         $phases = $this->createPipeline($data, $project->id);
         $project->pipeline()->saveMany($phases);
-        $project->currentPhase()->save($phases->first());
+//        $project->currentPhase()->save($phases->first());
+        $firstPhase = $phases->first();
+        $project->currentPhaseId = $firstPhase->id;
+        $project->save();
 
         // Trigger notification event 
         ProjectCreated::dispatch($project);

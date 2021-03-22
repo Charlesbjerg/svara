@@ -18,5 +18,10 @@ export default [
         path: '/projects/edit/:id',
         name: 'projects.edit',
         component: () => import('../views/projects/edit.vue')
+    },
+    {
+        path: '/projects/entity/:id',
+        name: 'projects.entity',
+        component: () => import('../views/projects/entity.vue')
     }
 ]

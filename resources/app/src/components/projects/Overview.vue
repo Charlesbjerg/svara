@@ -1,7 +1,7 @@
 <template>
     <div class="project-overview">
         <div class="project-overview__column">
-            <project-meta metaKey="Currently In The" value="Implementation Phase"/>
+            <project-meta icon="calendar-alt" metaKey="Delivery Date" value="24th March 2020"/>
             <project-pipeline-mini />
         </div>
         <div class="project-overview__column">
@@ -10,7 +10,7 @@
         </div>
         <div class="project-overview__column">
             <project-overview-mini />
-            <project-meta icon="calendar-alt" metaKey="Delivery Date" value="24th March 2020"/>
+            <project-meta metaKey="Currently In The" :value="currentPhaseName"/>
             <project-activity-log />
         </div>
     </div>
@@ -22,6 +22,7 @@ import ProjectPipelineMini from "./overview/ProjectPipelineMini";
 import ProjectStaff from "./overview/ProjectStaff";
 import ProjectOverviewMini from "./overview/ProjectOverviewMini";
 import ProjectActivityLog from "./overview/ProjectActivityLog";
+import { mapGetters } from "vuex";
 
 export default {
     name: "Overview.vue",
@@ -33,8 +34,17 @@ export default {
         ProjectActivityLog
     },
     computed: {
-        project(){ 
-            return this.$store.state.projects.currentProject;
+        ...mapGetters({
+            project: 'projects/getCurrentProject',
+            currentPhase: 'projects/getCurrentPhase',
+        }),
+        currentPhaseName() {
+            console.log(this.currentPhase)
+            let phaseString = 'New Project Phase';
+            if (this.project.pipeline.length > 0) {
+                phaseString = `${this.currentPhase.name} Phase`
+            }
+            return phaseString;
         }
     }
 }

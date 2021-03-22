@@ -42,6 +42,10 @@ class ProjectPipelineController extends Controller
         $phases = $project->pipeline;
         $phases->each(function($item, $key){
             $item->load('entities');
+            $item->entities()->each(function($entity, $key) {
+                dd($entity);
+            });
+//            dd($item->getAttributes(), $item->getRelations());
         });
         return response()->json($phases);
     }

@@ -128,7 +128,10 @@ export default {
         }
     }
 }
+.tab-panels {
+    margin: 0 -20px;
+}
 .tab-panel {
-    padding: 30px 0;
+    padding: 30px 20px;
 }
 </style>

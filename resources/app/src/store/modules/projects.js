@@ -24,6 +24,9 @@ const getters = {
     },
     getNewProject: state => {
         return state.newProject;
+    },
+    getCurrentPhase: state => {
+        return state.currentProject.pipeline.find(item => item.id === state.currentProject.currentPhaseId);
     }
 };
 
@@ -69,8 +72,13 @@ const mutations = {
         state.entityModalActive = false;
         state.entityModalSection = null;
     },
+    // Adds a pipeline to a new project
     addPipelineToProject: (state, payload) => {
         state.newProject.pipeline = payload;
+    },
+    // Adds pipeline data to existing/current project
+    setProjectPipeline: (state, payload) => {
+        state.currentProject.pipeline = payload;
     }
 };
 

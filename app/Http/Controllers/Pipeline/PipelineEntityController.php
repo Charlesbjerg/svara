@@ -38,7 +38,7 @@ class PipelineEntityController extends Controller
      */
     public function show(PipelineEntity $pipelineEntity)
     {
-        //
+        return response()->json($pipelineEntity);
     }
 
     /**

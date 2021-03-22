@@ -1,13 +1,8 @@
 <template>
  <div class="project-pipeline">
      <h2>Pipeline for the project.</h2>
-     <div v-if="pipelineData">
-        <article v-for="phase in pipelineData" :key="phase.id">
-            <h3>{{ phase.name }} <em>{{ isCurrentPhase(phase.id) }}</em></h3>
-            <ul>
-                <li v-for="(entity, index) in phase.entities" :key="index">{{ entity.name }}</li>
-            </ul>
-        </article>
+     <div v-if="pipeline" class="pipeline-phases">
+        <pipeline-phase v-for="phase in pipeline" :key="phase.id" :phase="phase" />
      </div>
      <div v-else>
          <strong>No pipeline found</strong>
@@ -16,13 +11,10 @@
 </template>
 
 <script>
+import PipelinePhase from "./pipeline/PipelinePhase";
 export default {
     name: "Pipeline",
-    data() {
-        return {
-            pipelineData: [],
-        };
-    },
+    components: {PipelinePhase},
     computed: {
         pipeline() {
             return this.$store.state.projects.currentProject.pipeline;
@@ -33,7 +25,7 @@ export default {
     },
     async mounted() {
         const response = await this.$api(`api/projects/pipeline/${this.project.id}`);
-        this.pipelineData = response.data;
+        this.$store.commit('projects/setProjectPipeline', response.data);
     },
     methods: {
         isCurrentPhase(id) {
@@ -45,6 +37,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.pipeline-phases {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
 
 </style>

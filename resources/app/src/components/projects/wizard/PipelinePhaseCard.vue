@@ -14,8 +14,7 @@
         <h3 class="pc-card__name" v-else @click="edit = true">{{ section.name }}</h3>
         <em class="pc-card__total">{{ section.entities.length }} Entities in Phase</em>
       </div>
-      <button class="btn btn-default" @click="openEntityModal(index)" aria-label="Add Entity to Section"
-      >
+      <button class="btn btn-default" @click="openEntityModal(index)" aria-label="Add Entity to Section">
         <i class="far fa-plus-square"></i>
       </button>
     </div>
@@ -23,15 +22,15 @@
       <article class="pc-entity" v-for="(entity, entityIndex) in section.entities" :key="entityIndex">
             <i class="pc-entity__icon fa" :class="entityIcon(entity)"></i>
             <h4 class="pc-entity__name">{{ entity.name }}</h4>
-            <button type="button" class="pc-entity__remove" 
-                    aria-label="Remove this entity from the pipeline" 
+            <button type="button" class="pc-entity__remove"
+                    aria-label="Remove this entity from the pipeline"
                     @click="remove(entityIndex)">
                 <i class="fas fa-trash"></i>
             </button>
       </article>
     </div>
-    <button type="button" class="pc-card__remove" 
-            aria-label="Remove this entity from the pipeline" 
+    <button type="button" class="pc-card__remove"
+            aria-label="Remove this entity from the pipeline"
             @click="removePhase">
         <i class="fas fa-trash"></i>
     </button>
@@ -138,7 +137,7 @@ export default {
         border-bottom-right-radius: $border-radius;
         cursor: pointer;
         @include transition-bounce;
-        &:hover { 
+        &:hover {
             background-color: $error-red;
             transform: translate3d(12px, 0, 0);
             opacity: 1;

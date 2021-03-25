@@ -3,7 +3,7 @@ module.exports = {
   devServer: {
     proxy: "http://app.svara.io:8000",
     host: 'app.svara.io',
-    port: 80
+    port: 8000
   },
 
   // outputDir should be Laravel public dir

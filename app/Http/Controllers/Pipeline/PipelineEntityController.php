@@ -6,6 +6,7 @@ use App\Models\PipelineEntity;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PipelineEntityController extends Controller
 {
@@ -33,12 +34,16 @@ class PipelineEntityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PipelineEntity  $pipelineEntity
-     * @return \Illuminate\Http\Response
+     * @param  int $entity
+     * @return JsonResponse
      */
-    public function show(PipelineEntity $pipelineEntity)
+    public function show(int $entity)
     {
-        return response()->json($pipelineEntity);
+        $entities = DB::table('project_pipelines_to_entities')
+            ->selectRaw('*, project_pipelines_to_entities.id as pid')
+            ->join('pipeline_entities', 'project_pipelines_to_entities.entity_id', '=', 'pipeline_entities.id')
+            ->where('project_pipelines_to_entities.id', $entity)->first();
+        return response()->json($entities);
     }
 
     /**

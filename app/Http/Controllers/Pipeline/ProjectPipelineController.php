@@ -5,10 +5,22 @@ namespace App\Http\Controllers\Pipeline;
 use App\Models\PipelinePhase;
 use App\Models\Project;
 use App\Http\Controllers\Controller;
+use App\Repositories\ProjectRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProjectPipelineController extends Controller
 {
+
+    /**
+     * @var ProjectRepositoryInterface
+     */
+    protected $projectRepository;
+
+    public function __construct(ProjectRepositoryInterface $projectRepository) {
+        $this->projectRepository = $projectRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,20 +45,20 @@ class ProjectPipelineController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Project $project
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @return JsonResponse
      */
     public function show(Project $project)
     {
+        // Load pipeline data
         $project->load('pipeline');
         $phases = $project->pipeline;
+
+        // Fetching entity data manually - Eloquent doesn't return pivot id
         $phases->each(function($item, $key){
-            $item->load('entities');
-            $item->entities()->each(function($entity, $key) {
-                dd($entity);
-            });
-//            dd($item->getAttributes(), $item->getRelations());
+            $item->entities = $this->projectRepository->getPipelineEntities($item);
         });
+
         return response()->json($phases);
     }
 

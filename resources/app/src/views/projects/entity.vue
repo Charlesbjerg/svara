@@ -1,19 +1,30 @@
 <template>
     <section>
-        <h1>Entity View</h1>
-        <p>Looking for entity with ID of {{ id }}</p>
-        <code>{{ data }}</code>
+        <page-head :title="entity.name" :subtitle="`For ${project.name}`" />
+        <component :is="entity.component_name" :data="entity" />
     </section>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import PageHead from "../../components/common/PageHead";
+import Boards from "../../components/entities/boards/boards";
+import Checklists from "../../components/entities/checklists/checklists";
+import Documents from "../../components/entities/documents/documents";
+import SignOff from "../../components/entities/sign-off/sign-off";
 
 export default {
     name: "Projects.Entity",
+    components: {
+        PageHead,
+        Boards,
+        Checklists,
+        Documents,
+        SignOff,
+    },
     data() {
         return {
-            data: {},
+            entity: {},
         };
     },
     computed: {
@@ -26,7 +37,7 @@ export default {
     },
     async mounted() {
         const response = await this.$api(`api/projects/pipeline/entities/${this.id}`);
-        this.data = response.data;
+        this.entity = response.data;
     }
 }
 </script>

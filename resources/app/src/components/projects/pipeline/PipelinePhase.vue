@@ -3,7 +3,7 @@
         <h3>{{ phase.name }}</h3>
         <ul class="pipe-phase__entities">
             <li class="pipe-phase-entity" v-for="entity in phase.entities" :key="entity.id" @click="viewEntity(entity)">
-                <i class="fa" :class="entity.iconSmall"></i>
+                <i class="fa" :class="entity.icon_small"></i>
                 {{ entity.name }}
             </li>
         </ul>
@@ -33,7 +33,7 @@ export default {
     methods: {
         viewEntity(entity) {
             // TODO: Need to push the pivot ID to load data correctly
-            this.$router.push({ name: 'projects.entity', params: { id: entity.id } })
+            this.$router.push({ name: 'projects.entity', params: { id: entity.pid } })
             console.log(`Open page to view the entity ${entity.name}`);
         }
     }

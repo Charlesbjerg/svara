@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\ProjectState;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ProjectRepository implements ProjectRepositoryInterface {
@@ -104,6 +105,22 @@ class ProjectRepository implements ProjectRepositoryInterface {
         }
 
         return $phases;
+
+    }
+
+    /**
+     * Returns all of the entities for a pipeline phase, including
+     * their pivot id.
+     *
+     * @param PipelinePhase $phase
+     * @return mixed
+     */
+    public function getPipelineEntities(PipelinePhase $phase) {
+
+        return DB::table('project_pipelines_to_entities')
+            ->selectRaw('*, project_pipelines_to_entities.id as pid')
+            ->join('pipeline_entities', 'project_pipelines_to_entities.entity_id', '=', 'pipeline_entities.id')
+            ->where('project_pipelines_to_entities.pipeline_id', $phase->id)->get();
 
     }
 

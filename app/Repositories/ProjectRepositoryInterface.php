@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\PipelinePhase;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Project;
 
@@ -34,5 +35,14 @@ interface ProjectRepositoryInterface {
      * @return Collection $phases
      */
     public function createPipeline(array $data, int $projectId);
+
+    /**
+     * Returns all of the entities for a pipeline phase, including
+     * their pivot id.
+     *
+     * @param PipelinePhase $phase
+     * @return mixed
+     */
+    public function getPipelineEntities(PipelinePhase $phase);
 
 }

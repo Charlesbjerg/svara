@@ -18,7 +18,7 @@ class PipelineEntitySeeder extends Seeder
         DB::table('pipeline_entities')->insert([
             [
                 'name' => 'Project Sign-off', 
-                'component_name' => 'project-sign-off', 
+                'component_name' => 'sign-off',
                 'icon_large' => 'sign-off',
                 'icon_small' => 'fa-file-signature', 
                 'description' => 'Adding a sign off requires the phase to be signed off before the project can continue'

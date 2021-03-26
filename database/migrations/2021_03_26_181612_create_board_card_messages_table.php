@@ -15,7 +15,12 @@ class CreateBoardCardMessagesTable extends Migration
     {
         Schema::create('board_card_messages', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('card_id');
+            $table->text('message');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('card_id')->references('id')->on('board_cards')->onDelete('cascade');
         });
     }
 

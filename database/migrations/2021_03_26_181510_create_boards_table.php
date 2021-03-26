@@ -15,7 +15,9 @@ class CreateBoardsTable extends Migration
     {
         Schema::create('boards', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('pipeline_entity_id');
+            $table->string('name');
+            $table->foreign('pipeline_entity_id')->references('id')->on('project_pipelines_to_entities')->onDelete('cascade');
         });
     }
 

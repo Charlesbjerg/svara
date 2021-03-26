@@ -16,6 +16,14 @@ class CreateBoardCardsTable extends Migration
         Schema::create('board_cards', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->unsignedBigInteger('column_id');
+            $table->unsignedBigInteger('assigned_user_id')->nullable();
+            $table->unsignedBigInteger('label_id')->nullable();
+            $table->foreign('column_id')->references('id')->on('board_columns')->onDelete('cascade');
+            $table->foreign('assigned_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('label_id')->references('id')->on('board_card_labels')->onDelete('cascade');
         });
     }
 

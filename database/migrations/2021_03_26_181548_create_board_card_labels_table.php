@@ -15,7 +15,8 @@ class CreateBoardCardLabelsTable extends Migration
     {
         Schema::create('board_card_labels', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name');
+            $table->string('colour');
         });
     }
 

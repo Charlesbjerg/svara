@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBoardColumnTable extends Migration
+class CreateBoardColumnsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateBoardColumnTable extends Migration
      */
     public function up()
     {
-        Schema::create('board_column', function (Blueprint $table) {
+        Schema::create('board_columns', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('board_id');
+            $table->string('name');
+            $table->foreign('board_id')->references('id')->on('boards')->onDelete('cascade');
         });
     }
 

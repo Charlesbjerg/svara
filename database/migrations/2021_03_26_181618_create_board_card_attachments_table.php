@@ -15,7 +15,14 @@ class CreateBoardCardAttachmentsTable extends Migration
     {
         Schema::create('board_card_attachments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('card_id');
+            $table->unsignedBigInteger('uploaded_user_id')->nullable();
             $table->timestamps();
+            $table->string('name');
+            $table->string('path');
+            $table->string('file_type')->nullable();
+            $table->foreign('uploaded_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('card_id')->references('id')->on('board_cards')->onDelete('cascade');
         });
     }
 

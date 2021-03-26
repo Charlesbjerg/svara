@@ -2,6 +2,14 @@
     <div class="card-modal-outer" :class="modalActive">
         <aside class="card-modal">
             <h2 class="card-modal__title">{{ card.name }}</h2>
+<!--            <input type="text"-->
+<!--                   class="board-card__title"-->
+<!--                   v-if="edit"-->
+<!--                   v-model="card.name"-->
+<!--                   v-focus=""-->
+<!--                   @blur.native="edit = false"-->
+<!--            />-->
+<!--            <span class="board-card__title" v-else @click="edit = true">{{ card.name }}</span>-->
             <button @click="closeModal">Close</button>
             <div class="card-modal__body">
                 <!-- TODO: Add fields for: user assigned to, description, label and attached image -->

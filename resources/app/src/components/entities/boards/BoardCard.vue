@@ -1,13 +1,6 @@
 <template>
     <li class="board-card" @click="openCard">
-        <input type="text"
-               class="board-card__title"
-            v-if="edit"
-            v-model="card.name"
-            v-focus=""
-            @blur.native="edit = false"
-        />
-        <span class="board-card__title" v-else @click="edit = true">{{ card.name }}</span>
+        <span class="board-card__title">{{ card.name }}</span>
         <div class="board-card__icons">
             <div class="board-card__icon">
                 <i class="far fa-images"></i>
@@ -25,11 +18,6 @@ export default {
             required: true,
             type: Object,
         },
-    },
-    data() {
-        return {
-            edit: false,
-        };
     },
     methods: {
         openCard() {

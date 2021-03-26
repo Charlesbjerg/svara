@@ -1,5 +1,7 @@
 const state = () => ({
-    board: {},
+    board: {
+        openCard: null,
+    },
     checklist: {},
     signOff: {},
     documents: {},
@@ -12,6 +14,12 @@ const actions = {};
 const mutations = {
     setEntityData: (state, { entityType, data }) => {
         state[entityType] = data;
+    },
+    setOpenCard: (state, payload) => {
+        state.board.openCard = payload;
+    },
+    closeCardModal: state => {
+        state.board.openCard = null;
     }
 };
 

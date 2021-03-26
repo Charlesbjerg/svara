@@ -6,40 +6,35 @@
                     <h2 class="board__column-title">{{ column.name }}</h2>
                     <span class="board__column-count">{{ column.cards.length }}</span>
                 </header>
-                <ul class="board__column-cards">
-                    <draggable ghost-class="board-card--dragged">
-                        <transition-group name="slide-fade">
-                            <li class="board-card" @click="openCard" v-for="card in column.cards" :key="card.id">
-                                <span class="board-card__title">{{ card.name }}</span>
-                                <div class="board-card__icons">
-                                    <div class="board-card__icon">
-                                        <i class="far fa-images"></i>
-                                        2
-                                    </div>
-                                </div>
-                            </li>
-                        </transition-group>
-                    </draggable>
+                <ul class="board__column-cards"
+                    v-for="card in column.cards"
+                    @change="log"
+                    :key="card.cardId">
+                    <board-card :card="card" />
                 </ul>
-                <button class="btn btn-default" @click="addCard">
+                <button class="btn btn-default" @click="addCard(column.id)">
                     Add Card
                     <i class="far fa-plus-square"></i>
                 </button>
             </section>
+            <button class="btn btn-default add-column-btn" @click="addColumn">
+                Add Column
+                <i class="far fa-plus-square"></i>
+            </button>
         </div>
-        re
+        <card-modal v-if="modalActive" />
     </div>
 
 </template>
 
 <script>
-import {VueDraggableNext} from "vue-draggable-next";
+import Sortable from 'sortablejs';
+import BoardCard from "./BoardCard";
+import CardModal from "./CardModal";
 
 export default {
     name: "boards.vue",
-    components: {
-        draggable: VueDraggableNext,
-    },
+    components: {CardModal, BoardCard},
     data() {
         return {
             columns: [
@@ -48,15 +43,15 @@ export default {
                     id: 1,
                     cards: [
                         {
-                            id: 1,
+                            cardId: 1,
                             name: "Backlog task"
                         },
                         {
-                            id: 2,
+                            cardId: 2,
                             name: "Backlog task 2"
                         },
                         {
-                            id: 3,
+                            cardId: 3,
                             name: "Backlog task 3"
                         },
                     ],
@@ -66,15 +61,15 @@ export default {
                     id: 2,
                     cards: [
                         {
-                            id: 4,
+                            cardId: 4,
                             name: "Backlog task 4"
                         },
                         {
-                            id: 5,
+                            cardId: 5,
                             name: "Backlog task 5"
                         },
                         {
-                            id: 6,
+                            cardId: 6,
                             name: "Backlog task 6"
                         },
                     ],
@@ -84,10 +79,37 @@ export default {
     },
     async mounted() {
         // TODO: Either fetch existing data or start from scratch
+
+        // After data shows up, init sortable
+        this.initSortable();
+    },
+    computed: {
+        modalActive() {
+            return this.$store.state.entities.board.openCard !== null;
+        }
     },
     methods: {
-        openCard() {
-            // TODO: Open a detailed view of the card in a modal
+        addCard(columnId) {
+            const column = this.columns.find(col => col.id === columnId);
+            column.cards.push({ name: '', id: null, });
+        },
+        addColumn() {
+            this.columns.push({ name: "New Column", id: null, cards: [] });
+        },
+        log(evt) {
+            window.console.log(evt);
+            console.log(this.columns);
+            // TODO: Maybe use the event/method to make API calls to update board
+        },
+        initSortable() {
+            document.querySelectorAll('.board__column-cards').forEach((column, index) => {
+                // TODO: Need to update the sortable instances when a new card or column is added
+                // http://sortablejs.github.io/
+                new Sortable(column, {
+                    group: 'board',
+                    animation: 200,
+                });
+            });
         }
     }
 }
@@ -158,15 +180,8 @@ export default {
     }
 }
 
-.board-card {
-    border: 2px solid $grey;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: $border-radius;
-    //@include box-shadow;
-    &__title {
-        display: block;
-        margin-bottom: 0.25em;
-    }
+.add-column-btn {
+    width: 300px;
+    height: 40px;
 }
 </style>

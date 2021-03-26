@@ -3,6 +3,7 @@ import auth from './modules/auth';
 import util from "./modules/util";
 import projects from './modules/projects';
 import clients from "./modules/clients";
+import entities from "./modules/entities";
 
 export default createStore({
     modules: {
@@ -10,5 +11,6 @@ export default createStore({
         'util': util,
         'projects': projects,
         'clients': clients,
+        'entities': entities,
     }
 });

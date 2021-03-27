@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pipeline\Boards;
 
 use App\Models\BoardCardMessage;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class BoardCardMessageController extends Controller
@@ -11,6 +12,7 @@ class BoardCardMessageController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return JsonResponse
      */
     public function index(Request $request)
@@ -25,12 +27,16 @@ class BoardCardMessageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $message = new BoardCardMessage($request->all());
+        $message->save();
+        $user = User::where('id', $request->input('user_id'));
+        $message->user()->associate($user);
+        return response()->json($message);
     }
 
     /**
@@ -41,19 +47,22 @@ class BoardCardMessageController extends Controller
      */
     public function show(BoardCardMessage $message)
     {
-        //
+        $message->load(['card', 'user']);
+        return response()->json($message);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  \App\Models\BoardCardMessage  $message
      * @return JsonResponse
      */
     public function update(Request $request, BoardCardMessage $message)
     {
-        //
+        $message->fill($request->all());
+        $message->save();
+        return response()->json($message);
     }
 
     /**
@@ -64,6 +73,7 @@ class BoardCardMessageController extends Controller
      */
     public function destroy(BoardCardMessage $message)
     {
-        //
+        $message->delete();
+        return sendTrueResponse();
     }
 }

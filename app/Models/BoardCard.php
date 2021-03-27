@@ -11,6 +11,8 @@ class BoardCard extends Model
     use HasFactory;
     use CamelCasing;
 
+    protected $fillable = ['name', 'description'];
+
     public function column() {
         return $this->belongsTo(BoardColumn::class);
     }
@@ -25,11 +27,11 @@ class BoardCard extends Model
     }
 
     public function attachments() {
-        return $this->hasMany(BoardCardAttachments::class);
+        return $this->hasMany(BoardCardAttachment::class);
     }
 
     public function messages() {
-        return $this->hasMany(BoardCardAttachments::class);
+        return $this->hasMany(BoardCardAttachment::class);
     }
 
     public function label() {

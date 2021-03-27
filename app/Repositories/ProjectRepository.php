@@ -99,6 +99,7 @@ class ProjectRepository implements ProjectRepositoryInterface {
             $entities = array();
             foreach ($pipeline['entities'] as $entity) {
                 $entities[] = PipelineEntity::where('id', $entity['id'])->first();
+                // TODO: Entity needs initialising in DB on project creation, i.e. create a Board instance if a board
             }
             $phase->entities()->saveMany($entities);
             $phases->push($phase);

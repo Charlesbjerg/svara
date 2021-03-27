@@ -11,6 +11,8 @@ class Board extends Model
     use HasFactory;
     use CamelCasing;
 
+    protected $fillable = ['name'];
+
     public function entity() {
         return $this->belongsTo(PipelineEntity::class);
     }

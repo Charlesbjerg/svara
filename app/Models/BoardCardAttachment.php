@@ -6,10 +6,12 @@ use Eloquence\Behaviours\CamelCasing;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BoardCardAttachments extends Model
+class BoardCardAttachment extends Model
 {
     use HasFactory;
     use CamelCasing;
+
+    protected $fillable = ['name'];
 
     public function card() {
         return $this->belongsTo(BoardCard::class);

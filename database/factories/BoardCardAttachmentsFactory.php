@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\BoardCardAttachments;
+use App\Models\BoardCardAttachment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BoardCardAttachmentsFactory extends Factory
@@ -12,7 +12,7 @@ class BoardCardAttachmentsFactory extends Factory
      *
      * @var string
      */
-    protected $model = BoardCardAttachments::class;
+    protected $model = BoardCardAttachment::class;
 
     /**
      * Define the model's default state.

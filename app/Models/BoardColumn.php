@@ -9,6 +9,8 @@ class BoardColumn extends Pivot
 {
     use CamelCasing;
 
+    protected $fillable = ['name'];
+
     public function board() {
         return $this->belongsTo(Board::class);
     }

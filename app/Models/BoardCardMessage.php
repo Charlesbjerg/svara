@@ -11,6 +11,8 @@ class BoardCardMessage extends Model
     use HasFactory;
     use CamelCasing;
 
+    protected $fillable = ['message'];
+
     public function card() {
         return $this->belongsTo(BoardCard::class);
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pipeline\Boards;
 
 use App\Models\BoardCard;
 use App\Http\Controllers\Controller;
+use App\Models\BoardColumn;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -33,6 +34,7 @@ class BoardCardController extends Controller
     {
         $card = new BoardCard($request->all());
         $card->save();
+        $card->column()->associate(BoardColumn::where('id', $request->input('id'))->first());
         return response()->json($card);
     }
 

@@ -15,4 +15,8 @@ class BoardCardMessage extends Model
         return $this->belongsTo(BoardCard::class);
     }
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
 }

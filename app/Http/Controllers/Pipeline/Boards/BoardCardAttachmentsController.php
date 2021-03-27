@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Pipeline\Boards;
 
 use App\Models\BoardCardAttachments;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class BoardCardAttachmentsController extends Controller

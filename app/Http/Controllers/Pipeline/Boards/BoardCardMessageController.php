@@ -36,6 +36,8 @@ class BoardCardMessageController extends Controller
         $message->save();
         $user = User::where('id', $request->input('user_id'));
         $message->user()->associate($user);
+        $card = BoardCard::where('id', $request->input('card_id'));
+        $message->user()->associate(card);
         return response()->json($message);
     }
 

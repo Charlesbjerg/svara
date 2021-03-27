@@ -11,6 +11,8 @@ class BoardCardLabel extends Model
     use HasFactory;
     use CamelCasing;
 
+    public $timestamps = false;
+
     public function card() {
         return $this->belongsTo(BoardCard::class);
     }

@@ -31,8 +31,9 @@ class BoardCardAttachmentsController extends Controller
     {
         $attachment = new BoardCardAttachment($request->all());
         // TODO: Save file then save model
+        $card = Card::where('id', $request->input('card_id'));
+        $attachment->card()->associate($card);
         $attachment->save();
-        // TODO: Save relational data
         return response()->json($attachment);
     }
 

@@ -11,6 +11,7 @@ class Board extends Model
     use HasFactory;
     use CamelCasing;
 
+    public $timestamps = false;
     protected $fillable = ['name'];
 
     public function entity() {

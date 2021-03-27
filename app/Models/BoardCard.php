@@ -23,7 +23,11 @@ class BoardCard extends Model
      * @return mixed
      */
     public function board() {
-        return $this->column->board;
+        return $this->column()->board;
+    }
+
+    public function assignedUser() {
+        return $this->hasOne(User::class, 'id', 'assigned_user_id');
     }
 
     public function attachments() {

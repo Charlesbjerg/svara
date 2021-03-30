@@ -31,6 +31,9 @@ class BoardCardAttachmentsController extends Controller
     {
         $attachment = new BoardCardAttachment($request->all());
         // TODO: Save file then save model
+
+
+
         $card = Card::where('id', $request->input('card_id'));
         $attachment->card()->associate($card);
         $attachment->save();
@@ -76,4 +79,30 @@ class BoardCardAttachmentsController extends Controller
         $attachment->delete();
         return sendTrueResponse();
     }
+
+    /**
+     * TODO: Attachments have to be saved before added to model. Below method needs properly integrating.
+     */
+    public function saveAttachment() {
+        // Code has been copied from example, need to make work for this project
+//        $rules = array(
+//            'file' => 'image|max:3000',
+//        );
+//
+//        $validation = Validator::make($request, $rules);
+//
+//        if ($validation->fails())
+//        {
+//            return Response::make($validation->errors->first(), 400);
+//        }
+//
+//        $file = Input::file('file');
+//
+//        $extension = File::extension($file['name']);
+//        $directory = path('public').'uploads/'.sha1(time());
+//        $filename = sha1(time().time()).".{$extension}";
+//
+//        $upload_success = Input::upload('file', $directory, $filename);
+    }
+
 }

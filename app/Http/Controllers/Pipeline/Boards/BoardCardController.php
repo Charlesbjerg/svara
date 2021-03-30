@@ -33,6 +33,7 @@ class BoardCardController extends Controller
     public function store(Request $request)
     {
         $card = new BoardCard($request->all());
+        $card->column_id = $request->input('columnId');
         $card->save();
         $card->column()->associate(BoardColumn::where('id', $request->input('id'))->first());
         return response()->json($card);
@@ -46,7 +47,7 @@ class BoardCardController extends Controller
      */
     public function show(BoardCard $card)
     {
-        $card->load(['attachments', 'messages', 'label']);
+//        $card->load(['attachments', 'messages', 'label']);
         return response()->json($card);
     }
 

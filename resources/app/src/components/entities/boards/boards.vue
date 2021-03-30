@@ -97,7 +97,7 @@ export default {
     methods: {
         addCard(columnId) {
             const column = this.board.columns.find(col => col.id === columnId);
-            column.cards.push({ name: '', id: null, });
+            column.cards.push({ name: '', id: null, columnId: column.id });
             this.initSortable();
         },
         addColumn() {

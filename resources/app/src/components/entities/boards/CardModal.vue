@@ -13,6 +13,7 @@
             <button @click="closeModal">Close</button>
             <div class="card-modal__body">
                 <!-- TODO: Add fields for: user assigned to, description, label and attached image -->
+                <code>{{ this.card }}</code>
             </div>
         </aside>
         <div class="card-modal-overlay"></div>
@@ -31,8 +32,8 @@ export default {
         }
     },
     async mounted() {
-        // TODO: Fetch detailed data for card from API
-        // const response = this.$api('api/projects/pipelines/boards');
+        const response = await this.$api(`api/projects/pipeline/boards/card/${this.card.id}`);
+        this.$store.commit('entities/setOpenCard', response.data);
     },
     methods: {
         closeModal() {

@@ -53,9 +53,10 @@ export default {
                 this.saveCard();
             }
         },
-        saveCard() {
+        async saveCard() {
             // TODO: Need to setup the correct route to save a card and update below
-            // const response = await this.$api('api/projects/pipelines/boards/');
+            const response = await this.$api('api/projects/pipeline/boards/card', 'POST', this.card);
+            this.card = response.data;
         }
     },
     directives: {

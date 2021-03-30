@@ -35,7 +35,7 @@ class BoardCardController extends Controller
         $card = new BoardCard($request->all());
         $card->column_id = $request->input('columnId');
         $card->save();
-        $card->column()->associate(BoardColumn::where('id', $request->input('id'))->first());
+        $card->column()->associate(BoardColumn::where('id', $request->input('columnId'))->first());
         return response()->json($card);
     }
 

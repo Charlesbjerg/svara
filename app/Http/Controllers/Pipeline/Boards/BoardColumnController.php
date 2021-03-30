@@ -30,8 +30,7 @@ class BoardColumnController extends Controller
     public function store(Request $request)
     {
         $column = new BoardColumn($request->all());
-        // TODO: This should be done with the associate method
-        $column->board_id = $request->input('board_id');
+        $column->board_id = $request->input('boardId');
         $column->save();
         return response()->json($column);
     }

@@ -57,6 +57,22 @@ class BoardController extends Controller
     {
         $board->fill($request->all());
         $board->save();
+
+        // TODO: Should this method receive all data or just the updated data?
+        // Just updated would be more performant
+        // All data could be easier
+
+        // Update all relational data
+//        foreach ($request->input('columns') as $columnData) {
+//            $board->columns()->where('id', $columnData['id'], function($column) {
+//                foreach ($columnData['cards'] as $card) {
+//                    $column->cards()->where('id', $card['id'], function($card) {
+//
+//                    });
+//                }
+//            });
+//        }
+
         return response()->json($board);
     }
 

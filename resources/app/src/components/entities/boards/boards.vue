@@ -1,22 +1,7 @@
 <template>
     <div class="board-outer">
         <div class="board">
-            <section class="board__column" v-for="column in board.columns" :key="column.id">
-                <header class="board__column-top">
-                    <h2 class="board__column-title">{{ column.name }}</h2>
-                    <span class="board__column-count">{{ column.cards.length }}</span>
-                </header>
-                <ul class="board__column-cards"
-                    v-for="card in column.cards"
-                    @change="log"
-                    :key="card.cardId">
-                    <board-card :card="card" />
-                </ul>
-                <button class="btn btn-default" @click="addCard(column.id)">
-                    Add Card
-                    <i class="far fa-plus-square"></i>
-                </button>
-            </section>
+            <board-column v-for="column in board.columns" :key="column.id" :column="column" @reinit="initSortable"/>
             <button class="btn btn-default add-column-btn" @click="addColumn">
                 Add Column
                 <i class="far fa-plus-square"></i>
@@ -29,62 +14,25 @@
 
 <script>
 import Sortable from 'sortablejs';
-import BoardCard from "./BoardCard";
 import CardModal from "./CardModal";
+import BoardColumn from "./BoardColumn";
 
 export default {
     name: "Boards",
     components: {
-        CardModal,
-        BoardCard
-    },
-    data() {
-        return {
-            // columns: [
-            //     {
-            //         name: "Backlog",
-            //         id: 1,
-            //         cards: [
-            //             {
-            //                 cardId: 1,
-            //                 name: "Backlog task"
-            //             },
-            //             {
-            //                 cardId: 2,
-            //                 name: "Backlog task 2"
-            //             },
-            //             {
-            //                 cardId: 3,
-            //                 name: "Backlog task 3"
-            //             },
-            //         ],
-            //     },
-            //     {
-            //         name: "Todo",
-            //         id: 2,
-            //         cards: [
-            //             {
-            //                 cardId: 4,
-            //                 name: "Backlog task 4"
-            //             },
-            //             {
-            //                 cardId: 5,
-            //                 name: "Backlog task 5"
-            //             },
-            //             {
-            //                 cardId: 6,
-            //                 name: "Backlog task 6"
-            //             },
-            //         ],
-            //     },
-            // ]
-        };
+        BoardColumn,
+        CardModal
     },
     async mounted() {
+        // Fetch Data
+        this.$store.commit('util/enableLoader');
         const response = await this.$api(`api/projects/pipeline/boards/${this.$route.params.id}`)
         this.$store.commit('entities/setBoardData', response.data);
-        console.log(response.data);
-        this.initSortable();
+        // Render sortable list after cards have rendered
+        await this.$nextTick(function () {
+            this.initSortable();
+        });
+        this.$store.commit('util/disableLoader');
     },
     computed: {
         modalActive() {
@@ -95,19 +43,9 @@ export default {
         }
     },
     methods: {
-        addCard(columnId) {
-            const column = this.board.columns.find(col => col.id === columnId);
-            column.cards.push({ name: '', id: null, columnId: column.id });
-            this.initSortable();
-        },
         addColumn() {
-            this.board.columns.push({ name: "New Column", id: null, cards: [] });
+            this.board.columns.push({ name: "", id: null, cards: [] });
             this.initSortable();
-        },
-        log(evt) {
-            window.console.log(evt);
-            console.log(this.board.columns);
-            // TODO: Maybe use the event/method to make API calls to update board
         },
         initSortable() {
             document.querySelectorAll('.board__column-cards').forEach((column, index) => {
@@ -121,7 +59,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .board-outer {
     position: relative;
     height: 100%;

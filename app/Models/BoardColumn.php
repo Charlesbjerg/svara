@@ -13,12 +13,13 @@ class BoardColumn extends Pivot
     protected $fillable = ['name'];
     protected $table = 'board_columns';
 
+
     public function board() {
         return $this->belongsTo(Board::class);
     }
 
     public function cards() {
-        return $this->hasMany(BoardCard::class);
+        return $this->hasMany(BoardCard::class, 'column_id', 'id');
     }
 
 }

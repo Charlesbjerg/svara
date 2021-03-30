@@ -30,6 +30,10 @@ export default {
             return this.card !== null ? 'active' : '';
         }
     },
+    async mounted() {
+        // TODO: Fetch detailed data for card from API
+        // const response = this.$api('api/projects/pipelines/boards');
+    },
     methods: {
         closeModal() {
             this.$store.commit('entities/closeCardModal');

@@ -1,6 +1,7 @@
 <template>
     <li class="board-card" @click="openCard">
-        <span class="board-card__title">{{ card.name }}</span>
+        <input type="text" name="cardname" class="board-card__input" v-if="edit" v-model="card.name" v-focus="" @blur.native="nameUpdated" autocomplete="off" />
+        <span class="board-card__title" v-else @click="editName">{{ card.name }}</span>
         <div class="board-card__icons">
             <div class="board-card__icon">
                 <i class="far fa-images"></i>
@@ -19,9 +20,42 @@ export default {
             type: Object,
         },
     },
+    data() {
+        return {
+            init: true,
+            edit: false,
+        };
+    },
+    mounted() {
+        this.$nextTick(function () {
+            if (this.card.name === "") {
+                this.edit = true;
+                this.init = false;
+                this.$el.children[0].focus();
+            }
+        });
+    },
     methods: {
         openCard() {
-            this.$store.commit('entities/setOpenCard', this.card);
+            if (this.init) {
+                this.$store.commit('entities/setOpenCard', this.card);
+            }
+        },
+        editName() {
+            if (!this.init) {
+                this.edit = true;
+            }
+        },
+        nameUpdated() {
+            if (this.card.name !== "") {
+                this.edit = false;
+                this.init = true;
+                this.saveCard();
+            }
+        },
+        saveCard() {
+            // TODO: Need to setup the correct route to save a card and update below
+            // const response = await this.$api('api/projects/pipelines/boards/');
         }
     },
     directives: {
@@ -41,11 +75,15 @@ export default {
     padding: 10px;
     border-radius: $border-radius;
     cursor: grab;
+    &__input,
     &__title {
         display: block;
         margin-bottom: 0.5em;
         font-family: $font-heading;
         padding: 0.25em 0;
+    }
+    &__input {
+        padding: 0.25em;
     }
 }
 </style>

@@ -1,6 +1,7 @@
 const state = () => ({
     board: {
         openCard: null,
+        data: {}
     },
     checklist: {},
     signOff: {},
@@ -20,6 +21,9 @@ const mutations = {
     },
     closeCardModal: state => {
         state.board.openCard = null;
+    },
+    setBoardData: (state, payload) => {
+        state.board.data = payload;
     }
 };
 

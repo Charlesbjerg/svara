@@ -40,6 +40,9 @@ class BoardController extends Controller
     public function show(Board $board)
     {
         $board->load(['entity', 'pipelinePhase', 'columns']);
+        $board->columns->each(function($item, $index) {
+            $item->load('cards');
+        });
         return response()->json($board);
     }
 

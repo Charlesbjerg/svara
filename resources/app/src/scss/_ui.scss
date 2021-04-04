@@ -56,23 +56,22 @@
   @include gradient-purple;
   color: #fff;
   position: relative;
-  clip-path: url('/assets/button-path.svg');
   border-radius: $border-radius;
-  &::after {
-    content: "";
-    width: 20px;
-    height: 100%;
-    display: block;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-    position: absolute;
-    top: 0;
-    left: 100%;
-  }
   &:hover {
     @include gradient-purple-hover;
   }
 }
+
+.btn-alt {
+  @include gradient-red;
+  color: #fff;
+  position: relative;
+  border-radius: $border-radius;
+  &:hover {
+    @include gradient-red-hover;
+  }
+}
+
 
 .btn-block {
   display: block;

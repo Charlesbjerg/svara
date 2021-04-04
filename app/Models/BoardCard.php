@@ -30,6 +30,10 @@ class BoardCard extends Model
         return $this->hasOne(User::class, 'id', 'assigned_user_id');
     }
 
+    public function createdBy() {
+        return $this->hasOne(User::class, 'id', 'created_by_id');
+    }
+
     public function attachments() {
         return $this->hasMany(BoardCardAttachment::class);
     }

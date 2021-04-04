@@ -52,6 +52,9 @@ export default {
         board() {
             return this.$store.state.entities.board.data;
         },
+        user() {
+            return this.$store.state.auth.user.id
+        }
     },
     methods: {
         async nameUpdated() {
@@ -60,6 +63,7 @@ export default {
                 const response = await this.$api('api/projects/pipeline/boards/column', 'POST', {
                     name: this.column.name,
                     boardId: this.board.id,
+                    createdById: this.user.id,
                 });
                 this.updateColumn(response.data);
                 this.init = true;

@@ -5,9 +5,6 @@
                 <div>
                     <input type="text" name="cardName" class="card-modal__input" v-if="edit" v-model="card.name" @blur.native="edit = false" autocomplete="off" />
                     <h2 class="card-modal__title" v-else @click="edit = true">{{ card.name }}</h2>
-                    <em>Created At: {{ card.createdAt }} - Last Updated At: {{ card.updatedAt }}</em>
-                    <!-- TODO: Need to show who card is currently assigned to -->
-                    <!-- TODO: Need to show who created the card -->
                 </div>
                 <button class="card-modal__close" @click="closeModal">
                     <i class="fas fa-times"></i>
@@ -15,17 +12,38 @@
             </header>
             <div class="card-modal__body" v-if="dataLoaded">
 
+                <p class="card-modal__staff-title">Created by</p>
+                <div class="card-modal__staff" v-if="card.createdBy">
+                    <project-staff-member :member="card.createdBy" />
+                </div>
+                <p class="card-modal__staff-title">Assigned To</p>
+                <div class="card-modal__staff" v-if="card.assignedTo">
+                    <project-staff-member :member="card.assignedTo" />
+                </div>
+                <div class="card-modal__staff-picker" v-else>
+                    <span>Assign to staff member</span>
+                </div>
+                <div class="card-modal__timestamps">
+                    <div class="card-modal__created-at" v-if="datesEqual(card.createdAt, card.updatedAt)">
+                        Created: {{ formattedDate(card.createdAt) }}
+                    </div>
+                    <div class="card-modal__created-at" v-else>
+                        Last Updated: {{ formattedDate(card.updatedAt) }}
+                    </div>
+                </div>
+
                 <!-- TODO: Integrate fields for: user assigned to, description, label and attached image -->
 
                 <div class="card-modal__section">
                     <h3 class="card-modal__subtitle">Description</h3>
                     <div class="card-modal__description">
-                        <textarea class="card-modal__textarea" v-if="descriptionEdit" v-model="card.description" @blur.native="descriptionEdit = false"></textarea>
+                        <textarea class="card-modal__textarea" v-if="descriptionEdit" v-model="card.description" @blur.native="descriptionEdit = false; cardUpdated()"></textarea>
                         <div v-else @click="descriptionEdit = true">{{ card.description }}</div>
                     </div>
                 </div>
 
-                <div class="card-modal__section">
+                <!-- TODO: To be enabled at a later date -->
+                <div class="card-modal__section" v-if="attachmentsEnabled">
                     <h3 class="card-modal__subtitle">Attachments</h3>
                     <div class="card-modal__attachments" v-if="hasAttachments">
                         <card-attachment v-for="attachment in card.attachments" />
@@ -33,7 +51,8 @@
                     <file-dropzone ref="attachmentDropzone" id="attachmentDropzone" :options="dropzoneOptions" />
                 </div>
 
-                <div class="card-modal__section">
+                <!-- TODO: To be enabled at a later date -->
+                <div class="card-modal__section" v-if="commentsEnabled">
                     <h3 class="card-modal__subtitle">Comments</h3>
                     <div class="card-modal__attachments" v-if="hasComments">
                         <card-comment v-for="comment in card.comments" />
@@ -43,7 +62,7 @@
 
                 <div class="card-modal__controls">
                     <!-- TODO: Add controls to archive/assign card -->
-                    <button class="btn btn-default">Archive Card</button>
+                    <button class="btn btn-alt">Archive Card</button>
                 </div>
 
             </div>
@@ -57,10 +76,12 @@ import CardAttachment from "./CardAttachment";
 import CardComment from "./CardComment";
 import CardCommentField from "./CardCommentField";
 import VueDropzone from 'vue2-dropzone';
+import ProjectStaffMember from "../../projects/overview/ProjectStaffMember";
 
 export default {
     name: "CardModal",
     components: {
+        ProjectStaffMember,
         CardAttachment,
         CardComment,
         CardCommentField,
@@ -69,7 +90,10 @@ export default {
     data() {
         return {
             edit: false,
+            descriptionEdit: false,
             dataLoaded: false,
+            attachmentsEnabled: false,
+            commentsEnabled: false,
             dropzoneOptions: {
                 url: 'api/projects/pipeline/boards/attachment-upload',
                 thumbnailWidth: 150,
@@ -102,6 +126,17 @@ export default {
         closeModal() {
             this.$store.commit('entities/closeCardModal');
         },
+        formattedDate(dateString) {
+            const date = new Date(dateString);
+            return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}`;
+        },
+        datesEqual(created, updated) {
+            return created === updated;
+        },
+        async cardUpdated() {
+            const response = await this.$api(`api/projects/pipeline/boards/card/${this.card.id}`, 'PATCH', this.card);
+            this.card = response.data;
+        }
     }
 };
 </script>
@@ -161,6 +196,34 @@ export default {
             transform: rotate(190deg);
         }
     }
+    &__staff-picker,
+    &__staff {
+        padding: 10px;
+        background-color: $light-grey;
+        border-radius: $border-radius;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    &__staff-title {
+        margin: 0 0 5px;
+        font-family: $font-heading;
+        font-weight: $font-weight-heading;
+    }
+    &__staff-picker:hover > span {
+        opacity: 1;
+    }
+    &__staff-picker > span {
+        cursor: pointer;
+        opacity: 0.5;
+        font-family: $font-heading;
+        font-weight: $font-weight-heading;
+        text-align: center;
+        display: block;
+        @include transition-default;
+    }
+    &__timestamps {
+        margin: 0 0 15px;
+    }
     &__section {
         margin-bottom: 2em;
     }
@@ -171,7 +234,12 @@ export default {
         padding: 0.75em;
         background-color: $light-grey;
         border-radius: $border-radius;
+        min-height: 200px;
         @include box-shadow-sm;
+        > div {
+            min-height: 200px;
+            height: 100%;
+        }
     }
     &__textarea {
         width: 100%;

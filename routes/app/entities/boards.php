@@ -13,6 +13,7 @@ Route::prefix('projects/pipeline/boards')->group(function() {
     // Card routes
     Route::get('/card/{card}', [\App\Http\Controllers\Pipeline\Boards\BoardCardController::class, 'show']);
     Route::post('/card', [\App\Http\Controllers\Pipeline\Boards\BoardCardController::class, 'store']);
+    Route::patch('/card/{card}', [\App\Http\Controllers\Pipeline\Boards\BoardCardController::class, 'update']);
 
 
 

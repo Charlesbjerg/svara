@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BoardColumn;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BoardCardController extends Controller
 {
@@ -32,10 +33,21 @@ class BoardCardController extends Controller
      */
     public function store(Request $request)
     {
+        // Create new card
         $card = new BoardCard($request->all());
         $card->column_id = $request->input('columnId');
+
+        // Add created by ID, use request data if the user isn't logged in (shouldn't happen)
+        if (Auth::user()) {
+            $card->created_by_id = Auth::user()->id;
+        } else {
+            $card->created_by_id = $request->input('createdById');
+        }
+
+        // Save card and add associations
         $card->save();
         $card->column()->associate(BoardColumn::where('id', $request->input('columnId'))->first());
+
         return response()->json($card);
     }
 
@@ -47,7 +59,8 @@ class BoardCardController extends Controller
      */
     public function show(BoardCard $card)
     {
-//        $card->load(['attachments', 'messages', 'label']);
+        // TODO: Load other features once they've been built
+        $card->load(['createdBy']);
         return response()->json($card);
     }
 
@@ -60,7 +73,12 @@ class BoardCardController extends Controller
      */
     public function update(Request $request, BoardCard $card)
     {
-        //
+        $card->fill($request->all());
+        $card->save();
+
+        // TODO: Add in relational data once ready
+
+        return response()->json($card);
     }
 
     /**

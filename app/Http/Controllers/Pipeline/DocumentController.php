@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pipeline;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
+use HttpResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,9 +23,9 @@ class DocumentController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Request $request)
+    public function index(int $pipeline_entity_id)
     {
-        $documents = Document::where('pipeline_entity_id', $request->input('pipeline_entity_id'))->get();
+        $documents = Document::where('pipeline_entity_id', '=', $pipeline_entity_id)->get();
         return response()->json($documents);
     }
 
@@ -37,11 +38,11 @@ class DocumentController extends Controller
     public function store(Request $request)
     {
         // Setup new entity
-        $document = new Document($request->all());
+        $document = new Document();
 
         // Validate file, if it fails return errors
         $validation = Validator::make($request->all(), array(
-            'file' => 'image|max:15000',
+            'file' => 'max:15000',
         ));
         if ($validation->fails()) {
             return response()->json($validation->errors->first(), 400);
@@ -62,6 +63,8 @@ class DocumentController extends Controller
         $uploadedPath = $file->storeAs($path, $filename);
 
         // Save document entity
+        $document->name =$request->file('file')->getClientOriginalName();
+        $document->pipeline_entity_id = $request->input('pipeline_entity_id');
         $document->path = $uploadedPath;
         $document->file_type = pathinfo($uploadedPath, PATHINFO_EXTENSION);
         $document->save();
@@ -116,10 +119,11 @@ class DocumentController extends Controller
      * Downloads a file stored on disk, sending the appropriate
      * headers.
      *
-     * @
+     * @param Document $document
+     * @return \Illuminate\Http\Response
      */
     public function download(Document $document) {
-        return Storage::download($document->getSystemPath());
+        return Storage::get($document->getSystemPath());
     }
 
 }

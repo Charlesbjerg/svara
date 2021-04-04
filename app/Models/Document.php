@@ -30,7 +30,7 @@ class Document extends Model
 
 
     public function getSystemPath() {
-
+        return storage_path($this->path);
     }
 
 }

@@ -48,7 +48,6 @@
                     <div class="card-modal__attachments" v-if="hasAttachments">
                         <card-attachment v-for="attachment in card.attachments" />
                     </div>
-                    <file-dropzone ref="attachmentDropzone" id="attachmentDropzone" :options="dropzoneOptions" />
                 </div>
 
                 <!-- TODO: To be enabled at a later date -->
@@ -75,7 +74,6 @@
 import CardAttachment from "./CardAttachment";
 import CardComment from "./CardComment";
 import CardCommentField from "./CardCommentField";
-import VueDropzone from 'vue2-dropzone';
 import ProjectStaffMember from "../../projects/overview/ProjectStaffMember";
 
 export default {
@@ -85,7 +83,6 @@ export default {
         CardAttachment,
         CardComment,
         CardCommentField,
-        FileDropzone: VueDropzone,
     },
     data() {
         return {
@@ -94,12 +91,12 @@ export default {
             dataLoaded: false,
             attachmentsEnabled: false,
             commentsEnabled: false,
-            dropzoneOptions: {
-                url: 'api/projects/pipeline/boards/attachment-upload',
-                thumbnailWidth: 150,
-                maxFilesize: 0.5,
-                headers: { "My-Awesome-Header": "header value" }
-            }
+            // dropzoneOptions: {
+            //     url: 'api/projects/pipeline/boards/attachment-upload',
+            //     thumbnailWidth: 150,
+            //     maxFilesize: 0.5,
+            //     headers: { "My-Awesome-Header": "header value" }
+            // }
         };
     },
     computed: {

@@ -43,7 +43,7 @@ export default {
   async mounted() {
 
     // Setup CSRF for App and check auth state
-    await this.$api('sanctum/csrf-cookie', 'GET');
+    window.csrfCookie = await this.$api('sanctum/csrf-cookie', 'GET');
     const response = await this.$api('api/auth/user', 'GET')
     if (response.status === 'Error') {
       await this.$router.push('/login');

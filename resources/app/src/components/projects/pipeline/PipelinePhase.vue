@@ -34,7 +34,6 @@ export default {
         viewEntity(entity) {
             // TODO: Need to push the pivot ID to load data correctly
             this.$router.push({ name: 'projects.entity', params: { id: entity.pid } })
-            console.log(`Open page to view the entity ${entity.name}`);
         }
     }
 }

@@ -57,16 +57,13 @@ export default {
     },
     methods: {
         openEntityModal(index) {
-            console.log(`Opening entity modal with index of ${index}`)
             this.$store.commit('projects/openEntityModal', index);
-            console.log(`State value of`, this.$store.state.projects);
         },
         removePhase() {
             // TODO: Remove phase
         },
         remove(index) {
             // TODO: Remove entity from pipeline section
-            console.log(`Need to remove entity at index ${index}`);
             this.section.entities.splice(index, 1);
         },
         entityIcon(entity) {

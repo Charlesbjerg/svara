@@ -35,7 +35,6 @@ const routes = [
   ...CompanyRoutes,
 ];
 
-console.log(process.env.BASE_URL);
 const router = createRouter({
   history: createWebHistory('/'),
   routes
@@ -43,7 +42,6 @@ const router = createRouter({
 
 // Check auth on route change
 router.beforeRouteUpdate = (to, from, next) => {
-  console.log("About to enter a route", store.getters['auth/isUserAuthenticated']);
   !store.getters['auth/isUserAuthenticated'] && to.name !== 'Login' ? next({ name: 'Login' }) : next();
 };
 

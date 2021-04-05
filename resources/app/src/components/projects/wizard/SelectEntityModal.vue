@@ -36,7 +36,6 @@ export default {
         }
     },
     async mounted() {
-        console.log("Mounting modal");
         this.$store.commit('util/enableLoader');
         const response = await this.$api('api/projects/pipeline/entities');
         this.entities = response.data;

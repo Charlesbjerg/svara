@@ -62,14 +62,13 @@ export default {
             this.pipelineSections[index].entities.push(entity);
         },
         log(event) {
-            console.log(event)
         },
         nextStep() {
             this.$store.commit('projects/addPipelineToProject', this.pipelineSections);
             this.$store.commit('projects/setCurrentStep', 5);
         }
     },
-    
+
 }
 </script>
 

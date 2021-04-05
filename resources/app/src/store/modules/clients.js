@@ -26,7 +26,6 @@ const mutations = {
         state.currentClient = payload;
     },
     setSearchTerm: (state, payload) => {
-        console.log(payload);
         state.searchTerm = payload;
     }
 };

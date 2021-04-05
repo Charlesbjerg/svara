@@ -15,7 +15,6 @@ const actions = {
 
 const mutations = {
   setGlobalNotif: (state, { message, type }) => {
-    console.log(message, type);
     state.globalNotifMessage = message;
     state.globalNotifType = type;
   },

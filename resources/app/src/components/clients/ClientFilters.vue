@@ -56,7 +56,6 @@ export default {
             clearTimeout(window.inlineSearchTimeout);
             window.inlineSearchTimeout = setTimeout(() => {
                 // Query API and store in results
-                console.log(this.accountManager, e)
             }, 300);
         },
         selectResult() {

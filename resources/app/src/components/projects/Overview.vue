@@ -39,7 +39,6 @@ export default {
             currentPhase: 'projects/getCurrentPhase',
         }),
         currentPhaseName() {
-            console.log(this.currentPhase)
             let phaseString = 'New Project Phase';
             if (this.project.pipeline.length > 0) {
                 phaseString = `${this.currentPhase.name} Phase`

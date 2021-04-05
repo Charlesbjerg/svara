@@ -115,7 +115,6 @@ export default {
     },
     async mounted() {
         const response = await this.$api(`api/projects/pipeline/boards/card/${this.card.id}`);
-        console.log(response);
         this.$store.commit('entities/setOpenCard', response.data);
         this.dataLoaded = true;
     },

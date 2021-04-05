@@ -12,8 +12,6 @@ export default {
             const url = `http://app.svara.io${port}/${route}`;
             let response = {};
 
-            console.log(`Route passed: ${route} - Full URL: ${url}`);
-
             try {
 
                 // If GET request with data, reformat URL

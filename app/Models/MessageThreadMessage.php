@@ -11,6 +11,8 @@ class MessageThreadMessage extends Model
     use HasFactory;
     use CamelCasing;
 
+    public $fillable = ['message'];
+
     public function thread() {
         return $this->belongsTo(MessageThread::class, 'id', 'thread_id');
     }

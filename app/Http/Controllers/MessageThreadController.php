@@ -43,9 +43,12 @@ class MessageThreadController extends Controller
     public function show(MessageThread $thread)
     {
         $thread->load(['messages']);
-        $thread->message->each(function($message) {
-            $message->load(['attachments']);
-        });
+        if ($thread->messages) {
+            $thread->messages->each(function($message) {
+                // TODO: Add attachments when built
+                $message->load(['postedBy']);
+            });
+        }
         return response()->json($thread);
     }
 

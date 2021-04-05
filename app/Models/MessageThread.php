@@ -18,7 +18,7 @@ class MessageThread extends Model
     }
 
     public function messages() {
-        return $this->hasMany(MessageThreadMessage::class);
+        return $this->hasMany(MessageThreadMessage::class, 'thread_id', 'id');
     }
 
 }

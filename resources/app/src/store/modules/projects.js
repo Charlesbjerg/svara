@@ -79,7 +79,13 @@ const mutations = {
     // Adds pipeline data to existing/current project
     setProjectPipeline: (state, payload) => {
         state.currentProject.pipeline = payload;
-    }
+    },
+    setSelectedThread: (state, payload) => {
+        state.currentProject.selectedThread = payload;
+    },
+    addMessageToCurrentThread: (state, payload) => {
+        state.currentProject.selectedThread.messages.push(payload);
+    },
 };
 
 export default {

@@ -1,4 +1,7 @@
 <?php
+
+use App\Http\Controllers\MessageThreadController;
+use App\Http\Controllers\MessageThreadMessageController;
 use App\Http\Controllers\Pipeline\PipelineEntityController;
 use App\Http\Controllers\Pipeline\ProjectPipelineController;
 use App\Http\Controllers\ProjectController;
@@ -12,8 +15,9 @@ Route::resource('/projects/pipeline/entities', PipelineEntityController::class);
 Route::get('/projects/pipeline/{project}', [ProjectPipelineController::class, 'show']);
 
 // Message Thread Routes
-Route::get('/projects/message-threads/all/{projectId}', [App\Http\Controllers\MessageThreadController::class, 'index']);
-Route::get('/projects/message-threads/{thread}', [App\Http\Controllers\MessageThreadController::class, 'show']);
+Route::get('/projects/message-threads/all/{projectId}', [MessageThreadController::class, 'index']);
+Route::get('/projects/message-threads/{thread}', [MessageThreadController::class, 'show']);
+Route::post('/projects/message-threads/message', [MessageThreadMessageController::class, 'store']);
 
 // Add Entity routes
 require __DIR__ . '/entities/boards.php';

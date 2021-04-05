@@ -1,4 +1,4 @@
-{
+  {
   "name": "svara",
   "version": "0.1.0",
   "private": true,
@@ -12,6 +12,7 @@
     "@editorjs/editorjs": "^2.20.0",
     "@editorjs/header": "^2.6.1",
     "@editorjs/list": "^1.6.2",
+    "@tinymce/tinymce-vue": "4",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "dropzone": "^5.9.2",
@@ -22,7 +23,6 @@
     "vue-draggable-next": "^2.0.1",
     "vue-loader": "^16.2.0",
     "vue-router": "^4.0.0-0",
-    "vue-template-compiler": "^2.6.12",
     "vue3-tabs": "^0.1.9",
     "vuedraggable": "^4.0.1",
     "vuex": "^4.0.0-0"

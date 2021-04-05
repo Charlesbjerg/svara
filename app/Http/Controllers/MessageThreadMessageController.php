@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MessageThreadMessage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageThreadMessageController extends Controller
 {
@@ -19,8 +20,10 @@ class MessageThreadMessageController extends Controller
     {
         $message = new MessageThreadMessage($request->all());
         $message->thread_id = $request->input('threadId');
-        $message->user_id = $request->input('userId');
+        $message->user_id = Auth::user()->id;
         $message->save();
+        // TODO: Reload user for data sent back to client
+        $message->load('postedBy');
         // TODO: If there's an attachment, add it
         return response()->json($message);
     }

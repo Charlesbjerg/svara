@@ -11,6 +11,8 @@ class MessageThread extends Model
     use HasFactory;
     use CamelCasing;
 
+    protected $fillable = ['name'];
+
     public function project() {
         return $this->belongsTo(Project::class);
     }

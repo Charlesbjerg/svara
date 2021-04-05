@@ -1,12 +1,19 @@
 <?php
+use App\Http\Controllers\Pipeline\PipelineEntityController;
+use App\Http\Controllers\Pipeline\ProjectPipelineController;
+use App\Http\Controllers\ProjectController;
 
 // Standard Project Routes
-Route::resource('/projects', \App\Http\Controllers\ProjectController::class);
-Route::get('/projects/{project}/staff', [\App\Http\Controllers\ProjectController::class, 'allStaffMembers']);
+Route::resource('/projects', ProjectController::class);
+Route::get('/projects/{project}/staff', [ProjectController::class, 'allStaffMembers']);
 
 // Pipeline Routes
-Route::resource('/projects/pipeline/entities', \App\Http\Controllers\Pipeline\PipelineEntityController::class);
-Route::get('/projects/pipeline/{project}', [\App\Http\Controllers\Pipeline\ProjectPipelineController::class, 'show']);
+Route::resource('/projects/pipeline/entities', PipelineEntityController::class);
+Route::get('/projects/pipeline/{project}', [ProjectPipelineController::class, 'show']);
+
+// Message Thread Routes
+Route::get('/projects/message-threads/all/{projectId}', [App\Http\Controllers\MessageThreadController::class, 'index']);
+Route::get('/projects/message-threads/{thread}', [App\Http\Controllers\MessageThreadController::class, 'show']);
 
 // Add Entity routes
 require __DIR__ . '/entities/boards.php';

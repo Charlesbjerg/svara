@@ -22,6 +22,7 @@ export default {
         ProjectStaffMember,
     },
     data() {
+        return {};
     },
     computed: {
         ...mapState({

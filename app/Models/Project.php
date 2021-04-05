@@ -37,4 +37,8 @@ class Project extends Model
         return $this->hasOne(PipelinePhase::class, 'id', 'current_phase_id');
     }
 
+    public function messageThreads() {
+        return $this->hasMany(MessageThread::class, 'project_id', 'id');
+    }
+
 }

@@ -57,20 +57,21 @@ class DocumentController extends Controller
         // Setup file path - Must be in project folder
         $file = $request->file('file');
         $path = 'uploads/' . $project->id;
-        $filename = sha1(time().time());
+//        $filename = sha1(time().time());
 
         // Save file
-        $uploadedPath = $file->storeAs($path, $filename);
+//        $uploadedPath = $file->storeAs($path, $filename);
+        $path = Storage::putFile($path, $file);
 
         // Save document entity
         $document->name =$request->file('file')->getClientOriginalName();
         $document->pipeline_entity_id = $request->input('pipeline_entity_id');
-        $document->path = $uploadedPath;
-        $document->file_type = pathinfo($uploadedPath, PATHINFO_EXTENSION);
+        $document->path = $path;
+        $document->file_type = pathinfo($path, PATHINFO_EXTENSION);
         $document->save();
 
         // Send response
-        if ($uploadedPath) {
+        if ($path) {
             return response()->json([
                 'message' => 'success',
                 'file' => $document,
@@ -120,7 +121,7 @@ class DocumentController extends Controller
      * headers.
      *
      * @param Document $document
-     * @return \Illuminate\Http\Response
+//     * @return \Illuminate\Http\Response
      */
     public function download(Document $document) {
         return Storage::get($document->getSystemPath());

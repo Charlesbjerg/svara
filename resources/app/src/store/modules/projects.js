@@ -2,6 +2,7 @@ const state = () => ({
     projects: [],
     currentProject: {
         messageThreads: [],
+        documents: []
     },
     currentStep: 0,
     entityModalActive: false,
@@ -90,7 +91,10 @@ const mutations = {
     },
     addNewThread: (state, payload) => {
         state.currentProject.messageThreads.push(payload)
-    }
+    },
+    setProjectDocuments: (state, payload) => {
+        state.currentProject.documents = payload;
+    },
 };
 
 export default {

@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Repositories\ProjectRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -83,6 +84,23 @@ class ProjectController extends Controller
         // TODO: Should fetch all staff for a project, not just the lead
         // Only fetching lead to help setup frontend as relations don't exist yet
         return response()->json(['staff' => [0 => $project->projectLead]]);
+    }
+
+    /**
+     * Fetches all the documents from entities in the projects
+     * pipeline.
+     *
+     * @param Project $project
+     * @return JsonResponse
+     */
+    public function documents(Project $project) {
+
+        // TODO: Fetch all documents from entities - Query isn't quite right
+        $documentEntities = DB::table('pipeline_phases')
+            ->join('project_pipelines_to_entities', 'pipeline_phases.id', '=', 'project_pipelines_to_entities.id')
+            ->join('documents', 'project_pipelines_to_entities.id', '=', 'documents.pipeline_entity_id')
+            ->where('pipeline_phases.project_id', '=', $project->id)->toSql();
+        dd($documentEntities);
     }
 
 }

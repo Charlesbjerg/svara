@@ -9,6 +9,7 @@ use App\Http\Controllers\ProjectController;
 // Standard Project Routes
 Route::resource('/projects', ProjectController::class);
 Route::get('/projects/{project}/staff', [ProjectController::class, 'allStaffMembers']);
+Route::get('/projects/{project}/documents', [ProjectController::class, 'documents']);
 
 // Pipeline Routes
 Route::resource('/projects/pipeline/entities', PipelineEntityController::class);

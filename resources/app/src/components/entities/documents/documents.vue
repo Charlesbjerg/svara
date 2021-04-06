@@ -8,7 +8,7 @@
                         <strong class="document-list-item__name">{{ document.name }}</strong>
                         <em>Uploaded at {{ formattedDate(document.createdAt) }}</em>
                     </span>
-                    <a :href="downloadLink(document.id)" aria-label="Download this file" class="document-list-item__link">
+                    <a :href="downloadLink(document.id)" aria-label="Download this file" class="document-list-item__link" target="_blank">
                         <i class="fas fa-file-download"></i>
                     </a>
                 </li>
@@ -43,7 +43,7 @@ export default {
     },
     methods: {
         downloadLink(id) {
-            return `/api/projects/pipeline/documents/download/${id}`;
+            return `http://app.svara.io:8000/api/projects/pipeline/documents/download/${id}`;
         },
         formattedDate(dateString) {
             const date = new Date(dateString);

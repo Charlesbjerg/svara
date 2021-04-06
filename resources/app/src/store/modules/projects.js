@@ -1,6 +1,8 @@
 const state = () => ({
     projects: [],
-    currentProject: {},
+    currentProject: {
+        messageThreads: [],
+    },
     currentStep: 0,
     entityModalActive: false,
     entityModalSection: null,
@@ -87,7 +89,7 @@ const mutations = {
         state.currentProject.selectedThread.messages.push(payload);
     },
     addNewThread: (state, payload) => {
-        state.currentProject.threads.push(payload);
+        state.currentProject.messageThreads.push(payload)
     }
 };
 

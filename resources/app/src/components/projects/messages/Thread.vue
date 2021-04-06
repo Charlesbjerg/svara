@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="message-thread">
-            <ul class="message-thread__messages" v-if="thread.messages">
+            <ul class="message-thread__messages" v-if="thread.messages.length > 0">
                 <li v-for="message in thread.messages" :key="message.id">
                     <message :message="message" />
                 </li>
@@ -45,6 +45,12 @@ export default {
         padding: 0;
         margin: 0;
         list-style-type: none;
+    }
+    &__empty {
+        font-family: $font-heading;
+        font-weight: $font-weight-heading;
+        text-align: center;
+        padding: 20px 0;
     }
 }
 </style>

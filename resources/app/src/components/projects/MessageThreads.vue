@@ -9,7 +9,10 @@
                         <em>{{ formattedDate(thread.updatedAt) }}</em>
                     </li>
                 </ul>
-                <button class="btn btn-default " @click="creatingNewThread = true; selectedThread = false;">New Thread</button>
+                <button class="btn btn-default btn-block" @click="creatingNewThread = true; selectedThread = false;">
+                    Create New Thread
+                    <i class="fas fa-comments ml-5"></i>
+                </button>
             </div>
         </aside>
         <div class="project-messages__main">
@@ -57,6 +60,7 @@ export default {
     },
     methods: {
         async selectThread(thread, event) {
+            document.querySelectorAll('.message-threads__item.active').forEach(elem => elem.classList.remove('active'));
             event.target.classList.add('active');
             const response =  await this.$api(`api/projects/message-threads/${thread.id}`);
             this.$store.commit('projects/setSelectedThread', response.data)
@@ -93,6 +97,7 @@ export default {
     }
     &__item {
         padding: 10px;
+        margin-bottom: 15px;
         border-radius: $border-radius;
         background-color: #fff;
         border: 2px solid #fff;

@@ -13,6 +13,7 @@ Route::get('/projects/{project}/staff', [ProjectController::class, 'allStaffMemb
 // Pipeline Routes
 Route::resource('/projects/pipeline/entities', PipelineEntityController::class);
 Route::get('/projects/pipeline/{project}', [ProjectPipelineController::class, 'show']);
+Route::post('/projects/pipeline/phase/{pipelinePhase}/complete', [ProjectPipelineController::class, 'completePhase']);
 
 // Message Thread Routes
 Route::get('/projects/message-threads/all/{projectId}', [MessageThreadController::class, 'index']);

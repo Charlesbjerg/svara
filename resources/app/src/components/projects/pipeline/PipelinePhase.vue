@@ -7,6 +7,8 @@
                 {{ entity.name }}
             </li>
         </ul>
+        <button class="btn btn-default btn-disabled" v-if="phase.complete" disabled>Phase Complete</button>
+        <button class="btn btn-default" @click="completePhase" v-else>Complete Phase</button>
     </article>
 </template>
 
@@ -27,13 +29,26 @@ export default {
             activePhase: 'projects/getCurrentPhase',
         }),
         activeItemClass() {
-            return this.activePhase.id === this.phase.id ? 'pipe-phase--active' : '';
+            return this.activePhase.id === this.phase.id || this.phase.complete ? 'pipe-phase--active' : '';
         }
     },
     methods: {
         viewEntity(entity) {
-            // TODO: Need to push the pivot ID to load data correctly
             this.$router.push({ name: 'projects.entity', params: { id: entity.pid } })
+        },
+        canComplete() {
+            let canCompletePhase = true;
+            const hasSignOffs = this.phase.entities.filter(entity => entity.component_name === 'sign-off');
+            console.log(hasSignOffs);
+            if (hasSignOffs.length > 0) {
+                canCompletePhase = false;
+            }
+            return canCompletePhase
+        },
+        completePhase() {
+            if (this.canComplete()) {
+                this.$emit('phaseCompleted');
+            }
         }
     }
 }

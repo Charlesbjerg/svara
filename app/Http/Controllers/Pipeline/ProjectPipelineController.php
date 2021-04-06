@@ -66,10 +66,10 @@ class ProjectPipelineController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\PipelinePhase  $projectPipeline
+     * @param  \App\Models\PipelinePhase  $pipelinePhase
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PipelinePhase $projectPipeline)
+    public function update(Request $request, PipelinePhase $pipelinePhase)
     {
         //
     }
@@ -77,11 +77,42 @@ class ProjectPipelineController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PipelinePhase  $projectPipeline
+     * @param  \App\Models\PipelinePhase  $pipelinePhase
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PipelinePhase $projectPipeline)
+    public function destroy(PipelinePhase $pipelinePhase)
     {
         //
     }
+
+    /**
+     * Marks a pipeline phase as complete
+     *
+     * @param PipelinePhase $pipelinePhase
+     * @return JsonResponse
+     */
+    public function completePhase(PipelinePhase $pipelinePhase) {
+
+        // Mark current phase as complete
+        $pipelinePhase->complete = true;
+        $pipelinePhase->save();
+
+        // Find outstanding phases
+        $phases = PipelinePhase::where('project_id', $pipelinePhase->project_id)->get();
+        $nextPhases = $phases->skipUntil(function($item) {
+            return $item->complete === 0;
+        });
+
+        // Grab the next (first) one and update the project
+        $nextPhase = $nextPhases->first();
+        $project = $nextPhase->project;
+        $project->current_phase_id = $nextPhase->id;
+        $project->save();
+
+        return response()->json([$pipelinePhase, $nextPhase, $project]);
+
+//        return sendTrueResponse();
+
+    }
+    
 }

@@ -9,13 +9,14 @@
                         <em>{{ formattedDate(thread.updatedAt) }}</em>
                     </li>
                 </ul>
-                <button class="btn btn-default " @click="newThread">New Thread</button>
+                <button class="btn btn-default " @click="creatingNewThread = true; selectedThread = false;">New Thread</button>
             </div>
         </aside>
         <div class="project-messages__main">
             <div class="message-thread-outer" v-if="selectedThread">
                 <thread />
             </div>
+            <new-thread v-else-if="creatingNewThread" @close="creatingNewThread = false; " />
             <div class="message-thread-none" v-else>
                 <i class="fas fa-comments"></i>
                 <h3>Select a Message Thread</h3>
@@ -27,19 +28,31 @@
 <script>
 import MessageField from "./messages/MessageField";
 import Thread from "./messages/Thread";
+import NewThread from "./messages/NewThread";
 
 export default {
     name: "MessageThreads",
     components: {
+        NewThread,
         Thread,
         MessageField
+    },
+    data() {
+        return {
+            creatingNewThread: false
+        };
     },
     computed: {
         threads() {
             return this.$store.state.projects.currentProject.messageThreads ?? [];
         },
-        selectedThread() {
-            return this.$store.state.projects.currentProject.selectedThread ?? null;
+        selectedThread: {
+            get() {
+                return this.$store.state.projects.currentProject.selectedThread ?? null;
+            },
+            set(value) {
+                return this.$store.state.projects.currentProject.selectedThread = value;
+            }
         }
     },
     methods: {

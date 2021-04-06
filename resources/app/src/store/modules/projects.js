@@ -86,6 +86,9 @@ const mutations = {
     addMessageToCurrentThread: (state, payload) => {
         state.currentProject.selectedThread.messages.push(payload);
     },
+    addNewThread: (state, payload) => {
+        state.currentProject.threads.push(payload);
+    }
 };
 
 export default {

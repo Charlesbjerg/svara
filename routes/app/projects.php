@@ -17,6 +17,7 @@ Route::get('/projects/pipeline/{project}', [ProjectPipelineController::class, 's
 // Message Thread Routes
 Route::get('/projects/message-threads/all/{projectId}', [MessageThreadController::class, 'index']);
 Route::get('/projects/message-threads/{thread}', [MessageThreadController::class, 'show']);
+Route::post('/projects/message-threads', [MessageThreadController::class, 'store']);
 Route::post('/projects/message-threads/message', [MessageThreadMessageController::class, 'store']);
 
 // Add Entity routes

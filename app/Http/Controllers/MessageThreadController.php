@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MessageThread;
+use App\Models\Project;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -28,9 +29,9 @@ class MessageThreadController extends Controller
     public function store(Request $request)
     {
         $thread = new MessageThread($request->all());
-        $thread->save();
         $project = Project::where('id', $request->input('projectId'))->first();
         $thread->project()->associate($project);
+        $thread->save();
         return response()->json($thread);
     }
 

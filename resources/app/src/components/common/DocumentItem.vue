@@ -1,11 +1,11 @@
 <template>
-    <div class="download-item">
-        <i class="download-item__icon fas fa-file"></i>
-        <span class="download-item__meta">
-            <strong class="download-item__name">{{ document.name }}</strong>
+    <div class="document-item">
+        <i class="document-item__icon fas fa-file"></i>
+        <span class="document-item__meta">
+            <strong class="document-item__name">{{ document.name }}</strong>
             <em>Uploaded at {{ formattedDate(document.createdAt) }}</em>
         </span>
-        <a :href="downloadLink(document.id)" aria-label="Download this file" class="download-item__link" target="_blank">
+        <a :href="downloadLink(document.id)" aria-label="Download this file" class="document-item__link" target="_blank">
             <i class="fas fa-file-download"></i>
         </a>
     </div>

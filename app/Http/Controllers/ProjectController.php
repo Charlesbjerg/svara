@@ -96,11 +96,11 @@ class ProjectController extends Controller
     public function documents(Project $project) {
 
         // TODO: Fetch all documents from entities - Query isn't quite right
-        $documentEntities = DB::table('pipeline_phases')
-            ->join('project_pipelines_to_entities', 'pipeline_phases.id', '=', 'project_pipelines_to_entities.id')
+        $documentEntities = DB::table('pipeline_phases')->select('documents.*')
+            ->join('project_pipelines_to_entities', 'project_pipelines_to_entities.pipeline_id', '=', 'pipeline_phases.id')
             ->join('documents', 'project_pipelines_to_entities.id', '=', 'documents.pipeline_entity_id')
-            ->where('pipeline_phases.project_id', '=', $project->id)->toSql();
-        dd($documentEntities);
+            ->where('pipeline_phases.project_id', '=', $project->id)->get();
+        return response()->json($documentEntities);
     }
 
 }

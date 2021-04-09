@@ -3,14 +3,7 @@
         <div class="documents__list">
             <ul class="documents__list-inner" v-if="documents.length > 0">
                 <li class="document-list-item" v-for="document in documents" :key="document.id">
-                    <i class="document-list-item__icon fas fa-file"></i>
-                    <span class="document-list-item__meta">
-                        <strong class="document-list-item__name">{{ document.name }}</strong>
-                        <em>Uploaded at {{ formattedDate(document.createdAt) }}</em>
-                    </span>
-                    <a :href="downloadLink(document.id)" aria-label="Download this file" class="document-list-item__link" target="_blank">
-                        <i class="fas fa-file-download"></i>
-                    </a>
+                    <document-item :document="document" />
                 </li>
             </ul>
             <div class="documents__none" v-else>
@@ -28,9 +21,10 @@
 
 <script>
 import FileUpload from "./FileUpload";
+import DocumentItem from "../../common/DocumentItem";
 export default {
     name: "documents",
-    components: {FileUpload},
+    components: {DocumentItem, FileUpload},
     data() {
         return {
             documents: [],
@@ -94,37 +88,5 @@ export default {
         }
     }
 }
-.document-list-item {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    &__icon {
-        font-size: 30px;
-        margin-right: 15px;
-        flex-basis: 20px;
-        max-width: 20px;
-    }
-    &__meta {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-    }
-    &__name {
-        font-family: $font-heading;
-        font-weight: $font-weight-heading;
-        font-size: 18px;
-    }
-    &__link {
-        flex-basis: 20px;
-        max-width: 20px;
-        text-align: right;
-        i {
-            font-size: 25px;
-            @include transition-default;
-        }
-        &:hover i {
-            color: $accent-colour;
-        }
-    }
-}
+
 </style>

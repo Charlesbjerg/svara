@@ -2,13 +2,13 @@
     <article class="editable-meta">
         <input type="text" class="editable-meta__title editable-meta__title--input"
                aria-label="Edit the meta item title"
-               v-model="meta.title"
+               v-model="meta.key"
                @blur.native="editingTitle = false; updateMeta()"
                v-if="editingTitle" />
-        <h3 class="editable-meta__title" @click="editingTitle = true" v-else>{{ meta.title }}</h3>
+        <h3 class="editable-meta__title" @click="editingTitle = true" v-else>{{ meta.key }}</h3>
         <div class="form-item">
-            <label for="dataType">Data Type:</label>
-            <select v-model="meta.dataType" id="dataType" @change="updateMeta">
+            <label for="valueType">Data Type:</label>
+            <select v-model="meta.valueType" id="valueType" @change="updateMeta">
                 <option value="null" selected disabled>Select a Data Type</option>
                 <option value="text">Text</option>
                 <option value="number">Number</option>
@@ -16,8 +16,8 @@
             </select>
         </div>
         <div class="form-item--checkbox form-item">
-            <label for="sortable">
-                <input type="checkbox" v-model="meta.sortable" id="sortable" @change="updateMeta" />
+            <label :for="`sortable-${index}`">
+                <input type="checkbox" v-model="sortable" :id="`sortable-${index}`" @change="updateMeta" />
                 Meta data can be used to sort the list of projects
             </label>
         </div>
@@ -32,6 +32,20 @@ export default {
             required: true,
             type: Object,
         },
+        index: {
+            required: true,
+            type: Number,
+        },
+    },
+    computed: {
+        sortable: {
+            get() {
+                return this.meta.sortable === 1;
+            },
+            set(value) {
+                return this.meta.sortable = value;
+            },
+        },
     },
     data() {
         return {
@@ -41,7 +55,7 @@ export default {
     methods: {
         async updateMeta() {
             console.log(this.meta)
-            if (this.meta.title !== null && this.meta.dataType != null) {
+            if (this.meta.title !== null && this.meta.valueType != null) {
                 // If meta has just been created, create new with API - Otherwise update existing
                 const reqMethod = this.meta.hasOwnProperty('id') ? 'PUT' : 'POST';
                 const url = this.meta.hasOwnProperty('id') ? `api/project-meta/${this.meta.id}` : 'api/project-meta';

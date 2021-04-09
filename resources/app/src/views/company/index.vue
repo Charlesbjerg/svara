@@ -6,7 +6,7 @@
                 <h2>Project Metadata</h2>
                 <p>The fields below allow you to setup the metadata that can be captured per project.</p>
                 <div class="project-meta">
-                    <editable-meta-item v-for="(item, index) in metaItems" :key="index" :meta="item" />
+                    <editable-meta-item v-for="(item, index) in metaItems" :key="index" :meta="item" :index="index" @delete="removeItem" />
                     <hr style="margin: 20px 0;" v-if="metaItems.length > 0" />
                     <button class="btn btn-default" @click="addItem">Add meta item</button>
                 </div>
@@ -34,6 +34,8 @@ export default {
     },
     async mounted() {
         // TODO: Fetch the existing metadata setup
+        const response = await this.$api('api/project-meta');
+        this.metaItems = response.data;
     },
     methods: {
         addItem() {
@@ -42,6 +44,10 @@ export default {
                 sortable: false,
                 dataType: null,
             });
+        },
+        removeItem(item) {
+            // TODO: Remove item from the array
+            // TODO: Remove from API if has an id
         }
     }
 };

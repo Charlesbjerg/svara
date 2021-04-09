@@ -48,7 +48,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return response()->json($project->load(['client', 'state', 'pipeline', 'staff', 'messageThreads']));
+        return response()->json($project->load(['client', 'state', 'pipeline', 'staff', 'messageThreads', 'meta']));
     }
 
     /**

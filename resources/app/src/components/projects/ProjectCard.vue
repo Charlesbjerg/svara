@@ -7,16 +7,18 @@
                     <span class="project-card__client-name">{{ client.name }}</span>
                 </div>
                 <div class="project-card__state">
-                    <!-- TODO: Need to come up with a way of handling all these states -->
                     <span class="state state--overdue">{{ state }}</span>
                 </div>
             </header>
             <div class="project-card__body">
                 <h2 class="project-card__name">{{ project.name }}</h2>
-                <span class="project-card__phase">Need to fetch the current phase.</span>
+                <span class="project-card__phase">{{ project.currentPhase.name }}</span>
             </div>
             <footer class="project-card__bottom">
-                <span class="project-card__completion">Est Completion Date</span>
+                <span class="project-card__completion" v-if="project.hasOwnProperty('meta') && project.meta.length > 0">
+                    {{ project.meta[0].key }}: {{ projectMeta }}
+                </span>
+                <div v-else></div>
                 <div class="project-card__avatar"></div>
             </footer>
         </router-link>
@@ -26,6 +28,12 @@
 <script>
 export default {
     name: "ProjectCard",
+    props: {
+        project: {
+            type: Object,
+            required: true,
+        },
+    },
     computed: {
         client() {
             return this.project.client;
@@ -41,12 +49,17 @@ export default {
         },
         projectClientLogoAlt() {
             return `Logo for ${this.client.name}`;
+        },
+        projectMeta() {
+            if (this.project.meta[0].valueType === 'date') {
+                return this.formattedDate(this.project.meta[0].value);
+            }
         }
     },
-    props: {
-        project: {
-            type: Object,
-            required: true,
+    methods: {
+        formattedDate(dateString) {
+            const date = new Date(dateString);
+            return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
         }
     }
 }

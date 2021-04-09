@@ -35,6 +35,13 @@
                     </article>
                 </div>
             </div>
+            <div v-if="meta.length > 0">
+                <h3>Project Extra Data</h3>
+                <div class="form-item" v-for="(meta, index) in meta">
+                    <label :for="`meta-item-${index}`">{{ meta.key }}</label>
+                    <input type="text" :name="meta.key" :id="`meta-item-${index}`" />
+                </div>
+            </div>
             <button type="submit" class="btn btn-default">Next Step</button>
         </form>
     </article>
@@ -50,7 +57,8 @@ export default {
             client: null,
             teams: [],
             projectLeadResults: [],
-            projectLead: null
+            projectLead: null,
+            meta: []
         };
     },
     methods: {
@@ -95,6 +103,8 @@ export default {
     async mounted() {
         const response = await this.$api('api/teams');
         this.teams = response.data;
+        const metaOptions = await this.$api('api/project-meta');
+        this.meta = metaOptions.data;
     }
 }
 </script>

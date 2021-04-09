@@ -23,7 +23,7 @@ class ProjectRepository implements ProjectRepositoryInterface {
      */
     public function getProjects(): Collection
     {
-        return Project::all()->load(['client', 'state', 'pipeline', 'currentPhase', 'staff']);
+        return Project::all()->load(['client', 'state', 'pipeline', 'currentPhase', 'staff', 'meta']);
     }
 
     /**

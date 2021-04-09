@@ -41,4 +41,8 @@ class Project extends Model
         return $this->hasMany(MessageThread::class, 'project_id', 'id');
     }
 
+    public function meta() {
+        return $this->hasMany(ProjectMeta::class);
+    }
+
 }

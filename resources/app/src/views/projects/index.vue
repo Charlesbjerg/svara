@@ -6,7 +6,7 @@
             <router-link to="/projects/create" class="btn btn-default">Create New Project</router-link>
         </div>
         <section class="grid">
-            <ProjectCard v-for="(project, index) in projects" :key="index" :project="project"/>
+            <project-card v-for="(project, index) in projects" :key="index" :project="project"/>
         </section>
     </div>
 </template>

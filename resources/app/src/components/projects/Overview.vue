@@ -1,16 +1,16 @@
 <template>
     <div class="project-overview">
         <div class="project-overview__column">
-            <project-meta icon="calendar-alt" metaKey="Delivery Date" value="24th March 2020"/>
+            <project-meta icon="far fa-calendar-alt" :metaKey="firstMetaKey" :value="firstMetaValue" v-if="hasFirstMeta" />
             <project-pipeline-mini />
         </div>
         <div class="project-overview__column">
             <project-staff />
-            <project-meta icon="sack" metaKey="Project Value" value="£27,500"/>
+            <project-meta icon="far fa-money-bill-alt" :metaKey="secondMetaKey" :value="secondMetaValue" v-if="hasSecondMeta"/>
         </div>
         <div class="project-overview__column">
             <project-overview-mini />
-            <project-meta metaKey="Currently In The" :value="currentPhaseName"/>
+            <project-meta icon="fas fa-puzzle-piece" metaKey="Currently In" :value="currentPhaseName"/>
             <project-activity-log />
         </div>
     </div>
@@ -44,6 +44,26 @@ export default {
                 phaseString = `${this.currentPhase.name} Phase`
             }
             return phaseString;
+        },
+        firstMetaKey() {
+            return this.project.meta[0].key;
+        },
+        firstMetaValue(){
+            return this.project.meta[0].value;
+        },
+        secondMetaKey() {
+            return this.project.meta[1].key;
+        },
+        secondMetaValue() {
+            return this.project.meta[1].value;
+        }
+    },
+    methods: {
+        hasFirstMeta() {
+            return this.project.hasOwnProperty('meta') && this.project.meta.length > 0;
+        },
+        hasSecondMeta() {
+            return this.project.hasOwnProperty('meta') && this.project.meta.length >= 2;
         }
     }
 }

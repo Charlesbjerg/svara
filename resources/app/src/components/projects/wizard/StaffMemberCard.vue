@@ -1,5 +1,5 @@
 <template>
-    <article class="staff-card">
+    <article class="staff-card" :class="isMainUser">
         <figure v-if="hasAvatar" class="staff-card__avatar">
             <img :src="user.avatar" :alt="`Image of ${user.name}`" />
         </figure>
@@ -26,12 +26,20 @@ export default {
         deletable: {
             required: false,
             type: Boolean,
-        }
+        },
+		mainUser: {
+        	required: false,
+			type: Boolean,
+			default: false,
+		}
     },
     computed: {
         hasAvatar() {
             return this.user.hasOwnProperty('avatar');
-        }
+        },
+		isMainUser() {
+        	return 'staff-card--highlighted';
+		}
     },
     methods: {
         deleteItem() {
@@ -47,7 +55,12 @@ export default {
     align-items: center;
     padding: 20px;
     border-radius: $border-radius;
+	background-color: #fff;
     @include box-shadow;
+	&--highlighted {
+		@include gradient-purple;
+		color: #fff;
+	}
     &__avatar {
         flex-basis: 80px;
         max-width: 80px;

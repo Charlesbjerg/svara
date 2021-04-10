@@ -40,7 +40,9 @@ class ClientRepository implements ClientRepositoryInterface
      * @return mixed
      */
     public function getClient(Client $client) {
-        $data['client'] = $client->load(['projects', 'members', 'mainContact', 'accountManager']);
+        $client->load(['projects', 'members', 'mainContact', 'accountManager']);
+        $client->projects->load(['state', 'currentPhase', 'meta', 'projectLead']);
+        $data['client'] = $client;
         $data['projectCount'] = Project::where('client_id', $client->id)->count();
         return $data;
     }

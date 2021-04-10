@@ -300,9 +300,6 @@ export default {
             return this.$store.state.auth.user !== null;
         }
     },
-    mounted() {
-        console.log(this.$store.state.auth)
-    },
     methods: {
         async logout() {
             const response = await this.$api('api/auth/logout', 'POST');

@@ -18,12 +18,10 @@
         <div class="client-info">
             <aside class="client-info__users">
                 <h2>Client Users</h2>
-                <ul class="">
-                    <li v-for="(user, index) in data.client.members" :key="index">{{ user.name }}</li>
-                </ul>
+                <staff-member-card v-for="(user, index) in data.client.members" :key="index" :user="user" :mainUser="user.id === data.client.mainContactId" />
             </aside>
             <section class="client-projects">
-                <project-card v-for="(project, index) in data.client.projects" :key="index" :project="project" :hideClient="true" />
+                <mini-project-card v-for="(project, index) in data.client.projects" :key="index" :project="project" :hideClient="true" />
             </section>
         </div>
     </div>
@@ -31,12 +29,14 @@
 
 <script>
 import PageHead from "../../components/common/PageHead";
-import ProjectCard from "../../components/projects/ProjectCard";
+import MiniProjectCard from "../../components/clients/MiniProjectCard";
+import StaffMemberCard from "../../components/projects/wizard/StaffMemberCard";
 
 export default {
     name: 'ClientsSingle',
     components: {
-        ProjectCard,
+        StaffMemberCard,
+        MiniProjectCard,
         PageHead
     },
     data() {
@@ -66,5 +66,20 @@ export default {
     padding: 20px;
     border-radius: $border-radius;
     @include box-shadow-sm;
+}
+.client-info {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 30px;
+    &__users {
+        background-color: $light-grey;
+        padding: 20px;
+        border-radius: $border-radius;
+    }
+}
+.client-projects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
 }
 </style>

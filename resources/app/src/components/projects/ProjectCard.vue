@@ -12,7 +12,7 @@
             </header>
             <div class="project-card__body">
                 <h2 class="project-card__name">{{ project.name }}</h2>
-                <span class="project-card__phase">{{ project.currentPhase.name }}</span>
+                <span class="project-card__phase" v-if="project.hasOwnProperty('currentPhase')">{{ project.currentPhase.name }}</span>
             </div>
             <footer class="project-card__bottom">
                 <span class="project-card__completion" v-if="project.hasOwnProperty('meta') && project.meta.length > 0">
@@ -52,15 +52,18 @@ export default {
         },
         projectMeta() {
             if (this.project.meta[0].valueType === 'date') {
-                return this.formattedDate(this.project.meta[0].value);
+                return this.$dateFormatter(this.project.meta[0].value, false);
             }
-        }
+        },
     },
     methods: {
         formattedDate(dateString) {
             const date = new Date(dateString);
             return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
         }
+    },
+    mounted() {
+        console.log(this.project);
     }
 }
 </script>

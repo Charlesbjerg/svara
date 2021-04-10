@@ -46,16 +46,24 @@ export default {
             return phaseString;
         },
         firstMetaKey() {
-            return this.project.meta[0].key;
+            if (this.hasFirstMeta()) {
+                return this.project.meta[0].key;
+            }
         },
         firstMetaValue(){
-            return this.project.meta[0].value;
+            if (this.hasFirstMeta()) {
+                return this.project.meta[0].value;
+            }
         },
         secondMetaKey() {
-            return this.project.meta[1].key;
+            if (this.hasSecondMeta()) {
+                return this.project.meta[1].key;
+            }
         },
         secondMetaValue() {
-            return this.project.meta[1].value;
+            if (this.hasSecondMeta()) {
+                return this.project.meta[1].value;
+            }
         }
     },
     methods: {

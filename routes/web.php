@@ -19,6 +19,10 @@ Route::get('/{any}', [\App\Http\Controllers\ViewController::class, 'app'])->wher
 // Api Routes
 Route::prefix('api')->group(function() {
 
+    // Dashboard
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'show']);
+
+    // Require other routes
     require __DIR__ . '/app/auth.php';
     require __DIR__ . '/app/projects.php';
     require __DIR__ . '/app/clients.php';

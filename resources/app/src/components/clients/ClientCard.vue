@@ -3,8 +3,8 @@
         <router-link :to="clientUrl">
             <div class="client-card__body">
                 <div class="client-card__client">
-<!--                    <img :src="clientLogo" :alt="clientLogoAlt" class="client-card__logo"/>-->
-                    <span class="client-card__logo logo-placeholder"></span>
+                    <img :src="clientLogo" :alt="clientLogoAlt" class="client-card__logo" v-if="clientLogo"/>
+                    <span class="client-card__logo logo-placeholder" v-else></span>
                 </div>
                 <div class="client-card__content">
                     <h2 class="client-card__name">{{ client.name }}</h2>
@@ -28,10 +28,10 @@ export default {
         clientUrl() {
             return `/clients/${this.client.id}`;
         },
-        clientClientLogo() {
-            return `http://app.svara.io:8000/${this.client.client.logoPath}`;
+        clientLogo() {
+            return `http://app.svara.io:8000/${this.client.logoPath}`;
         },
-        clientClientLogoAlt() {
+        clientLogoAlt() {
             return `Logo for ${this.client.name}`;
         }
     },

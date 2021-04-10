@@ -52,9 +52,9 @@ export default {
         },
         projectMeta() {
             if (this.project.meta[0].valueType === 'date') {
-                return this.$dateFormatter(this.project.meta[0].value, false);
+                return this.formattedDate(this.project.meta[0].value);
             }
-        },
+        }
     },
     methods: {
         formattedDate(dateString) {

@@ -3,6 +3,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Project;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Client;
 
@@ -16,8 +17,7 @@ class ClientRepository implements ClientRepositoryInterface
      * @param array $request
      * @return Collection
      */
-    public function filterClients(array $request): Collection
-    {
+    public function filterClients(array $request): Collection {
 
         $filters = [];
 
@@ -31,6 +31,18 @@ class ClientRepository implements ClientRepositoryInterface
 
         return Client::where($filters)->get();
 
+    }
+
+    /**
+     * Returns all data for a client, relational and otherwise.
+     *
+     * @param Client $client
+     * @return mixed
+     */
+    public function getClient(Client $client) {
+        $data['client'] = $client->load(['projects', 'members', 'mainContact', 'accountManager']);
+        $data['projectCount'] = Project::where('client_id', $client->id)->count();
+        return $data;
     }
 
 }

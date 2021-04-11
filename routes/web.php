@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/mail-test', function() {
+    $user = App\Models\User::all()->last();
+    return new App\Mail\ActivateAccount($user);
+});
+
 // Defaults to '/' for any route unless it starts with '/api/'
 Route::get('/{any}', [\App\Http\Controllers\ViewController::class, 'app'])->where('any','^(?!api).*$');
 

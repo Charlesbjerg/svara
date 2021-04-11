@@ -18,4 +18,11 @@ interface UserRepositoryInterface
      */
     public function searchByName(string $searchTerm) : Collection;
 
+    /**
+     * Adds a record to the user_activations table for a new user
+     * account that needs activating.
+     * @return mixed
+     */
+    public function createActivationRecord(User $user);
+
 }

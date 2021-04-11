@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function() {
 
+    // Activate Account
+    Route::get('/activate/{key}', [RegisteredUserController::class, 'show']);
+    Route::post('/activate/{key}', [RegisteredUserController::class, 'activate']);
+
+    // Standard Auth Routes
     Route::get('/register', [RegisteredUserController::class, 'create'])
         ->middleware('guest')
         ->name('register');

@@ -107,4 +107,11 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * Generates the URL for activating an account
+     */
+    public function activationUrl() {
+        return 'url';
+    }
+
 }

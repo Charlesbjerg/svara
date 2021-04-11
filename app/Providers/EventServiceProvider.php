@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\AccountCreated;
+use App\Listeners\SendAccountActivation;
 use App\Listeners\SendProjectCreatedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -20,7 +22,19 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
             SendProjectCreatedNotification::class,
         ],
+        AccountCreated::class => [
+            SendAccountActivation::class,
+        ],
     ];
+
+    /**
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+//    protected $subscribe = [
+//        AccountCreated::class,
+//    ];
 
     /**
      * Register any events for your application.

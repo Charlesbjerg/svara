@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\AccountCreated;
 use App\Http\Controllers\Controller;
 use App\Models\Team;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +53,8 @@ class RegisteredUserController extends Controller
         // Create new user_activation record
         $this->userRepository->createActivationRecord($user);
 
-        event(new Registered($user));
+        // Send out activation email
+        AccountCreated::dispatch($user);
 
         return response()->json(['success' => true, 'data' => $user]);
     }
@@ -66,6 +69,37 @@ class RegisteredUserController extends Controller
             ->join('users', 'user_activations.user_id', '=', 'users.id')
             ->where('user_activations.key', $key)->first();
         return response()->json($user);
+    }
+
+    /**
+     * Activates a user account that has been created but
+     * pending activation.
+     *
+     * @param string $key
+     * @return JsonResponse
+     */
+    public function activate(Request $request, string $key) {
+        // Get user_activation record
+        $user = DB::table('user_activations')
+            ->join('users', 'user_activations.user_id', '=', 'users.id')
+            ->where('user_activations.key', $key)->first();
+
+        // Get user and set to active
+        $user = User::where('id', $user->user_id)->first();
+        $user->password = Hash::make($request->input('password'));
+        $user->email_verified_at = now();
+        $user->activated = now();
+        $user->save();
+
+        // Delete user_activation record
+        DB::table('user_activations')->where('user_id', $user->id)->delete();
+
+        // TODO: Send out account activated email
+
+        return response()->json([
+            'success' => true,
+            'user' => $user,
+        ]);
     }
 
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Models\Team;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\UserType;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -92,4 +94,17 @@ class UserStaffController extends Controller
     {
         //
     }
+
+    /**
+     * Fetches the additional data needed to create a user
+     * account.
+     *
+     * @return JsonResponse
+     */
+    public function setupData() {
+        $types = UserType::all();
+        $teams = Team::all();
+        return response()->json(['types' => $types, 'teams' => $teams]);
+    }
+
 }

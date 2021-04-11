@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Team;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -35,14 +36,17 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:8',
+            'jobRole' => 'required|string',
+            'type' => 'required|int',
+            'team' => 'required|int'
         ]);
 
-        Auth::login($user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]));
+        $user = new User($request->all());
+        $user->type_id = $request->input('type');
+        // Add temporary password until account is activated
+        $user->password = Hash::make(rand(100000, 100000000));
+        $user->save();
+        $user->team()->save(Team::where('id', $request->input('team')));
 
         event(new Registered($user));
 

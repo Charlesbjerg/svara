@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             ProjectSeeder::class,
             TeamSeeder::class,
+            UserTypeSeeder::class,
             UserSeeder::class,
             PipelineEntitySeeder::class,
         ]);

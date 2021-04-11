@@ -7,4 +7,8 @@
  * UserClientController -> /users/clients
  */
 
+// Search for staff member
 Route::get('/users/staff', [\App\Http\Controllers\Users\UserStaffController::class, 'index']);
+
+// Find all user types and teams
+Route::get('/users/setup-data', [\App\Http\Controllers\Users\UserStaffController::class, 'setupData']);

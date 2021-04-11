@@ -3,21 +3,21 @@
         <p>The new user will be sent an email to finish setting up this account. The account will automatically be attached to this company.</p>
         <div class="form-item">
             <label for="name">Full Name</label>
-            <input type="text" id="name" v-model="name" placeholder="Full Name" />
+            <input type="text" id="name" v-model="name" placeholder="Full Name" autocomplete="off" />
         </div>
         <div class="form-item">
             <label for="jobRole">Job Role</label>
-            <input type="text" id="jobRole" v-model="jobRole" placeholder="Graphic Designer" />
+            <input type="text" id="jobRole" v-model="jobRole" placeholder="Graphic Designer" autocomplete="off" />
         </div>
         <div class="form-item">
             <label for="email">Email Address</label>
-            <input type="email" id="email" v-model="email" placeholder="dev@svara.io" />
+            <input type="email" id="email" v-model="email" placeholder="dev@svara.io" autocomplete="off" />
         </div>
         <div class="form-item">
             <label for="type">User Type</label>
             <select id="type" v-model="type">
                 <option disabled selected>Select a type</option>
-                <option v-for="(type, index) in types" :key="index" :value="type.id">{{ type.name }}</option>
+                <option v-for="(type, index) in types" :key="index" :value="type.id">{{ type.type }}</option>
             </select>
         </div>
         <div class="form-item">
@@ -47,10 +47,14 @@ export default {
     },
     async mounted() {
         // TODO: Fetch select menu data (user types and teams)
+        const response = await this.$api('api/users/setup-data');
+        this.types = response.data.types;
+        this.teams = response.data.teams;
+        console.log(response.data.types);
     },
     methods: {
         async submit() {
-            const response = await this.$api('api/users', 'POST', {
+            const response = await this.$api('api/auth/register', 'POST', {
                 name: this.name,
                 jobRole: this.jobRole,
                 email: this.email,

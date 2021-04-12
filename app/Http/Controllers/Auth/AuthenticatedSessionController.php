@@ -33,7 +33,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return sendTrueResponse();
+        return response()->json([
+           'success' => true,
+           'user' => Auth::user(),
+        ]);
     }
 
     /**

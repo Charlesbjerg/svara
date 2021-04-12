@@ -16,6 +16,9 @@ Route::prefix('auth')->group(function() {
     Route::get('/activate/{key}', [RegisteredUserController::class, 'show']);
     Route::post('/activate/{key}', [RegisteredUserController::class, 'activate']);
 
+    // Deactivate Account
+    Route::delete('/deactivate/{user}', [RegisteredUserController::class, 'deactivate']);
+
     // Standard Auth Routes
     Route::get('/register', [RegisteredUserController::class, 'create'])
         ->middleware('guest')
@@ -31,12 +34,7 @@ Route::prefix('auth')->group(function() {
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])
         ->middleware('guest');
 
-    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
-        ->middleware('guest')
-        ->name('password.request');
-
-    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->middleware('guest')
+    Route::post('/forgot-password/{user}', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
 
     Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])

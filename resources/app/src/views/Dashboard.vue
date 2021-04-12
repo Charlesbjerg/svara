@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard">
-        <page-head :title="`Welcome back, ${ user.name }!`" />
+        <page-head :title="`Welcome back, ${ name }!`" />
         <section class="dashboard__section" v-if="dashboard.hasOwnProperty('projects') && dashboard.projects.length > 0">
             <h2>Ongoing Projects</h2>
             <div class="card-grid">
@@ -46,6 +46,9 @@ export default {
     computed: {
         user() {
             return this.$store.state.auth.user;
+        },
+        name() {
+            return this.user.name ?? 'User'
         }
     },
     async mounted() {

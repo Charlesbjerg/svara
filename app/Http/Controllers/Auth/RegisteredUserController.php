@@ -102,4 +102,17 @@ class RegisteredUserController extends Controller
         ]);
     }
 
+    /**
+     * Deactivates a given account.
+     *
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function deactivate(User $user) {
+        $user->deactivated = now();
+        $user->activated = null;
+        $user->save();
+        return sendTrueResponse();
+    }
+
 }

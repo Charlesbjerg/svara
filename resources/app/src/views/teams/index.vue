@@ -1,12 +1,17 @@
 <template>
-  <div class="component">
-    Team Index
+  <div class="teams-index">
+    <page-head title="Teams" />
   </div>
 </template>
 
 <script>
+import PageHead from "../../components/common/PageHead";
 export default {
   name: "index",
+	components: {PageHead},
+	async mounted() {
+  	
+	}
 }
 </script>
 

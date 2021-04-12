@@ -38,8 +38,11 @@ export default {
             this.user = user;
             this.userResults = [];
         },
-        resetPassword() {
-            // TODO: Send password reset email
+        async resetPassword() {
+			const response = await this.$api(`api/auth/forgot-password/${this.user.id}`, 'POST');
+			if (response.status) {
+				console.log('ok');
+			}
             this.$emit('close');
         }
     },

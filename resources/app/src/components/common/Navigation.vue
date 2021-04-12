@@ -275,12 +275,11 @@
                 Company
             </router-link>
         </nav>
-        <button @click="logout" class="nav__link nav__link--logout">Logout</button>
-        <footer class="nav__profile" v-if="userLoggedIn">
-            <!-- TODO: Add users image -->
-            <div class="user">
+        <button @click="logout" class="nav__link nav__link--logout" v-if="userLoggedIn">Logout</button>
+        <footer class="nav__profile" >
+            <div class="user" v-if="userLoggedIn && user">
                 <div class="user__avatar">
-                    CU
+                    <!-- TODO: Add users image -->
                 </div>
                 <strong class="user__name">{{ user.name }}</strong>
                 <p class="user__role">{{ user.jobRole }}</p>
@@ -290,15 +289,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
     name: "Navigation.vue",
     computed: {
-        user() {
-          return this.$store.state.auth.user;
-        },
-        userLoggedIn() {
-            return this.$store.state.auth.user !== null;
-        }
+    	...mapGetters({
+			user: 'auth/getUser',
+			userLoggedIn: 'auth/isUserAuthenticated',
+		}),
     },
     methods: {
         async logout() {

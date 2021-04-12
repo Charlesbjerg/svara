@@ -38,9 +38,14 @@ export default {
             this.user = user;
             this.userResults = [];
         },
-        disableUser() {
-            // TODO: Disable user
-            this.$emit('close');
+        async disableUser() {
+        	const response = await this.$api(`api/auth/deactivate/${this.user.id}`, 'DELETE')
+			if (response.data.success) {
+				console.log('succ')
+				this.$emit('close');
+			} else {
+
+			}
         }
     },
 };

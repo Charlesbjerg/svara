@@ -1,25 +1,26 @@
 const state = () => ({
-   user: {},
+    user: {},
 });
 
 const getters = {
-  isUserAuthenticated: state => {
-    return Object.keys(state.user).length !== 0;
-  },
-  getUser: state => {
-    return state.user;
-  },
+    isUserAuthenticated: state => {
+        return Object.keys(state.user).length !== 0;
+    },
+    getUser: state => {
+        return state.user;
+    },
 };
 
 const actions = {};
 
 const mutations = {
-    setUser(state, payload) {
+    setUser: (state, payload) => {
         state.user = payload;
+        console.log(state, payload);
     },
-  unsetUser(state) {
-      state.user = {};
-  }
+    unsetUser: (state) => {
+        state.user = {};
+    }
 };
 
 export default {

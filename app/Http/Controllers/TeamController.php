@@ -30,7 +30,10 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         $team = Team::create($request->all());
-        return response()->json($team);
+        return response()->json([
+            'success' => true,
+            'teams' => Team::with('members')->get(),
+        ]);
     }
 
     /**
@@ -50,11 +53,16 @@ class TeamController extends Controller
      *
      * @param Request $request
      * @param Team $team
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Team $team)
     {
-        //
+        $team->fill($request->all());
+        $team->save();
+        return response()->json([
+            'success' => true,
+            'teams' => Team::with('members')->get(),
+        ]);
     }
 
     /**

@@ -5,9 +5,8 @@
 		<aside class="teams-grid__teams panel">
 			<h2>Company Teams</h2>
 			<ul class="teams-grid__list">
-				<li class="team-card" v-for="team in teams" :key="team.id" @click="selectTeam(team, $event)">
-					<h3 class="team-card__name">{{ team.name }}</h3>
-					<p class="team-card__total">{{ team.members.length }} members in team</p>
+				<li v-for="team in teams" :key="team.id" >
+					<team-card :team="team" @click="selectTeam(team, $event)" @updated="updateTeams" />
 				</li>
 			</ul>
 			<button class="btn btn-default team-users-grid__add" @click="addBlankTeam">
@@ -48,6 +47,7 @@ import ProjectStaffMember from "../../components/projects/overview/ProjectStaffM
 import StaffMemberCard from "../../components/projects/wizard/StaffMemberCard";
 import ActionModal from "../../components/company/ActionModal";
 import AddUserToTeam from "../../components/teams/AddUserToTeam";
+import TeamCard from "../../components/teams/TeamCard";
 
 export default {
   name: "index",
@@ -56,7 +56,8 @@ export default {
 		ActionModal,
 		StaffMemberCard,
   		ProjectStaffMember,
-		PageHead
+		PageHead,
+		TeamCard
 	},
 	data() {
 		return {
@@ -111,6 +112,9 @@ export default {
 		list-style-type: none;
 		padding: 0;
 		margin: 0 0 20px;
+		> li {
+			margin-bottom: 20px;
+		}
 	}
 	&__none {
 		width: 100%;
@@ -119,31 +123,6 @@ export default {
 		align-items: center;
 		justify-content: center;
 		color: rgba($font-color, 0.75);
-	}
-}
-.team-card {
-	padding: 20px;
-	border-radius: $border-radius;
-	background-color: #fff;
-	margin-bottom: 15px;
-	border: 2px solid transparent;
-	cursor: pointer;
-	@include box-shadow-sm;
-	@include transition-default;
-	&:hover {
-		background-color: darken($light-grey, 10%);
-	}
-	&:last-child {
-		margin-bottom: 0;
-	}
-	&__name {
-		@include title($font-sm);
-	}
-	&__total {
-		margin: 0;
-	}
-	&--active {
-		border-color: $accent-colour;
 	}
 }
 .team-users-grid {

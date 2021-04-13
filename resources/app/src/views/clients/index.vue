@@ -3,6 +3,7 @@
         <PageHead title="Clients" :subtitle="pageSubtitle"></PageHead>
         <div class="filters">
             <client-filters />
+			<router-link to="/clients/create" class="btn btn-default">Add New Client</router-link>
         </div>
         <section class="grid">
             <client-card v-for="(client, index) in clients" :key="index" :client="client"/>
@@ -54,5 +55,8 @@ export default {
 .filters {
     width: 100%;
     margin-bottom: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 </style>

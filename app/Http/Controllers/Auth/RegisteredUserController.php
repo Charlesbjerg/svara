@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\AccountCreated;
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Team;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -38,7 +39,6 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'jobRole' => 'required|string',
             'type' => 'required|int',
-            'team' => 'required|int'
         ]);
 
         $user = new User($request->all());
@@ -46,9 +46,19 @@ class RegisteredUserController extends Controller
 
         // Add temporary password until account is activated
         $user->password = Hash::make(rand(100000, 100000000));
-
         $user->save();
-        $user->team()->save(Team::where('id', $request->input('team'))->first());
+
+        // If type ID is in types, user is staff - Otherwise is client user
+        if (in_array($user->type_id, [0, 1, 2])) {
+            $user->team()->save(Team::where('id', $request->input('team'))->first());
+        } else {
+            $client = Client::where('id', $request->input('clientId'))->first();
+            $user->clients()->save($client);
+            if ($client->main_contact_id === null) {
+                $client->main_contact_id = $user->id;
+                $client->save();
+            }
+        }
 
         // Create new user_activation record
         $this->userRepository->createActivationRecord($user);

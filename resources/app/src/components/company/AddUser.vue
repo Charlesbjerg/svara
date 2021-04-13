@@ -46,7 +46,6 @@ export default {
         }
     },
     async mounted() {
-        // TODO: Fetch select menu data (user types and teams)
         const response = await this.$api('api/users/setup-data');
         this.types = response.data.types;
         this.teams = response.data.teams;

@@ -63,7 +63,6 @@ class ProjectRepository implements ProjectRepositoryInterface {
         // Setup pipeline
         $phases = $this->createPipeline($data, $project->id);
         $project->pipeline()->saveMany($phases);
-//        $project->currentPhase()->save($phases->first());
         $firstPhase = $phases->first();
         $project->currentPhaseId = $firstPhase->id;
         $project->save();

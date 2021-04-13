@@ -51,7 +51,7 @@ export default {
                 { component: 'Overview', name: 'Overview', icon: 'shuttle' },
                 { component: 'Pipeline', name: 'Pipeline', icon: 'share' },
                 { component: 'MessageThreads', name: 'Message Threads', icon: 'envelope-open' },
-                { component: 'Meetings', name: 'Meetings', icon: 'handshake' },
+                // { component: 'Meetings', name: 'Meetings', icon: 'handshake' },
                 { component: 'Documents', name: 'Documents', icon: 'folder' },
             ],
             selectedTab: 0,

@@ -47,13 +47,14 @@ class User extends Authenticatable
         0 => 'staff',
         1 => 'manager',
         2 => 'owner',
+        3 => 'client'
     ];
 
     // Relationships
 
     public function clients() {
         if ($this->isClient()) {
-            return $this->belongsToMany(Client::class);
+            return $this->belongsToMany(Client::class, 'users_to_clients', 'user_id');
         }
     }
 

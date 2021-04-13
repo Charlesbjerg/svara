@@ -1,7 +1,6 @@
 <template>
     <form class="filter-bar">
         <div class="filter-bar__input form-item">
-            <label for="clientSearch">{{ searchTerm }}</label>
             <input type="text" name="clientSearch" id="clientSearch" placeholder="Search Clients" v-model="searchTerm" />
         </div>
         <div class="filter-bar__input form-item">

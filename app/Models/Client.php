@@ -12,6 +12,7 @@ class Client extends Model
     use CamelCasing;
 
     public $timestamps = false;
+    public $guarded = ['account_manager_id'];
 
     public function projects() {
         return $this->hasMany(Project::class);

@@ -42,7 +42,11 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $client = new Client($request->all());
+        $accountManager = $request->input('accountManager');
+        $client->account_manager_id = $accountManager['id'];
+        $client->save();
+        return response()->json($client->refresh());
     }
 
     /**

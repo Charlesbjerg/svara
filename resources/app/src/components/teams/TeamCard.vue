@@ -36,10 +36,11 @@ export default {
 					name: this.team.name
 				});
 			} else {
-				response = await this.$api('api/teams', 'PUT', {
+				response = await this.$api(`api/teams/${this.team.id}`, 'PATCH', {
 					name: this.team.name
 				});
 			}
+			this.edit = false;
 			this.$emit('updated', response.data.teams);
 		}
 	}

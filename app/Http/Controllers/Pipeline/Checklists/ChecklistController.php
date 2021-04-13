@@ -15,7 +15,7 @@ class ChecklistController extends Controller
      */
     public function index(int $entityId)
     {
-        $checklists = Checklist::where('pipeline_entity_id', $entityId)->get();
+        $checklists = Checklist::where('pipeline_entity_id', $entityId)->with('items')->get();
         return response()->json($checklists);
     }
 

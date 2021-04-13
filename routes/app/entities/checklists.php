@@ -18,5 +18,5 @@ Route::prefix('projects/pipeline')->group(function() {
     Route::get('/checklists/{checklist}', [ChecklistController::class, 'show']);
     Route::patch('/checklists/{checklist}', [ChecklistController::class, 'update']);
     Route::delete('/checklists/{checklist}', [ChecklistController::class, 'delete']);
-    
+
 });

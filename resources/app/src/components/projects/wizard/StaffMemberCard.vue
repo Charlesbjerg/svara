@@ -1,8 +1,5 @@
 <template>
     <article class="staff-card" :class="isMainUser">
-        <figure v-if="hasAvatar" class="staff-card__avatar">
-            <img :src="user.avatar" :alt="`Image of ${user.name}`" />
-        </figure>
         <div class="staff-card__content">
             <h3 class="staff-card__name">{{ user.name }}</h3>
             <span class="staff-card__role">{{ user.jobRole }}</span>
@@ -38,7 +35,7 @@ export default {
             return this.user.hasOwnProperty('avatar');
         },
 		isMainUser() {
-        	return 'staff-card--highlighted';
+        	return this.mainUser ? 'staff-card--highlighted' : '';
 		}
     },
     methods: {
@@ -94,6 +91,9 @@ export default {
             color: $error-red;
             transform: rotate(180deg);
         }
+		&:focus {
+			outline: none;
+		}
     }
 }
 </style>

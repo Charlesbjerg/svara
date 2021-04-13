@@ -8,7 +8,8 @@
                     <i class="fas fa-times"></i>
                 </button>
             </header>
-            <component :is="component" />
+            <component :is="component" v-if="component" />
+			<slot v-else></slot>
         </div>
     </aside>
 </template>
@@ -28,7 +29,8 @@ export default {
     props: {
         component: {
             type: String,
-            required: true,
+            required: false,
+			default: null,
         },
         title: {
             type: String,

@@ -81,3 +81,10 @@
   display: block;
   width: 100%;
 }
+
+.panel {
+  padding: 20px;
+  border-radius: $border-radius;
+  background-color: $light-grey;
+  @include box-shadow-sm;
+}

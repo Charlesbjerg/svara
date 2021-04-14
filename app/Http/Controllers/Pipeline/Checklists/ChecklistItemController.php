@@ -54,10 +54,10 @@ class ChecklistItemController extends Controller
      * @param  \App\Models\ChecklistItem  $item
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, ChecklistItem $item)
+    public function update(Checklist $checklist, ChecklistItem $item)
     {
-        $item->fill($request->all());
-        $item->completed = $request->input('completed');
+        $item->fill(request()->all());
+        $item->complete = request()->input('complete');
         // TODO: Save relational data
         $item->save();
         return response()->json($item);

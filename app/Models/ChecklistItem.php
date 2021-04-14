@@ -12,6 +12,10 @@ class ChecklistItem extends Model
 
     protected $guarded = ['complete', 'assigned_user_id'];
 
+    protected $casts = [
+        'complete' => 'boolean'
+    ];
+
     public function checklist() {
         return $this->belongsTo(Checklist::class, 'id', 'checklist_id');
     }

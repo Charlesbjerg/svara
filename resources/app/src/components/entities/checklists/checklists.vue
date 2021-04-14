@@ -18,9 +18,8 @@
 		</aside>
 		<div class="checklists__main">
 			<div class="message-checklist-outer" v-if="selectedThread">
-				<checklist-thread :thread="selectedThread" />
+				<checklist-thread :thread="selectedThread" :newThread="selectedThread.id === 0" />
 			</div>
-			<new-checklist v-else-if="creatingNewThread" @close="creatingNewThread = false; "/>
 			<div class="checklist-none" v-else>
 				<i class="fas fa-clipboard-list"></i>
 				<h3>Select a Checklist</h3>
@@ -55,6 +54,8 @@ export default {
 	methods: {
 		selectThread(checklist, event) {
 			document.querySelectorAll('.checklist__item.active').forEach(elem => elem.classList.remove('active'));
+			event.target.classList.add('active');
+			this.selectedThread = checklist;
 		}
 	}
 }

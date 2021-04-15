@@ -27,7 +27,7 @@ class ChecklistController extends Controller
      */
     public function store(int $entityId, Request $request)
     {
-        $checklist = new Checklist($request->all());
+        $checklist = new Checklist(['name' => $request->input('name')]);
         $checklist->pipeline_entity_id = $entityId;
         $checklist->save();
         return response()->json($checklist);

@@ -3,7 +3,9 @@ const state = () => ({
         openCard: null,
         data: {}
     },
-    checklist: {},
+    checklist: {
+    	selected: null,
+	},
     signOff: {},
     documents: {},
 });
@@ -24,7 +26,21 @@ const mutations = {
     },
     setBoardData: (state, payload) => {
         state.board.data = payload;
-    }
+    },
+	setSelectedChecklist: (state, payload) => {
+    	state.checklist.selected = payload;
+	},
+	unsetSelectedChecklist: state => {
+    	state.checklist.selected = false;
+	},
+	updateBlankChecklistItem: (state, payload) => {
+		const index = state.checklist.selected.items.findIndex(item => item.id === undefined);
+		state.checklist.selected.items[index] = payload;
+	},
+	updateChecklistItem: (state, payload) => {
+    	const index = state.checklist.selected.items.findIndex(item => item.id === payload.id);
+		state.checklist.selected.items[index] = payload;
+    },
 };
 
 export default {

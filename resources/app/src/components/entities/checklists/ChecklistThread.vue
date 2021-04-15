@@ -3,9 +3,8 @@
 		<h2>Checklist</h2>
 		<ul class="checklist-thread__items" v-if="thread.items">
 			<li v-for="(item, index) in thread.items" :key="index">
-				<checklist-item :item="item" @openModal="setSelectedItem"/>
+				<checklist-item :item="item" :blank="item.blank !== undefined" @openModal="setSelectedItem"/>
 			</li>
-<!--			<checklist-item :item="{}" :blank="true" />-->
 		</ul>
 		<div v-else>
 			<p>Add your first item to this checklist.</p>
@@ -43,14 +42,13 @@ export default {
 			selectedItem: null
 		};
 	},
-	mounted() {
-		this.$nextTick(() => {
-
-		});
-	},
 	methods: {
 		addItem() {
-			// TODO: Add a new item to the list
+			this.thread.items.push({
+				name: '',
+				complete: false,
+				blank: true,
+			})
 		},
 		setSelectedItem(item) {
 			this.selectedItem = item;

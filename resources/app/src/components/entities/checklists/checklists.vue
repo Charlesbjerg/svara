@@ -4,13 +4,14 @@
 			<div class="checklist">
 				<h2>Project Checklists</h2>
 				<ul v-if="checklists.length > 0" class="checklist__list">
-					<li class="checklist__item" v-for="checklist in checklists" :key="checklist.id"
+					<li class="checklist__item" v-for="(checklist, index) in checklists" :key="index"
 						@click="selectThread(checklist, $event)">
-						<span class="checklist__title">{{ checklist.name }}</span>
+						<input class="checklist__item-input" type="text" name="name" v-if="checklist.editingName" v-model="checklist.name" @blur="saveThread(index)" />
+						<span class="checklist__title" v-else>{{ checklist.name }}</span>
 						<em>Contains {{ checklist.items.length}} items</em>
 					</li>
 				</ul>
-				<button class="btn btn-default btn-block" @click="creatingNewThread = true; selectedThread = false;">
+				<button class="btn btn-default btn-block" @click="createNewThread">
 					Create New Checklist
 					<i class="far fa-plus-square ml-5"></i>
 				</button>
@@ -43,9 +44,12 @@ export default {
 	data() {
 		return {
 			checklists: {},
-			creatingNewThread: false,
-			selectedThread: null,
-		}
+		};
+	},
+	computed: {
+		selectedThread() {
+			return this.$store.state.entities.checklist.selected;
+		},
 	},
 	async mounted() {
 		const response = await this.$api(`api/projects/pipeline/checklists/${this.$route.params.id}`);
@@ -55,7 +59,20 @@ export default {
 		selectThread(checklist, event) {
 			document.querySelectorAll('.checklist__item.active').forEach(elem => elem.classList.remove('active'));
 			event.target.classList.add('active');
-			this.selectedThread = checklist;
+			this.$store.commit('entities/setSelectedChecklist', checklist);
+		},
+		createNewThread() {
+			this.$store.commit('entities/unsetSelectedChecklist');
+			this.checklists.push({
+				name: 'New Checklist',
+				items: [],
+				editingName: true,
+			});
+		},
+		async saveThread(index) {
+			this.checklists[index].editingName = false;
+			const response = await this.$api(`api/projects/pipeline/checklists/${this.$route.params.id}`, 'POST', this.checklists[index]);
+			this.checklists[index] = response.data;
 		}
 	}
 }
@@ -109,6 +126,19 @@ export default {
 		display: block;
 		margin-bottom: 5px;
 	}
+
+	&__item-input {
+		font-family: $font-heading;
+		font-weight: $font-weight-heading;
+		padding: 7px 10px;
+		border: 1px solid $grey;
+		border-radius: $border-radius;
+		display: block;
+		margin: 0 0 5px;
+		max-width: 325px;
+		width: 100%;
+	}
+
 }
 
 .checklist-none {

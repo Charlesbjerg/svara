@@ -16,7 +16,6 @@ const actions = {};
 const mutations = {
     setUser: (state, payload) => {
         state.user = payload;
-        console.log(state, payload);
     },
     unsetUser: (state) => {
         state.user = {};

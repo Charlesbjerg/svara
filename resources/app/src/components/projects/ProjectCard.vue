@@ -62,9 +62,8 @@ export default {
             return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
         }
     },
-    mounted() {
-        console.log(this.project);
-    }
+    // mounted() {
+    // }
 }
 </script>
 

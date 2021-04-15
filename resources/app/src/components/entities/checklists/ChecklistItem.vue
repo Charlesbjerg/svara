@@ -1,10 +1,10 @@
 <template>
 	<article class="checklist-item" :class="isChecked">
 		<div class="checklist-item__checkbox">
-			<input type="checkbox" name="complete" v-model="item.complete" @change="update" />
+			<input type="checkbox" name="complete" v-model="item.complete" @change="save" />
 		</div>
 		<div class="checklist-item__main">
-			<input class="checklist-item__input" type="text" v-model="item.name" v-if="editTitle" @blur="editTitle = false; update()" />
+			<input class="checklist-item__input" type="text" v-model="item.name" v-if="editTitle" @blur="editTitle = false; save()" ref="itemName" />
 			<h3 class="checklist-item__name" v-else @click="editTitle = true">{{ item.name }}</h3>
 		</div>
 		<div class="checklist-item__info">
@@ -32,28 +32,40 @@ export default {
 	data() {
 		return {
 			editTitle: false,
+			name: this.item.name,
+			complete: this.item.complete,
 		};
 	},
 	computed: {
+		checklist() {
+			return this.$store.state.entities.checklist.selected;
+		},
 		isChecked() {
 			return this.item.complete ? 'checklist-item--complete' : '';
 		}
 	},
 	mounted() {
-		console.log(this.item)
 		if (this.blank) {
-			this.item = {
-				complete: false,
-				name: '',
-				description: '',
-				assignedUser: null,
-			};
 			this.editTitle = true;
+			this.$nextTick(() => {
+				this.$refs.itemName.focus();
+			});
 		}
 	},
 	methods: {
-		async update() {
-			const response = await this.$api(`api/projects/pipeline/checklists/${this.item.checklistId}/items/${this.item.id}`, 'PATCH', this.item);
+		async save() {
+			console.log(this.item);
+			let response;
+			if (this.item.id === undefined) {
+				response = await this.$api(`api/projects/pipeline/checklists/${this.checklist.id}/items/`, 'POST', {
+					...this.item,
+					checklist_id: this.checklist.id,
+				});
+				this.$store.commit('entities/updateBlankChecklistItem', response.data);
+			} else {
+				response = await this.$api(`api/projects/pipeline/checklists/${this.checklist.id}/items/${this.item.id}`, 'PATCH', this.item);
+				this.$store.commit('entities/updateChecklistItem', response.data);
+			}
 		},
 		viewMore() {
 			this.$emit('openModal', this.item);

@@ -83,6 +83,7 @@ export default {
 	background-color: #fff;
 	@include box-shadow-sm;
 	&__name {
+		display: inline-block;
 		margin: 0;
 	}
 	&__input {

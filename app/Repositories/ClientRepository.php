@@ -25,8 +25,8 @@ class ClientRepository implements ClientRepositoryInterface
             $filters[] = ['name', 'like', '%'.$request['name'].'%'];
         }
 
-        if (isset($request['account_manager_id'])) {
-            $filters[] = ['account_manager_id', $request['account_manager_id']];
+        if (isset($request['accountManager'])) {
+            $filters[] = ['account_manager_id', $request['accountManager']];
         }
 
         return Client::where($filters)->get();

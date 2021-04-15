@@ -2,7 +2,7 @@
     <div class="clients-index">
         <PageHead title="Clients" :subtitle="pageSubtitle"></PageHead>
         <div class="filters">
-            <client-filters />
+            <client-filters @update="updateClients" />
 			<router-link to="/clients/create" class="btn btn-default">Add New Client</router-link>
         </div>
         <section class="grid">
@@ -24,9 +24,13 @@ export default {
         PageHead,
         ClientFilters
     },
+	data() {
+    	return {
+    		clients: [],
+		};
+	},
     computed: {
         ...mapGetters({
-            clients: 'clients/getAllClients',
             searchTerm: 'clients/getSearchTerm',
         }),
         pageSubtitle() {
@@ -36,12 +40,14 @@ export default {
     async mounted() {
         this.$store.commit('util/enableLoader');
         const response = await this.$api('api/clients', 'GET');
-        this.$store.commit('clients/setClients', response.data);
+        this.clients = response.data;
         this.$store.commit('util/disableLoader');
     },
-    watch: {
-
-    }
+	methods: {
+    	updateClients(filteredClients) {
+    		this.clients = filteredClients;
+		}
+	}
 }
 </script>
 
@@ -58,5 +64,11 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	.btn {
+		flex-basis: 200px;
+		max-width: 200px;
+		text-align: center;
+		margin-left: 30px;
+	}
 }
 </style>

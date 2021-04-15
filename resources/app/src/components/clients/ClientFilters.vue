@@ -1,73 +1,81 @@
 <template>
-    <form class="filter-bar">
-        <div class="filter-bar__input form-item">
-            <input type="text" name="clientSearch" id="clientSearch" placeholder="Search Clients" v-model="searchTerm" />
-        </div>
-        <div class="filter-bar__input form-item">
-<!--            <label for="clientAccountManager">Filter By Account Manager</label>-->
-            <input type="text" name="clientAccountManager" id="clientAccountManager" placeholder="Filter by Account Manager" @keyup="findAccountManager" v-model="accountManager" />
-            <div class="inline-search" v-if="results" v-for="(item, index) in results" :key="index">
-                <inline-search-result :image="item.avatar" :results="item.name" @click="selectResult" />
-            </div>
-        </div>
-        <div class="filter-bar__input form-item">
-<!--            <label for="clientProjectLead">Filter By Project Lead</label>-->
-            <input type="text" name="clientProjectLead" id="clientProjectLead" placeholder="Filter by Project Lead" />
-        </div>
-        <div class="filter-bar__input form-item">
-<!--            <label for="clientSortBy">Sort By</label>-->
-            <select id="clientSortBy" name="clientSortBy">
-                <option selected disabled>Sort By</option>
-                <option value="nameAsc">Name (Asc)</option>
-                <option value="nameDesc">Name (Desc)</option>
-                <option value="total">Number of Projects</option>
-            </select>
-        </div>
-    </form>
+	<div class="filter-bar">
+		<div class="form-item">
+			<label for="name">Name</label>
+			<input type="text" id="name" v-model="name" placeholder="Search by Client Name" @keyup="filterByName" autocomplete="off" />
+		</div>
+		<autocomplete label="Account Manager" url="api/users/account-managers" filterKey="accountManager" searchKey="name" @selected="addFilter" />
+	</div>
 </template>
 
 <script>
-import InlineSearchResult from '@/components/clients/InlineSearchResult';
+import Autocomplete from "../projects/Autocomplete";
 
 export default {
-    name: "ClientFilters.vue",
-    components: {
-        InlineSearchResult
-    },
-    data() {
-        return {
-            accountManager: '',
-            results: [],
-        };
-    },
-    computed: {
-        searchTerm: {
-            get() {
-                return this.$store.state.clients.searchTerm;
-            },
-            set(value) {
-                this.$store.commit('clients/setSearchTerm', value);
-            }
-        }
-    },
-    methods: {
-        async findAccountManager(e) {
-            clearTimeout(window.inlineSearchTimeout);
-            window.inlineSearchTimeout = setTimeout(() => {
-                // Query API and store in results
-            }, 300);
-        },
-        selectResult() {
+	name: "ClientFilters",
+	components: {
+		Autocomplete
+	},
+	data() {
+		return {
+			name: '',
+			meta: null,
+			filters: [],
+			keyupTimeout: null,
+		};
+	},
+	methods: {
+		filterByName() {
+			clearTimeout(this.keyupTimeout);
+			this.keyupTimeout = setTimeout(() => {
+				this.addFilter({key: 'name', value: this.name })
+			}, 500);
+		},
+		addFilter(filter) {
+			// Update or add new filter to array
+			const index = this.filters.findIndex(item => item.key === filter.key);
+			if (index !== -1) {
+				this.filters[index].value = filter.value;
+			} else {
+				this.filters.push(filter);
+			}
+			// Update projects
+			this.filterResults();
+		},
+		async filterResults() {
+			this.$store.commit('util/enableLoader');
 
-        }
-    }
+			// Give filters correct key/values
+			let filters = [];
+			this.filters.forEach(filter => {
+				if (filter.value.hasOwnProperty('id')) {
+					filters[filter.key] = filter.value.id;
+				} else {
+					filters[filter.key] = filter.value;
+				}
+			});
+			console.log(filters);
+			// Fetch data and emit update to parent
+			const response = await this.$api('api/clients/filter' , 'GET', filters);
+			this.$emit('update', response.data);
+			this.$store.commit('util/disableLoader');
+		}
+	}
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .filter-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0 100px;
+	width: 100%;
+	margin-right: 30px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
+	gap: 30px;
+	.form-item {
+		margin: 0;
+	}
+	.form-item label {
+		font-size: 0.001px;
+	}
 }
 </style>

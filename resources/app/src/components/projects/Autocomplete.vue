@@ -1,7 +1,13 @@
 <template>
 	<div class="form-item form-item--autocomplete">
 		<label :for="`${label}Search`">{{ label }}</label>
-		<input type="text" name="itemSearch" v-model="searchTerm" :id="`${label}Search`" @keyup="findItem" ref="searchInput" />
+		<input type="text" name="itemSearch"
+			   v-model="searchTerm"
+			   :id="`${label}Search`"
+			   @keyup="findItem"
+			   ref="searchInput"
+			   autocomplete="off"
+			   :placeholder="`Search by ${label}`"/>
 		<div class="autocomplete" v-if="results.length !== 0">
 			<article class="autocomplete__result" v-for="item in results" :searchKey="item.id"
 					 @click="selectItem(item)">

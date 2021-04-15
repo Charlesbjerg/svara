@@ -2,7 +2,7 @@
 	<div class="filter-bar">
 		<div class="form-item">
 			<label for="name">Name</label>
-			<input type="text" id="name" v-model="name" placeholder="Search by Project Name" @keyup="filterByName" />
+			<input type="text" id="name" v-model="name" placeholder="Search by Project Name" @keyup="filterByName" autocomplete="off" />
 		</div>
 		<autocomplete label="Client" url="api/clients" filterKey="client" searchKey="name" @selected="addFilter" />
 <!--		<autocomplete label="Account Manager" url="api/users/account-managers" filterKey="accountManager" searchKey="name" @selected="addFilter" />-->
@@ -80,8 +80,14 @@ export default {
 .filter-bar {
 	width: 100%;
 	margin-right: 30px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
+	gap: 30px;
+	.form-item {
+		margin: 0;
+	}
+	.form-item label {
+		font-size: 0.001px;
+	}
 }
 </style>

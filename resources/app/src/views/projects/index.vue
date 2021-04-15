@@ -59,10 +59,14 @@ export default {
     @include custom-scrollbar;
 }
 .filters {
-    width: 100%;
     margin-bottom: 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+	.btn {
+		flex-basis: 220px;
+		max-width: 220px;
+		margin-left: 30px;
+	}
 }
 </style>

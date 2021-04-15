@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -35,6 +36,37 @@ class UserRepository implements UserRepositoryInterface
             'user_id' => $user->id,
         ]);
         return $key;
+    }
+
+    /**
+     * Searches through users for account managers.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return mixed
+     */
+    public function findAccountManagers(Request $request) {
+        return DB::table('users')
+                    ->select('users.*')
+                    ->join('clients', 'users.id', '=', 'clients.account_manager_id')
+                    ->where('users.name', 'LIKE', '%'.$request->input('name').'%')
+                    ->groupBy('id')
+                    ->get();
+    }
+
+    /**
+     * Searches through users for project leads. Only returns users
+     * if they're assigned to a project as a lead.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return mixed
+     */
+    public function findProjectLeads(Request $request) {
+        return DB::table('users')
+            ->select('users.*')
+            ->join('projects', 'users.id', '=', 'projects.project_lead_id')
+            ->where('users.name', 'LIKE', '%'.$request->input('name').'%')
+            ->groupBy('id')
+            ->get();
     }
 
 }

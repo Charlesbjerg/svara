@@ -9,6 +9,7 @@ use App\Models\UserType;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
 /**
  * UserClientController class is used ONLY for users that have
@@ -105,6 +106,22 @@ class UserStaffController extends Controller
         $types = UserType::all();
         $teams = Team::all();
         return response()->json(['types' => $types, 'teams' => $teams]);
+    }
+
+    /**
+     * Filters users by a specific type.
+     *
+     * @return JsonResponse
+     */
+    public function filter(Request $request) {
+        $users = [];
+        $route = \Illuminate\Support\Facades\Route::currentRouteName();
+        if ($route === 'users.account-managers') {
+            $users = $this->userRepository->findAccountManagers($request);
+        } else if ($route === 'users.project-leads') {
+            $users = $this->userRepository->findProjectLeads($request);
+        }
+        return response()->json($users);
     }
 
 }

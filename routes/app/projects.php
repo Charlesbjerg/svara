@@ -6,6 +6,9 @@ use App\Http\Controllers\Pipeline\PipelineEntityController;
 use App\Http\Controllers\Pipeline\ProjectPipelineController;
 use App\Http\Controllers\ProjectController;
 
+// Filter projects
+Route::get('/projects/filter', [ProjectController::class, 'filter']);
+
 // Standard Project Routes
 Route::resource('/projects', ProjectController::class);
 Route::get('/projects/{project}/staff', [ProjectController::class, 'allStaffMembers']);

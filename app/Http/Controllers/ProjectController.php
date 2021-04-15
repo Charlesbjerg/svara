@@ -109,4 +109,15 @@ class ProjectController extends Controller
         return response()->json($documentEntities);
     }
 
+    /**
+     * Returns a filter collection of Projects.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function filter(Request $request) {
+        $projects = $this->projectRepo->filterProjects($request);
+        return response()->json($projects);
+    }
+
 }

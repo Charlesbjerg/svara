@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\PipelinePhase;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Project;
+use Illuminate\Http\Request;
 
 interface ProjectRepositoryInterface {
 
@@ -44,5 +45,13 @@ interface ProjectRepositoryInterface {
      * @return mixed
      */
     public function getPipelineEntities(PipelinePhase $phase);
+
+    /**
+     * Filters down a list of projects from request data.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function filterProjects(Request $request);
 
 }

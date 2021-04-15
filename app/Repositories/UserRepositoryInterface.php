@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 interface UserRepositoryInterface
 {
@@ -24,5 +25,22 @@ interface UserRepositoryInterface
      * @return mixed
      */
     public function createActivationRecord(User $user);
+
+    /**
+     * Searches through users for account managers.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return mixed
+     */
+    public function findAccountManagers(Request $request);
+
+    /**
+     * Searches through users for project leads. Only returns users
+     * if they're assigned to a project as a lead.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return mixed
+     */
+    public function findProjectLeads(Request $request);
 
 }

@@ -2,7 +2,7 @@
     <div class="projects-index">
         <PageHead title="Ongoing Projects" :subtitle="pageSubtitle">A Graph Might go Here</PageHead>
         <div class="filters">
-            Project Filters to appear here
+            <filter-bar @update="filterProjects" />
             <router-link to="/projects/create" class="btn btn-default">Create New Project</router-link>
         </div>
         <section class="grid">
@@ -15,13 +15,20 @@
 import { mapGetters } from 'vuex';
 import ProjectCard from "@/components/projects/ProjectCard";
 import PageHead from "@/components/common/PageHead";
+import FilterBar from "../../components/projects/FilterBar";
 
 export default {
     name: "ProjectsIndex",
     components: {
+		FilterBar,
         ProjectCard,
         PageHead,
     },
+	data() {
+    	return {
+    		filteredResults: [],
+		}
+	},
     computed: {
         ...mapGetters({
             projects: 'projects/getAllProjects',
@@ -35,7 +42,12 @@ export default {
         const response = await this.$api('api/projects', 'GET');
         this.$store.commit('projects/setProjects', response.data);
         this.$store.commit('util/disableLoader');
-    }
+    },
+	methods: {
+    	filterProjects(projects) {
+			this.$store.commit('projects/setProjects', projects);
+		}
+	}
 };
 </script>
 

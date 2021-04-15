@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\ProjectState;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -121,6 +122,36 @@ class ProjectRepository implements ProjectRepositoryInterface {
             ->selectRaw('*, project_pipelines_to_entities.id as pid')
             ->join('pipeline_entities', 'project_pipelines_to_entities.entity_id', '=', 'pipeline_entities.id')
             ->where('project_pipelines_to_entities.pipeline_id', $phase->id)->get();
+
+    }
+
+    /**
+     * Filters down a list of projects from request data.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function filterProjects(Request $request) {
+
+        $filters = [];
+
+        if (isset($request['name'])) {
+            $filters[] = ['name', 'like', '%'.$request['name'].'%'];
+        }
+
+        if (isset($request['client'])) {
+            $filters[] = ['client_id', $request['client']];
+        }
+
+//        if (isset($request['accountManager'])) {
+//            $filters[] = ['account_manager_id', $request['accountManager']];
+//        }
+
+        if (isset($request['projectLead'])) {
+            $filters[] = ['project_lead_id', $request['projectLead']];
+        }
+
+        return Project::with(['client', 'state', 'pipeline', 'currentPhase', 'staff', 'meta'])->where($filters)->get();
 
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <li class="board-card" @click="openCard">
+    <div class="board-card" @click="openCard">
         <input type="text" name="cardname" class="board-card__input" v-if="edit" v-model="card.name" v-focus="" @blur.native="nameUpdated" autocomplete="off" placeholder="Card Name" />
         <span class="board-card__title" v-else @click="editName">{{ card.name }}</span>
         <div class="board-card__icons">
@@ -8,7 +8,7 @@
                 Int
             </div>
         </div>
-    </li>
+    </div>
 </template>
 
 <script>
@@ -77,6 +77,7 @@ export default {
     padding: 10px;
     border-radius: $border-radius;
     cursor: grab;
+	margin-bottom: 15px;
     &__input,
     &__title {
         display: block;

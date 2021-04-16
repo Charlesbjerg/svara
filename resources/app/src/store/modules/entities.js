@@ -27,6 +27,9 @@ const mutations = {
     setBoardData: (state, payload) => {
         state.board.data = payload;
     },
+	updateColumn: (state, payload) => {
+		state.board.data.columns.cards = payload;
+	},
 	setSelectedChecklist: (state, payload) => {
     	state.checklist.selected = payload;
 	},

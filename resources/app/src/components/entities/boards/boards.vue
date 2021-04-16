@@ -1,7 +1,7 @@
 <template>
     <div class="board-outer">
         <div class="board">
-            <board-column v-for="column in board.columns" :key="column.id" :column="column" @reinit="initSortable"/>
+            <board-column v-for="(column, index) in board.columns" :key="column.id" :columnIndex="index" @reinit="initSortable"/>
             <button class="btn btn-default add-column-btn" @click="addColumn">
                 Add Column
                 <i class="far fa-plus-square"></i>
@@ -48,13 +48,21 @@ export default {
             this.initSortable();
         },
         initSortable() {
-            document.querySelectorAll('.board__column-cards').forEach((column, index) => {
-                new Sortable(column, {
-                    group: 'board',
-                    animation: 200,
-                });
-            });
-        }
+            // document.querySelectorAll('.board__column-cards').forEach((column, index) => {
+                // new Sortable(column, {
+                //     group: 'board',
+                //     animation: 200,
+				// 	onEnd: this.sortableEnd,
+				// 	setData: this.sortableSetData,
+                // });
+            // });
+        },
+		sortableEnd(evt) {
+			console.log('Sortable element move end', evt);
+		},
+		sortableSetData(dragEl) {
+			console.log('Sortable setting data', dragEl);
+		}
     }
 }
 </script>
@@ -69,7 +77,7 @@ export default {
     display: flex;
     white-space: nowrap;
     user-select: none;
-    overflow-y: hidden;
+    overflow-y: auto;
     overflow-x: auto;
     position: absolute;
     top: 0;
@@ -77,6 +85,7 @@ export default {
     right: 0;
     bottom: 0;
     height: calc(100vh - 225px);
+	padding-bottom: 50px;
     @include custom-scrollbar;
 
     &__column {

@@ -6,12 +6,22 @@
             <h2 class="board__column-title" v-else @click="editName">{{ column.name }}</h2>
             <span class="board__column-count">{{ column.cards.length }}</span>
         </header>
-        <ul class="board__column-cards"
-            v-for="card in column.cards"
-            @change="cardUpdate"
-            :key="card.cardId">
-            <board-card :card="card"/>
-        </ul>
+<!--		<div v-if="column.cards.length > 0">-->
+<!--			<ul class="board__column-cards"-->
+<!--				v-for="card in column.cards"-->
+<!--				@change="cardUpdate"-->
+<!--				:key="card.cardId">-->
+<!--				<board-card :card="card"/>-->
+<!--			</ul>-->
+<!--		</div>-->
+<!--		<div v-else>-->
+<!--			<ul class="board__column-cards"></ul>-->
+<!--		</div>-->
+		<draggable v-model="column.cards" group="board" item-key="id" tag="transition-group" :component-data="{name:'fade'}">
+			<template #item="{element}">
+				<board-card :card="element"/>
+			</template>
+		</draggable>
         <button class="btn btn-default" @click="addCard(column.id)">
             Add Card
             <i class="far fa-plus-square"></i>
@@ -20,17 +30,19 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable';
 import BoardCard from "./BoardCard";
 
 export default {
     name: "BoardColumn",
     components: {
         BoardCard,
+		draggable
     },
     props: {
-        column: {
+        columnIndex: {
             required: true,
-            type: Object,
+            type: Number,
         }
     },
     data() {
@@ -40,6 +52,22 @@ export default {
             updateTimeout: null,
         };
     },
+	computed: {
+		board() {
+			return this.$store.state.entities.board.data;
+		},
+		column: {
+			get() {
+				return this.$store.state.entities.board.data.columns[this.columnIndex];
+			},
+			set(value) {
+				this.$store.commit('entities/updateColumn', { index: this.columnIndex, value });
+			}
+		},
+		user() {
+			return this.$store.state.auth.user.id
+		}
+	},
     mounted() {
         this.$nextTick(function () {
             if (this.column.name === "") {
@@ -47,14 +75,6 @@ export default {
                 this.init = false;
             }
         });
-    },
-    computed: {
-        board() {
-            return this.$store.state.entities.board.data;
-        },
-        user() {
-            return this.$store.state.auth.user.id
-        }
     },
     methods: {
         async nameUpdated() {
@@ -85,14 +105,15 @@ export default {
             this.$emit('reinit');
         },
         async cardUpdate(event) {
-            if (event.hasOwnProperty('newDraggableIndex')) {
+            // if (event.hasOwnProperty('newDraggableIndex')) {
+                // console.log('card moved', event);
                 clearTimeout(this.updateTimeout);
                 this.updateTimeout = await setTimeout(async () => {
-                    this.$store.commit('util/enableSpinner');
-                    await this.$api(`api/projects/pipeline/boards/${this.board.pipelineEntityId}`, 'PATCH', this.board);
-                    this.$store.commit('util/disableSpinner');
+                    // this.$store.commit('util/enableLoader');
+                    // await this.$api(`api/projects/pipeline/boards/${this.board.pipelineEntityId}`, 'PATCH', this.board);
+                    // this.$store.commit('util/disableLoader');
                 }, 5000);
-            }
+            // }
         },
         updateColumn(newData) {
             // TODO: Find column in board in vuex store and update data there

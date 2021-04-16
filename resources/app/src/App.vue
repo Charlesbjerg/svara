@@ -1,6 +1,7 @@
 <template>
 	<div class="app">
-		<Navigation/>
+		<Navigation v-if="appLoaded"/>
+		<div v-else></div>
 		<main class="app-view">
 			<router-view class="view" v-slot="slotProps">
 				<transition name="custom-transition"
@@ -32,7 +33,8 @@ export default {
 	data() {
 		return {
 			token: '',
-			transitionName: ''
+			transitionName: '',
+			appLoaded: false,
 		};
 	},
 	computed: {
@@ -51,6 +53,7 @@ export default {
 		} else {
 			this.$store.commit('auth/setUser', response.data.user);
 		}
+		this.appLoaded = true;
 
 	}
 };

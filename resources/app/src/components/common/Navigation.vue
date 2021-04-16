@@ -22,7 +22,6 @@
                           transform="translate(84.16 70.437)" fill="url(#linear-gradient)"/>
                 </g>
             </svg>
-
         </div>
         <nav class="nav__links">
             <router-link to="/dashboard" class="nav__link">
@@ -60,7 +59,7 @@
                 </svg>
                 Home
             </router-link>
-            <router-link to="/projects" class="nav__link">
+            <router-link to="/projects" class="nav__link" v-if="canAccess(['staff', 'manager', 'owner'])">
                 <svg
                     id="jigsaw"
                     xmlns="http://www.w3.org/2000/svg"
@@ -96,11 +95,11 @@
                 </svg>
                 Projects
             </router-link>
-            <router-link to="/clients" class="nav__link">
+            <router-link to="/clients" class="nav__link" v-if="canAccess(['staff', 'manager', 'owner'])">
 				<svg class="nav__link-icon" id="bold" enable-background="new 0 0 24 24" height="25" viewBox="0 0 24 24" width="25" xmlns="http://www.w3.org/2000/svg"><path d="m15 6.5c-.552 0-1-.448-1-1v-1.5h-4v1.5c0 .552-.448 1-1 1s-1-.448-1-1v-1.5c0-1.103.897-2 2-2h4c1.103 0 2 .897 2 2v1.5c0 .552-.448 1-1 1z"/><path d="m12.71 15.38c-.18.07-.44.12-.71.12s-.53-.05-.77-.14l-11.23-3.74v7.63c0 1.52 1.23 2.75 2.75 2.75h18.5c1.52 0 2.75-1.23 2.75-2.75v-7.63z"/><path d="m24 7.75v2.29l-11.76 3.92c-.08.03-.16.04-.24.04s-.16-.01-.24-.04l-11.76-3.92v-2.29c0-1.52 1.23-2.75 2.75-2.75h18.5c1.52 0 2.75 1.23 2.75 2.75z"/></svg>
                 Clients
             </router-link>
-            <router-link to="/teams" class="nav__link">
+            <router-link to="/teams" class="nav__link" v-if="canAccess(['staff', 'manager', 'owner'])">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="25"
@@ -197,7 +196,7 @@
                 </svg>
                 Teams
             </router-link>
-            <router-link to="/company" class="nav__link">
+            <router-link to="/company" class="nav__link" v-if="canAccess(['owner'])">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="25"
@@ -247,8 +246,23 @@ export default {
 			userLoggedIn: 'auth/isUserAuthenticated',
 		}),
     },
+	data() {
+		return {
+			types: [
+				{ key: 0, label: 'staff' },
+				{ key: 1, label: 'manager' },
+				{ key: 2, label: 'owner' },
+				{ key: 3, label: 'client' },
+			],
+		}
+	},
     methods: {
-        async logout() {
+        canAccess(types) {
+        	const userType = this.types.find(type => type.key === this.user.typeId);
+			const typesFound = types.find(type => type === userType.label);
+			return typesFound !== undefined && typesFound.length > 0;
+        },
+    	async logout() {
             const response = await this.$api('api/auth/logout', 'POST');
             if (response.data.success) {
                 this.$router.push('/login');

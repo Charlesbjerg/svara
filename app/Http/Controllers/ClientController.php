@@ -16,6 +16,7 @@ class ClientController extends Controller
     public function __construct(ClientRepositoryInterface $clientRepository)
     {
         $this->clientRepository = $clientRepository;
+        $this->authorizeResource(Client::class, 'client');
     }
 
     /**

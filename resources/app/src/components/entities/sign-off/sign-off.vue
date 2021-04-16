@@ -6,7 +6,16 @@
 
 <script>
 export default {
-    name: "sign-off"
+    name: "sign-off",
+	props: {
+    	data:{
+    		type: Object,
+			required: true,
+		},
+	},
+	mounted() {
+    	console.log(this.data);
+	}
 }
 </script>
 

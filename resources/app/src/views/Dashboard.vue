@@ -1,26 +1,8 @@
 <template>
     <div class="dashboard">
         <page-head :title="`Welcome back, ${ name }!`" />
-        <section class="dashboard__section" v-if="dashboard.hasOwnProperty('projects') && dashboard.projects.length > 0">
-            <h2>Ongoing Projects</h2>
-            <div class="card-grid">
-                <project-card v-for="(project, index) in dashboard.projects" :key="index" :project="project"/>
-            </div>
-        </section>
-        <div class="dashboard__section--split">
-            <div class="info-area">
-                <div class="info-card" v-for="(info, index) in dashboard.info" :key="index">
-                    <h3>{{ info.key }}</h3>
-                    <p>{{ info.value }}</p>
-                </div>
-            </div>
-            <section v-if="dashboard.hasOwnProperty('cards') && dashboard.cards.length > 0">
-                <h2>Outstanding Tasks</h2>
-                <div class="card-grid">
-                    <task-card v-for="(card, index) in dashboard.cards" :key="index" :task="card"/>
-                </div>
-            </section>
-        </div>
+		<client-dashboard v-if="user.typeId === 3" />
+		<staff-dashboard v-else />
     </div>
 </template>
 
@@ -29,19 +11,15 @@ import ProjectCard from "../components/projects/ProjectCard";
 import PageHead from "../components/common/PageHead";
 import BoardCard from "../components/entities/boards/BoardCard";
 import TaskCard from "../components/dashboard/task-card";
+import StaffDashboard from "../components/dashboard/StaffDashboard";
+import ClientDashboard from "../components/dashboard/ClientDashboard";
 
 export default {
     name: "Dashboard",
     components: {
-        TaskCard,
-        BoardCard,
+		ClientDashboard,
+		StaffDashboard,
         PageHead,
-        ProjectCard,
-    },
-    data() {
-        return {
-            dashboard: {},
-        };
     },
     computed: {
         user() {
@@ -51,10 +29,6 @@ export default {
             return this.user.name ?? 'User'
         }
     },
-    async mounted() {
-        const response = await this.$api('api/dashboard');
-        this.dashboard = response.data;
-    }
 };
 </script>
 

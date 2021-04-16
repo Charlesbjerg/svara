@@ -100,6 +100,7 @@ class ProjectRepository implements ProjectRepositoryInterface {
             foreach ($pipeline['entities'] as $entity) {
                 $entities[] = PipelineEntity::where('id', $entity['id'])->first();
                 // TODO: Entity needs initialising in DB on project creation, i.e. create a Board instance if a board
+                $this->createEmptyEntity($entity['id']);
             }
             $phase->entities()->saveMany($entities);
             $phases->push($phase);
@@ -108,6 +109,20 @@ class ProjectRepository implements ProjectRepositoryInterface {
         return $phases;
 
     }
+
+    /**
+     * Creates an empty instance of an entity and saves to DB ready
+     * for pipeline_entity_id to be added.
+     *
+     * @param $id
+     * @return mixed $entity
+     */
+    private function createEmptyEntity($id) {
+        // TODO: Create a new empty entity and save to DB without pipeline_entity_id
+        // TODO: Return model so it can be re-saved with pipeline_entity_id
+        return;
+    }
+
 
     /**
      * Returns all of the entities for a pipeline phase, including

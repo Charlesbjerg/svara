@@ -44,7 +44,17 @@ export default {
                 } else if (error.response.status === 401) {
                     await app.config.globalProperties.$router.push('/login');
                     response.message = error.response.data;
-                }
+				} else if (error.response.status === 403) {
+                	// TODO: Return to last page if possible, otherwise back to dashbaord
+					// TODO: Display unauthorised message
+					response.message = error.response.data.message;
+					app.config.globalProperties.$store.commit('util/setGlobalNotif', { message: response.message, type: 'error' });
+					if (app.config.globalProperties.$router.length > 1) {
+						app.config.globalProperties.$router.go(-1);
+					} else {
+						await app.config.globalProperties.$router.push('/dashboard')
+					}
+				}
 
             }
 

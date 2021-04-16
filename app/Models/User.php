@@ -50,9 +50,7 @@ class User extends Authenticatable
         3 => 'client'
     ];
 
-    // Relationships
-
-    public function clients() {
+    public function client() {
         if ($this->isClient()) {
             return $this->belongsToMany(Client::class, 'users_to_clients', 'user_id');
         }
@@ -67,19 +65,6 @@ class User extends Authenticatable
             return $this->belongsToMany(Team::class, 'users_to_teams', 'user_id');
         }
     }
-
-    /**
-     * TODO: Figure out if this is actually necessary
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function company() {
-        if ($this->isStaff()) {
-            return $this->belongsTo(Company::class);
-        }
-    }
-
-    // Helpers
 
     /**
      * Checks if the current user is a client user.
@@ -107,6 +92,11 @@ class User extends Authenticatable
                 return false;
             break;
         }
+    }
+
+
+    public function isType($type) {
+        return array_search($type, $this->types) === $this->typeId;
     }
 
     /**

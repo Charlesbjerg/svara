@@ -15,6 +15,7 @@ class ProjectController extends Controller
 
     public function __construct(ProjectRepositoryInterface $projectRepo) {
         $this->projectRepo = $projectRepo;
+        $this->authorizeResource(Project::class, 'project');
     }
 
     /**

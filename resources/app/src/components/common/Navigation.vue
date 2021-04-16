@@ -97,59 +97,7 @@
                 Projects
             </router-link>
             <router-link to="/clients" class="nav__link">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="25"
-                    height="22.562"
-                    viewBox="0 0 25 22.562"
-                    class="nav__link-icon"
-                >
-                    <g id="customer" transform="translate(0 -32.353)">
-                        <circle
-                            id="Ellipse_4"
-                            data-name="Ellipse 4"
-                            cx="4.5"
-                            cy="4.5"
-                            r="4.5"
-                            transform="translate(7.739 32.353)"
-                        />
-                        <ellipse
-                            id="Ellipse_5"
-                            data-name="Ellipse 5"
-                            cx="2.5"
-                            cy="3"
-                            rx="2.5"
-                            ry="3"
-                            transform="translate(18.46 35.353)"
-                        />
-                        <circle
-                            id="Ellipse_6"
-                            data-name="Ellipse 6"
-                            cx="3"
-                            cy="3"
-                            r="3"
-                            transform="translate(1 35.353)"
-                        />
-                        <path
-                            id="Path_31"
-                            data-name="Path 31"
-                            d="M6.694,241.3c-1.08-.885-2.058-.768-3.307-.768A3.381,3.381,0,0,0,0,243.9v5.448a1.466,1.466,0,0,0,1.467,1.462c3.493,0,3.072.063,3.072-.151C4.539,246.8,4.082,243.967,6.694,241.3Z"
-                            transform="translate(0 -197.526)"
-                        />
-                        <path
-                            id="Path_32"
-                            data-name="Path 32"
-                            d="M127.829,239.909c-2.094-.182-3.914,0-5.484,1.352-2.627,2.192-2.121,5.143-2.121,8.754a1.716,1.716,0,0,0,1.677,1.747c10.109,0,10.511.34,11.11-1.043.2-.468.143-.319.143-4.792C133.154,242.373,130.2,239.909,127.829,239.909Z"
-                            transform="translate(-114.189 -196.882)"
-                        />
-                        <path
-                            id="Path_33"
-                            data-name="Path 33"
-                            d="M381.117,240.535c-1.256,0-2.228-.116-3.307.768,2.592,2.647,2.154,5.284,2.154,9.358,0,.215-.349.151,3.02.151A1.518,1.518,0,0,0,384.5,249.3v-5.4A3.381,3.381,0,0,0,381.117,240.535Z"
-                            transform="translate(-359.504 -197.528)"
-                        />
-                    </g>
-                </svg>
+				<svg class="nav__link-icon" id="bold" enable-background="new 0 0 24 24" height="25" viewBox="0 0 24 24" width="25" xmlns="http://www.w3.org/2000/svg"><path d="m15 6.5c-.552 0-1-.448-1-1v-1.5h-4v1.5c0 .552-.448 1-1 1s-1-.448-1-1v-1.5c0-1.103.897-2 2-2h4c1.103 0 2 .897 2 2v1.5c0 .552-.448 1-1 1z"/><path d="m12.71 15.38c-.18.07-.44.12-.71.12s-.53-.05-.77-.14l-11.23-3.74v7.63c0 1.52 1.23 2.75 2.75 2.75h18.5c1.52 0 2.75-1.23 2.75-2.75v-7.63z"/><path d="m24 7.75v2.29l-11.76 3.92c-.08.03-.16.04-.24.04s-.16-.01-.24-.04l-11.76-3.92v-2.29c0-1.52 1.23-2.75 2.75-2.75h18.5c1.52 0 2.75 1.23 2.75 2.75z"/></svg>
                 Clients
             </router-link>
             <router-link to="/teams" class="nav__link">

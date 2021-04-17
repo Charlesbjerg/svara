@@ -1,7 +1,31 @@
 <template>
-    <section>
-        Project Sign Off
-    </section>
+	<div class="sign-off">
+		<aside class="sign-off__info panel">
+			<h2>Sign Off</h2>
+			<div v-if="signedOff">
+				<p>Phase has been signed off by the client on {{ $dateFormatter(signoff.signoffTimestamp) }}</p>
+				<em class="sign-off__notice">See bottom of message for client signature</em>
+			</div>
+			<div v-else>
+				<p>Currently awaiting sign off from client.</p>
+				<em class="sign-off__notice">This project sign-off will be sent via email to the main contact assigned to the client.</em>
+				<button class="btn btn-default" @click="sendSignoff">
+					Send Sign-off to Client
+					<i class="fas fa-envelope-open-text ml-10"></i>
+				</button>
+			</div>
+		</aside>
+		<section class="sign-off__message panel">
+			<h2>Sign Off Message</h2>
+			{{ signoff.message }}
+			<footer v-if="signedOff">
+				<p>Signed off on {{ $dateFormatter(signoff.signoffTimestamp) }}</p>
+				<figure>
+					<!-- TODO: Display signature -->
+				</figure>
+			</footer>
+		</section>
+	</div>
 </template>
 
 <script>
@@ -13,12 +37,43 @@ export default {
 			required: true,
 		},
 	},
-	mounted() {
-    	console.log(this.data);
+	data() {
+    	return {
+    		signoff: {},
+		};
+	},
+	computed: {
+    	signedOff() {
+    		return this.signoff.signoffTimestamp !== null;
+		},
+	},
+	async mounted() {
+    	const response = await this.$api(`api/projects/pipeline/signoffs/${this.$route.params.id}`);
+    	this.signoff = response.data;
+	},
+	methods: {
+    	async sendSignoff() {
+    		const response = this.$api(`api/projects/pipeline/signoffs/${this.signoff.id}/dispatch`);
+    		this.$store.commit('util/setGlobalNotif', 'Sign off email has been sent to the client!');
+		}
 	}
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+.sign-off {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+	gap: 30px;
+	&__info {
 
+	}
+	&__message {
+
+	}
+	&__notice {
+		display: block;
+		margin-bottom: 10px;
+	}
+}
 </style>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pipeline\Signoffs;
 
 use App\Http\Controllers\Controller;
 use App\Mail\ProjectSignoffNotif;
+use App\Models\Project;
 use App\Models\ProjectSignoff;
 use App\Models\ProjectSignoffTemplate;
 use Illuminate\Http\Request;
@@ -16,9 +17,10 @@ class ProjectSignoffController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(int $pipelineEntityId)
     {
-        //
+        $signoff = ProjectSignoff::where('pipeline_entity_id', $pipelineEntityId)->first();
+        return response()->json($signoff);
     }
 
     /**
@@ -82,7 +84,12 @@ class ProjectSignoffController extends Controller
      *
      * @return mixed|void
      */
-    public function dispatch(ProjectSignoff $signoff) {
+    public function dispatchNotif(ProjectSignoff $signoff) {
+        dd($signoff->entity);
+        $user = DB::table('users')
+                    ->select('users.*')
+                    ->join('clients', 'users.id', '=', 'clients.main_contact_id')
+                    ->join('')
         $user = $signoff->entity->project->client->mainContact;
         Mail::to($user->email)->send(new ProjectSignoffNotif($user, $signoff));
     }

@@ -18,6 +18,7 @@
 import AddUser from "./AddUser";
 import DeactivateUser from "./DeactivateUser";
 import ResetPassword from "./ResetPassword";
+import MessageTemplate from "./MessageTemplate";
 
 export default {
     name: "ActionModal",
@@ -25,6 +26,7 @@ export default {
         AddUser,
         DeactivateUser,
         ResetPassword,
+		MessageTemplate,
     },
     props: {
         component: {

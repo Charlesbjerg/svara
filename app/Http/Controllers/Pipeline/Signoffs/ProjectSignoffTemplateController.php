@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Pipeline\Signoffs;
 
+use App\Http\Controllers\Controller;
 use App\Models\ProjectSignoffTemplate;
 use Illuminate\Http\Request;
 
@@ -14,17 +15,8 @@ class ProjectSignoffTemplateController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $templates = ProjectSignoffTemplate::all();
+        return response()->json($templates);
     }
 
     /**
@@ -35,7 +27,9 @@ class ProjectSignoffTemplateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $template = new ProjectSignoffTemplate($request->all());
+        $template->save();
+        return response()->json($template);
     }
 
     /**

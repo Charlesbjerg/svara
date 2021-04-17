@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Pipeline\Signoffs;
 
+use App\Http\Controllers\Controller;
 use App\Mail\ProjectSignoffNotif;
 use App\Models\ProjectSignoff;
 use App\Models\ProjectSignoffTemplate;

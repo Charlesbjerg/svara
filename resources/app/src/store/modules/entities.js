@@ -44,6 +44,15 @@ const mutations = {
     	const index = state.checklist.selected.items.findIndex(item => item.id === payload.id);
 		state.checklist.selected.items[index] = payload;
     },
+	createBlankTemplate: state => {
+    	state.signOff.selected = {
+    		name: '',
+			message: '',
+		};
+	},
+	updateTemplate: (state, payload) => {
+    	state.signOff.selected = payload;
+	}
 };
 
 export default {

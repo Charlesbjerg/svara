@@ -29,3 +29,4 @@ Route::post('/projects/message-threads/message', [MessageThreadMessageController
 require __DIR__ . '/entities/boards.php';
 require __DIR__ . '/entities/checklists.php';
 require __DIR__ . '/entities/documents.php';
+require __DIR__ . '/entities/signoffs.php';

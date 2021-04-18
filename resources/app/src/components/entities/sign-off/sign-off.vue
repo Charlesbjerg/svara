@@ -16,9 +16,14 @@
 			</div>
 		</aside>
 		<section class="sign-off__message panel">
-			<h2>Sign Off Message</h2>
+			<div>
+				<h2>{{ signoff.name }}</h2>
+			</div>
 			<div v-if="signoff.message">
-				{{ signoff.message }}
+				<div v-if="editMessage">
+					<textarea class="sign-off__input" v-html="signoff.message" @blur="update"></textarea>
+				</div>
+				<div v-html="signoff.message" v-else @click="editMessage = true"></div>
 			</div>
 			<div v-else>
 				<h3>Compose a message or pick from a template.</h3>
@@ -54,6 +59,7 @@ export default {
     	return {
     		signoff: {},
 			showTemplateModal: false,
+			editMessage: false,
 		};
 	},
 	computed: {
@@ -70,15 +76,18 @@ export default {
     		const response = this.$api(`api/projects/pipeline/signoffs/${this.signoff.id}/dispatch`);
     		this.$store.commit('util/setGlobalNotif', 'Sign off email has been sent to the client!');
 		},
-		writeMessage() {
-
+		async update(event) {
+    		this.signoff.message = event.target.value;
+    		this.editMessage = false;
+			const response = await this.$api(`api/projects/pipeline/signoffs/${this.$route.params.id}`, 'PATCH', this.signoff);
+			this.signoff = response.data;
 		},
 		viewTemplates() {
     		this.showTemplateModal = true;
 		},
 		selectMessage(message) {
-			this.name = message.name;
-			this.message = message.message;
+			this.signoff.name = message.name;
+			this.signoff.message = message.message;
 			this.closeTemplateModal();
 		},
 		closeTemplateModal() {
@@ -98,6 +107,12 @@ export default {
 	}
 	&__message {
 
+	}
+	&__input {
+		border-radius: $border-radius;
+		width: 100%;
+		min-height: 300px;
+		padding: 20px;
 	}
 	&__notice {
 		display: block;

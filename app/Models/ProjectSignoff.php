@@ -12,6 +12,8 @@ class ProjectSignoff extends Model
 
     public $timestamps = false;
 
+    public $fillable = ['name', 'message'];
+
     public function entity() {
         return $this->belongsTo(PipelinePhase::class, 'pipeline_entity_id', 'id');
     }

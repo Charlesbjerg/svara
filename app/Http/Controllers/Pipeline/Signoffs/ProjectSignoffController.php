@@ -63,6 +63,7 @@ class ProjectSignoffController extends Controller
     public function update(Request $request, ProjectSignoff $signoff)
     {
         $signoff->fill($request->all());
+//        $signoff->pipeline_entity_id = $request->input('pipelineEntityId');
         $signoff->save();
         return response()->json($signoff);
     }

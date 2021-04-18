@@ -19,6 +19,7 @@ class ProjectSignoffTemplateController extends Controller
         $templates = ProjectSignoffTemplate::all();
         $templates->each(function($template) {
             $template->snippet = Str::words(nl2br($template->message), 30);
+            $template->message = nl2br($template->message);
         });
         return response()->json($templates);
     }

@@ -10,7 +10,7 @@ Route::prefix('projects/pipeline/signoffs')->group(function() {
 
     // Need to display/edit sign off
     Route::get('/{pipeline_entity_id}', [ProjectSignoffController::class, 'index']);
-    Route::patch('/{pipeline_entity_id}', [ProjectSignoffController::class, 'update']);
+    Route::patch('/{signoff:pipeline_entity_id}', [ProjectSignoffController::class, 'update']);
 
     // Dispatch client notification email
     Route::get('/{signoff}/dispatch', [ProjectSignoffController::class, 'dispatchNotif']);

@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->group(function() {
 
     // Activate Account
-    Route::get('/activate/{key}', [RegisteredUserController::class, 'show']);
     Route::post('/activate/{key}', [RegisteredUserController::class, 'activate']);
 
     // Deactivate Account
@@ -36,14 +35,6 @@ Route::prefix('auth')->group(function() {
 
     Route::post('/forgot-password/{user}', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
-
-    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
-        ->middleware('guest')
-        ->name('password.reset');
-
-    Route::post('/reset-password', [NewPasswordController::class, 'store'])
-        ->middleware('guest')
-        ->name('password.update');
 
     Route::get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])
         ->middleware('auth')

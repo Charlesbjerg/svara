@@ -35,8 +35,9 @@ export default {
 	methods: {
 		autoClose() {
 			setTimeout(() => {
-
-			});
+				this.$refs.notif.classList.remove('active');
+				this.$store.commit('util/unsetGlobalNotif');
+			}, 10000);
 		}
 	}
 };

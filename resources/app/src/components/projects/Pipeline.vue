@@ -37,7 +37,6 @@ export default {
             return `phase-${id}`;
         },
         async phaseCompleted(phase) {
-            // TODO: Check if any sign offs are required before phase can completed
             const response = await this.$api(`api/projects/pipeline/phase/${phase.id}/complete`, 'POST');
             console.log(response.data);
             if (response.data.success) {

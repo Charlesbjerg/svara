@@ -5,17 +5,21 @@ namespace App\Http\Controllers\Pipeline\Signoffs;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectSignoffTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProjectSignoffTemplateController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $templates = ProjectSignoffTemplate::all();
+        $templates->each(function($template) {
+            $template->snippet = Str::words(nl2br($template->message), 30);
+        });
         return response()->json($templates);
     }
 

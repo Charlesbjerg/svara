@@ -10,7 +10,10 @@ const getters = {
 	},
 	getNotification: state => {
 		return state.globalNotifMessage;
-	}
+	},
+	getNotificationType: state => {
+		return state.globalNotifType;
+	},
 };
 
 const actions = {};
@@ -20,12 +23,16 @@ const mutations = {
 		state.globalNotifMessage = message;
 		state.globalNotifType = type;
 	},
+	unsetGlobalNotif: state => {
+		state.globalNotifMessage = null;
+		state.globalNotifType = null;
+	},
 	enableLoader: state => {
 		state.globalShowLoader = true;
 	},
 	disableLoader: state => {
 		state.globalShowLoader = false;
-	}
+	},
 };
 
 export default {

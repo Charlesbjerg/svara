@@ -133,10 +133,25 @@ class ProjectRepository implements ProjectRepositoryInterface {
      */
     public function getPipelineEntities(PipelinePhase $phase) {
 
-        return DB::table('project_pipelines_to_entities')
+        $entities = DB::table('project_pipelines_to_entities')
             ->selectRaw('*, project_pipelines_to_entities.id as pid')
             ->join('pipeline_entities', 'project_pipelines_to_entities.entity_id', '=', 'pipeline_entities.id')
             ->where('project_pipelines_to_entities.pipeline_id', $phase->id)->get();
+
+        // Check if sign-offs have been signed off.
+        $entities->each(function ($entity) {
+            if ($entity->component_name === 'sign-off') {
+                $signedOff = DB::table('project_signoffs')
+                    ->where('pipeline_entity_id', $entity->pid)
+                    ->whereNotNull('signoff_timestamp')->first();
+                if ($signedOff !== null) {
+                    $entity->signedOff = true;
+                }
+            }
+            return $entity;
+        });
+
+        return $entities;
 
     }
 

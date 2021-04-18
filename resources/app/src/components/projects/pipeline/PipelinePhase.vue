@@ -38,17 +38,24 @@ export default {
         },
         canComplete() {
             let canCompletePhase = true;
+
+            // Find sign offs and check properties to see if has been signed off.
             const hasSignOffs = this.phase.entities.filter(entity => entity.component_name === 'sign-off');
-            console.log(hasSignOffs);
-            if (hasSignOffs.length > 0) {
-                canCompletePhase = false;
-            }
+            hasSignOffs.forEach(item => {
+            	if (!item.hasOwnProperty('signedOff') || item.signedOff !== true) {
+            		canCompletePhase = false;
+				}
+			})
+
             return canCompletePhase
         },
         completePhase() {
             if (this.canComplete()) {
                 this.$emit('phaseCompleted');
-            }
+            } else {
+            	console.log("Cannot complete");
+            	this.$store.commit('util/setGlobalNotif', { message: 'Project phase cannot yet be completed, is there a sign off required?', type: 'error' });
+			}
         }
     }
 }

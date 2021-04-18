@@ -17,7 +17,14 @@
 		</aside>
 		<section class="sign-off__message panel">
 			<h2>Sign Off Message</h2>
-			{{ signoff.message }}
+			<div v-if="signoff.message">
+				{{ signoff.message }}
+			</div>
+			<div v-else>
+				<h3>Compose a message or pick from a template.</h3>
+				<button class="btn btn-default" @click="writeMessage">Write Message</button> or
+				<button class="btn btn-default" @click="viewTemplates">Choose from Template</button>
+			</div>
 			<footer v-if="signedOff">
 				<p>Signed off on {{ $dateFormatter(signoff.signoffTimestamp) }}</p>
 				<figure class="sign-off__signature">
@@ -25,12 +32,18 @@
 				</figure>
 			</footer>
 		</section>
+		<action-modal title="Select Message Template" v-if="showTemplateModal">
+			<message-templates  @selected="selectMessage" />
+		</action-modal>
 	</div>
 </template>
 
 <script>
+import ActionModal from "../../company/ActionModal";
+import MessageTemplates from "./MessageTemplates";
 export default {
     name: "sign-off",
+	components: {MessageTemplates, ActionModal},
 	props: {
     	data:{
     		type: Object,
@@ -40,6 +53,7 @@ export default {
 	data() {
     	return {
     		signoff: {},
+			showTemplateModal: false,
 		};
 	},
 	computed: {
@@ -55,6 +69,20 @@ export default {
     	async sendSignoff() {
     		const response = this.$api(`api/projects/pipeline/signoffs/${this.signoff.id}/dispatch`);
     		this.$store.commit('util/setGlobalNotif', 'Sign off email has been sent to the client!');
+		},
+		writeMessage() {
+
+		},
+		viewTemplates() {
+    		this.showTemplateModal = true;
+		},
+		selectMessage(message) {
+			this.name = message.name;
+			this.message = message.message;
+			this.closeTemplateModal();
+		},
+		closeTemplateModal() {
+    		this.showTemplateModal = false;
 		}
 	}
 }

@@ -3,10 +3,13 @@
 namespace App\Repositories;
 
 use App\Events\ProjectCreated;
+use App\Models\Board;
 use App\Models\Client;
+use App\Models\Checklist;
 use App\Models\PipelineEntity;
 use App\Models\PipelinePhase;
 use App\Models\Project;
+use App\Models\ProjectSignoff;
 use App\Models\ProjectState;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -35,6 +38,8 @@ class ProjectRepository implements ProjectRepositoryInterface {
      * @return Project $project
      */
     public function create(array $data): Project {
+
+        // FIXME: SQL error when setting up project_pipelines_to_entities
 
         // Create initial project
         $project = new Project($data);
@@ -68,6 +73,8 @@ class ProjectRepository implements ProjectRepositoryInterface {
         $project->currentPhaseId = $firstPhase->id;
         $project->save();
 
+        // TODO: Save project meta data
+
         // Trigger notification event 
         ProjectCreated::dispatch($project);
 
@@ -82,7 +89,7 @@ class ProjectRepository implements ProjectRepositoryInterface {
      * 
      * @param array $data
      * @param int $projectId
-     * @return Collection $phases
+     * @return mixed $phases
      */
     public function createPipeline(array $data, int $projectId) {
 
@@ -99,9 +106,9 @@ class ProjectRepository implements ProjectRepositoryInterface {
             $entities = array();
             foreach ($pipeline['entities'] as $entity) {
                 $entities[] = PipelineEntity::where('id', $entity['id'])->first();
-                // TODO: Entity needs initialising in DB on project creation, i.e. create a Board instance if a board
-                $this->createEmptyEntity($entity['id']);
+                $this->createEmptyEntity($entity, $phase);
             }
+            // TODO: Check if a pivot model is setup, may need this to save data correctly
             $phase->entities()->saveMany($entities);
             $phases->push($phase);
         }
@@ -114,13 +121,37 @@ class ProjectRepository implements ProjectRepositoryInterface {
      * Creates an empty instance of an entity and saves to DB ready
      * for pipeline_entity_id to be added.
      *
-     * @param $id
+     * @param array $entity
      * @return mixed $entity
      */
-    private function createEmptyEntity($id) {
-        // TODO: Create a new empty entity and save to DB without pipeline_entity_id
-        // TODO: Return model so it can be re-saved with pipeline_entity_id
-        return;
+    private function createEmptyEntity(array $entity, $phase) {
+
+        switch ($entity['name']) {
+            case "checklists":
+                $entity = new Checklist([
+                    'name' => $phase->name . ' Checklist',
+                    'pipeline_entity_id' => $phase->id,
+                ]);
+                $entity->save();
+                break;
+            case "boards":
+                $entity = new Board([
+                    'name' => $phase->name . ' Checklist',
+                    'pipeline_entity_id' => $phase->id,
+                ]);
+                $entity->save();
+                break;
+            case "sign-off":
+                $entity = new ProjectSignOff([
+                    'name' => $phase->name . ' Checklist',
+                    'pipeline_entity_id' => $phase->id,
+                ]);
+                $entity->save();
+                break;
+        }
+
+        return $entity;
+
     }
 
 

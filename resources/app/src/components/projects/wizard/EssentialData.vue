@@ -37,9 +37,9 @@
             </div>
             <div v-if="meta.length > 0">
                 <h3>Project Extra Data</h3>
-                <div class="form-item" v-for="(meta, index) in meta">
-                    <label :for="`meta-item-${index}`">{{ meta.key }}</label>
-                    <input type="text" :name="meta.key" :id="`meta-item-${index}`" />
+                <div class="form-item" v-for="(metaItem, index) in meta">
+                    <label :for="`meta-item-${index}`">{{ metaItem.key }}</label>
+                    <input type="text" :name="metaItem.key" :id="`meta-item-${index}`" v-model="meta[index].value" />
                 </div>
             </div>
             <button type="submit" class="btn btn-default">Next Step</button>

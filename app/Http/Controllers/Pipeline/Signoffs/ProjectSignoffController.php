@@ -105,11 +105,22 @@ class ProjectSignoffController extends Controller
      * @param \App\Models\ProjectSignoff $signoff
      */
     public function showSignoff(ProjectSignoff $signoff) {
+
+        // Grab data needs for view (Form URL and project data)
         $submitUrl = url("/api/projects/pipeline/signoffs/{$signoff->pipeline_entity_id}/signoff");
+        $project = DB::table('projects')
+            ->select('projects.*', 'pipeline_phases.name as phase_name')
+            ->join('pipeline_phases', 'projects.id', '=', 'pipeline_phases.project_id')
+            ->join('project_pipelines_to_entities', 'pipeline_phases.id', '=', 'project_pipelines_to_entities.pipeline_id')
+            ->where('project_pipelines_to_entities.id', '=', $signoff->pipeline_entity_id)->first();
+
         return view('static.signoff', [
             'signoff' => $signoff,
-            'submitUrl' => $submitUrl
+            'submitUrl' => $submitUrl,
+            'projectName' => $project->name,
+            'phase' => $project->phase_name,
         ]);
+
     }
 
     /**

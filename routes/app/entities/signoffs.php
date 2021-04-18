@@ -16,6 +16,6 @@ Route::prefix('projects/pipeline/signoffs')->group(function() {
     Route::get('/{signoff}/dispatch', [ProjectSignoffController::class, 'dispatchNotif']);
 
     // Process sign-off request
-    Route::post('/{projectSignoff:pipeline_entity_id}/signoff', [ProjectSignoffController::class, 'signoff']);
+    Route::post('/{signoff:pipeline_entity_id}/signoff', [ProjectSignoffController::class, 'signoff']);
 
 });

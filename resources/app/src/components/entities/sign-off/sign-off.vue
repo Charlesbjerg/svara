@@ -20,8 +20,8 @@
 			{{ signoff.message }}
 			<footer v-if="signedOff">
 				<p>Signed off on {{ $dateFormatter(signoff.signoffTimestamp) }}</p>
-				<figure>
-					<!-- TODO: Display signature -->
+				<figure class="sign-off__signature">
+					<img :src="signoff.signature" alt="Client signature" />
 				</figure>
 			</footer>
 		</section>
@@ -74,6 +74,9 @@ export default {
 	&__notice {
 		display: block;
 		margin-bottom: 10px;
+	}
+	&__signature {
+		margin: 0;
 	}
 }
 </style>

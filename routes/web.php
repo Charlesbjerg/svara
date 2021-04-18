@@ -35,7 +35,7 @@ Route::prefix('api')->group(function() {
 });
 
 // These routes require interaction with static views (not the SPA)
-Route::get('/projects/pipeline/signoffs/{projectSignoff:pipeline_entity_id}/view', [\App\Http\Controllers\Pipeline\Signoffs\ProjectSignoffController::class, 'showSignoff']);
+Route::get('/projects/pipeline/signoffs/{signoff}/view', [\App\Http\Controllers\Pipeline\Signoffs\ProjectSignoffController::class, 'showSignoff']);
 
 // Defaults to '/' for any route unless it starts with '/api/'
 Route::get('/{any}', [\App\Http\Controllers\ViewController::class, 'app'])->where('any','^(?!api).*$');

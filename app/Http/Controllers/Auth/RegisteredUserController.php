@@ -78,7 +78,7 @@ class RegisteredUserController extends Controller
         $user = DB::table('user_activations')
             ->join('users', 'user_activations.user_id', '=', 'users.id')
             ->where('user_activations.key', $key)->first();
-        return response()->json($user);
+        return view('static.account-activate', ['user' => $user]);
     }
 
     /**
@@ -86,7 +86,7 @@ class RegisteredUserController extends Controller
      * pending activation.
      *
      * @param string $key
-     * @return JsonResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function activate(Request $request, string $key) {
         // Get user_activation record
@@ -106,10 +106,8 @@ class RegisteredUserController extends Controller
 
         // TODO: Send out account activated email
 
-        return response()->json([
-            'success' => true,
-            'user' => $user,
-        ]);
+        return redirect('/landing');
+
     }
 
     /**

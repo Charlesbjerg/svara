@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ProjectSignoffNotif extends Mailable
+class ProjectSignoffNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -21,7 +21,7 @@ class ProjectSignoffNotif extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user, ProjectSignoff $signoff)
+    public function __construct($user, ProjectSignoff $signoff)
     {
         $this->user = $user;
         $this->signoff = $signoff;
@@ -34,9 +34,11 @@ class ProjectSignoffNotif extends Mailable
      */
     public function build()
     {
+        $signoffUrl = url("/projects/pipeline/signoffs/{$this->signoff->id}/view");
         return $this->markdown('mailables.signoff-phase', [
             'user' => $this->user,
             'signoff' => $this->signoff,
+            'url' => $signoffUrl,
         ]);
     }
 }

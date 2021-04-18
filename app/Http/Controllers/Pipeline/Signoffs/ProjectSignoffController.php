@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\ProjectSignoff;
 use App\Models\ProjectSignoffTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class ProjectSignoffController extends Controller
@@ -85,13 +86,17 @@ class ProjectSignoffController extends Controller
      * @return mixed|void
      */
     public function dispatchNotif(ProjectSignoff $signoff) {
-        dd($signoff->entity);
+        // Need to get client user account that is attached to the client for this project.
         $user = DB::table('users')
-                    ->select('users.*')
-                    ->join('clients', 'users.id', '=', 'clients.main_contact_id')
-                    ->join('')
-        $user = $signoff->entity->project->client->mainContact;
-        Mail::to($user->email)->send(new ProjectSignoffNotif($user, $signoff));
+            ->select('users.*')
+            ->join('clients', 'users.id', '=', 'clients.main_contact_id')
+            ->join('projects', 'clients.id', '=', 'projects.client_id')
+            ->join('pipeline_phases', 'projects.id', '=', 'pipeline_phases.project_id')
+            ->join('project_pipelines_to_entities', 'pipeline_phases.id', '=', 'project_pipelines_to_entities.pipeline_id')
+            ->where('project_pipelines_to_entities.id', '=', $signoff->pipeline_entity_id)
+            ->first();
+        Mail::to($user->email)->send(new ProjectSignoffNotification($user, $signoff));
+        return sendTrueResponse();
     }
 
     /**
@@ -100,7 +105,11 @@ class ProjectSignoffController extends Controller
      * @param \App\Models\ProjectSignoff $signoff
      */
     public function showSignoff(ProjectSignoff $signoff) {
-        return view('static.signoff', [$signoff]);
+        $submitUrl = url("/api/projects/pipeline/signoffs/{$signoff->pipeline_entity_id}/signoff");
+        return view('static.signoff', [
+            'signoff' => $signoff,
+            'submitUrl' => $submitUrl
+        ]);
     }
 
     /**

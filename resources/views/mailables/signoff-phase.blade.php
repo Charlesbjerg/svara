@@ -1,12 +1,14 @@
 @component('mail::message')
-# Introduction
+# Project Requires Sign-off
 
-The body of your message.
+A project you're involved with on Svara requires a sign-off before it can continue.
 
-@component('mail::button', ['url' => ''])
-Button Text
+Click the link below to view the sign-off document.
+
+@component('mail::button', ['url' => $url])
+View Sign-off
 @endcomponent
 
 Thanks,<br>
-{{ config('app.name') }}
+The {{ config('app.name') }} Team
 @endcomponent

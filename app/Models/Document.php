@@ -30,8 +30,7 @@ class Document extends Model
 
 
     public function getSystemPath() {
-//        return storage_path('app/'. $this->path);
-        return 'storage/app/' . $this->path;
+        return   storage_path('app/') . $this->path;
     }
 
 }

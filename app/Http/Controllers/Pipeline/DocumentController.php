@@ -124,7 +124,7 @@ class DocumentController extends Controller
 //     * @return \Illuminate\Http\Response
      */
     public function download(Document $document) {
-        return Storage::get($document->getSystemPath());
+        return Storage::download($document->getSystemPath());
     }
 
 }

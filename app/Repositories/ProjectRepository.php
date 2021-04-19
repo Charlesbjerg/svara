@@ -9,6 +9,7 @@ use App\Models\Checklist;
 use App\Models\PipelineEntity;
 use App\Models\PipelinePhase;
 use App\Models\Project;
+use App\Models\ProjectMeta;
 use App\Models\ProjectSignoff;
 use App\Models\ProjectState;
 use App\Models\User;
@@ -40,6 +41,7 @@ class ProjectRepository implements ProjectRepositoryInterface {
     public function create(array $data): Project {
 
         // FIXME: SQL error when setting up project_pipelines_to_entities
+        // pipeline_entity_pipeline_phase
 
         // Create initial project
         $project = new Project($data);
@@ -48,7 +50,6 @@ class ProjectRepository implements ProjectRepositoryInterface {
         $client = Client::where('name', $data['client'])->first();
         $project->client()->associate($client);
 
-        // Set initial project state
         $state = ProjectState::first();
         // FIXME: Figure out correct relationship and method for saving these
         // $project->state()->associate($state);
@@ -74,6 +75,7 @@ class ProjectRepository implements ProjectRepositoryInterface {
         $project->save();
 
         // TODO: Save project meta data
+        $this->saveProjectMeta($project, $data);
 
         // Trigger notification event 
         ProjectCreated::dispatch($project);
@@ -154,6 +156,31 @@ class ProjectRepository implements ProjectRepositoryInterface {
 
     }
 
+    /**
+     * Saves any provided meta data for the newly created
+     * project.
+     *
+     * @param Project $project
+     * @param array $data
+     * @return void
+     */
+    public function saveProjectMeta(Project $project, array $data) {
+
+        $options = DB::table('project_meta_options')->get();
+        foreach($options as $option) {
+            if (isset($data[$option->key])) {
+                $meta = new ProjectMeta([
+                    'value_type' => $option->value_type,
+                    'sortable' => $option->sortable,
+                ]);
+                $meta->key = $option->key;
+                $meta->value = $data[$option->key];
+                $meta->project_id = $project->id;
+                $meta->save();
+            }
+        }
+
+    }
 
     /**
      * Returns all of the entities for a pipeline phase, including

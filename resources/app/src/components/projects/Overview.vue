@@ -1,4 +1,4 @@
-<template>
+d<template>
     <div class="project-overview">
         <div class="project-overview__column">
             <project-meta icon="far fa-calendar-alt" :metaKey="firstMetaKey" :value="firstMetaValue" v-if="hasFirstMeta" />

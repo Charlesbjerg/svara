@@ -38,7 +38,7 @@
             <div v-if="meta.length > 0">
                 <h3>Project Extra Data</h3>
                 <div class="form-item" v-for="(metaItem, index) in meta">
-                    <label :for="`meta-item-${index}`">{{ metaItem.key }}</label>
+                    <label :for="`meta-item-${index}`">{{ metaItem.name }}</label>
                     <input type="text" :name="metaItem.key" :id="`meta-item-${index}`" v-model="meta[index].value" />
                 </div>
             </div>
@@ -95,6 +95,7 @@ export default {
                 }
                 data[key] = item;
             });
+            console.log(data);
             this.$store.commit('projects/addNewProjectData', data);
             this.$store.commit('projects/setCurrentStep', 2);
 

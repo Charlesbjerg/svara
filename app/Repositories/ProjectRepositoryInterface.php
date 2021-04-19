@@ -38,6 +38,16 @@ interface ProjectRepositoryInterface {
     public function createPipeline(array $data, int $projectId);
 
     /**
+     * Saves any provided meta data for the newly created
+     * project.
+     *
+     * @param Project $project
+     * @param array $data
+     * @return void
+     */
+    public function saveProjectMeta(Project $project, array $data);
+
+    /**
      * Returns all of the entities for a pipeline phase, including
      * their pivot id.
      *

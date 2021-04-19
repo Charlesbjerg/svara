@@ -20,7 +20,7 @@ class PipelinePhase extends Model
      */
     public function entities() {
 //        return $this->belongsToMany(PipelineEntity::class, 'project_pipelines_to_entities', 'pipeline_id', 'entity_id');
-        return $this->belongsToMany(PipelineEntity::class)->using(ProjectPipelineEntity::class);
+        return $this->belongsToMany(PipelineEntity::class, 'project_pipelines_to_entities', 'pipeline_id', 'entity_id')->using(ProjectPipelineEntity::class);
     }
 
     public function project() {

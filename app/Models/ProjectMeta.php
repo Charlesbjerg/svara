@@ -11,6 +11,9 @@ class ProjectMeta extends Model
     use HasFactory;
     use CamelCasing;
 
+    protected $fillable = ['name', 'value_type', 'sortable'];
+    public $timestamps = false;
+
     public function project() {
         return $this->belongsTo(Project::class);
     }

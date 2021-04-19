@@ -2,10 +2,10 @@
     <article class="editable-meta">
         <input type="text" class="editable-meta__title editable-meta__title--input"
                aria-label="Edit the meta item title"
-               v-model="meta.key"
-               @blur.native="editingTitle = false; updateMeta()"
+               v-model="meta.name"
+               @blur.native="blurInput"
                v-if="editingTitle" />
-        <h3 class="editable-meta__title" @click="editingTitle = true" v-else>{{ meta.key }}</h3>
+        <h3 class="editable-meta__title" @click="editingTitle = true" v-else>{{ meta.name }}</h3>
         <div class="form-item">
             <label for="valueType">Data Type:</label>
             <select v-model="meta.valueType" id="valueType" @change="updateMeta">
@@ -53,11 +53,14 @@ export default {
         }
     },
     methods: {
+    	blurInput() {
+    		this.editingTitle = false;
+			this.updateMeta();
+		},
         async updateMeta() {
-            console.log(this.meta)
-            if (this.meta.title !== null && this.meta.valueType != null) {
+            if (this.meta.name != null && this.meta.valueType != null) {
                 // If meta has just been created, create new with API - Otherwise update existing
-                const reqMethod = this.meta.hasOwnProperty('id') ? 'PUT' : 'POST';
+                const reqMethod = this.meta.hasOwnProperty('id') ? 'PATCH' : 'POST';
                 const url = this.meta.hasOwnProperty('id') ? `api/project-meta/${this.meta.id}` : 'api/project-meta';
                 const response = await this.$api(url, reqMethod, this.meta);
                 this.$emit('update', response.data);

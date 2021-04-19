@@ -48,7 +48,7 @@
             <p>
                 <i class="fas fa-info-circle"></i>
                 On creation all project staff, including the client, will be notified that the project has been
-                created. 
+                created.
             </p>
             <button class="btn btn-default" @click="createProject">Create Project</button>
         </footer>
@@ -84,7 +84,7 @@ export default {
             this.$store.commit('util/enableLoader');
             const response = await this.$api('api/projects', 'POST', this.project);
             this.$store.commit('util/disableLoader');
-            this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
+            // this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
         }
     }
 }

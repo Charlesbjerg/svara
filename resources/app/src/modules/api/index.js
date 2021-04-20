@@ -8,8 +8,9 @@ export default {
         app.config.globalProperties.$api = async (route, requestType = 'GET', payload = []) => {
 
             // Setup the full URL and initial response object
-            const port = ':1024';
-            const url = `http://app.svara.io${port}/${route}`;
+            // const port = ':1024';
+			const port = '';
+            const url = `http://app.svara.cloud${port}/${route}`;
             let response = {};
 
             try {

@@ -10,7 +10,7 @@ export default {
             // Setup the full URL and initial response object
             // const port = ':1024';
 			const port = '';
-            const url = `http://app.svara.cloud${port}/${route}`;
+            const url = `https://app.svara.cloud${port}/${route}`;
             let response = {};
 
             try {

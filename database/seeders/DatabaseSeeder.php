@@ -22,12 +22,12 @@ class DatabaseSeeder extends Seeder
          */
         $this->call([
             ProjectStateSeeder::class,
-            ClientSeeder::class,
-            ProjectSeeder::class,
+//            ClientSeeder::class,
+//            ProjectSeeder::class,
             TeamSeeder::class,
             UserTypeSeeder::class,
             UserSeeder::class,
-            PipelineEntitySeeder::class,
+//            PipelineEntitySeeder::class,
         ]);
 
     }

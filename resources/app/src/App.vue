@@ -1,8 +1,10 @@
 <template>
 	<div class="app">
 		<Navigation v-if="appLoaded"/>
-		<div v-else></div>
-		<main class="app-view">
+		<div v-else>
+			<div></div>
+		</div>
+		<main class="app-view" :class="isLoginView">
 			<router-view class="view" v-slot="slotProps">
 				<transition name="custom-transition"
 							enter-active-class="animate__animated animate__fadeInLeft"
@@ -41,7 +43,11 @@ export default {
 		...mapGetters({
 			notification: 'util/getNotification',
 			type: 'util/getNotificationType',
+			isAuth: 'auth/isUserAuthenticated'
 		}),
+		isLoginView() {
+			return this.$route.name === 'login' ? 'app-view--login' : '';
+		}
 	},
 	async mounted() {
 
@@ -71,5 +77,8 @@ export default {
 	padding: 0 30px;
 	overflow-x: auto;
 	position: relative;
+	&--login {
+		grid-column: span 2;
+	}
 }
 </style>

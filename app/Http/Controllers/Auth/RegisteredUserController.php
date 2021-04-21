@@ -53,7 +53,7 @@ class RegisteredUserController extends Controller
             $user->team()->save(Team::where('id', $request->input('team'))->first());
         } else {
             $client = Client::where('id', $request->input('clientId'))->first();
-            $user->clients()->save($client);
+            $user->client()->save($client);
             if ($client->main_contact_id === null) {
                 $client->main_contact_id = $user->id;
                 $client->save();

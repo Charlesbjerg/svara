@@ -24,7 +24,7 @@
             </svg>
         </div>
         <nav class="nav__links">
-            <router-link to="/dashboard" class="nav__link">
+            <router-link to="/dashboard" class="nav__link" v-if="userLoggedIn">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="25"
@@ -259,7 +259,10 @@ export default {
     methods: {
         canAccess(types) {
         	const userType = this.types.find(type => type.key === this.user.typeId);
-			const typesFound = types.find(type => type === userType.label);
+			let typesFound = [];
+			if (userType !== undefined) {
+	        	typesFound = types.find(type => type === userType.label);
+			}
 			return typesFound !== undefined && typesFound.length > 0;
         },
     	async logout() {

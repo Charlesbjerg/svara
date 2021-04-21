@@ -78,8 +78,6 @@ export default {
 	methods: {
   		selectTeam(team, event) {
   			this.selected = team.id;
-  			console.log(this.selected.length, team)
-  			console.log(team, event.target);
 		},
 		async removeUser(id, teamId) {
   			const response = await this.$api(`api/teams/${teamId}/user/${id}`, 'DELETE');

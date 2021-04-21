@@ -77,6 +77,7 @@ export default {
 	padding: 0 30px;
 	overflow-x: auto;
 	position: relative;
+	grid-column: 2;
 	&--login {
 		grid-column: span 2;
 	}

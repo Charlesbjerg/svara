@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             TeamSeeder::class,
             UserTypeSeeder::class,
             UserSeeder::class,
-//            PipelineEntitySeeder::class,
+            PipelineEntitySeeder::class,
         ]);
 
     }

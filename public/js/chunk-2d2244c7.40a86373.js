@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d2244c7"],{e017:function(e,n,c){"use strict";c.r(n);var i=c("7a23"),t={class:"clients-single"};function l(e,n,c,l,s,a){return Object(i["openBlock"])(),Object(i["createBlock"])("div",t," A Single client. ")}var s={name:"ClientsSingle"};s.render=l;n["default"]=s}}]);
+//# sourceMappingURL=chunk-2d2244c7.40a86373.js.map

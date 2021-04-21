@@ -32,7 +32,6 @@ export default {
     async mounted() {
         const response = await this.$api(`api/auth/activate/${this.$route.params.key}`);
         this.user = response.data;
-        console.log(this.user);
     },
     methods: {
         async activate() {

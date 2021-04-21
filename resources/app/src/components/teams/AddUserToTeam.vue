@@ -37,9 +37,9 @@ export default {
 		}
 	},
 	mounted() {
-		this.$nextTick(() => {
-			console.log(this.teamId);
-		});
+		// this.$nextTick(() => {
+		// 	console.log(this.teamId);
+		// });
 	},
 	methods: {
 		async findUser(e) {

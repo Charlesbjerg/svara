@@ -80,7 +80,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pc-card {
     margin: 0 0 15px;
     cursor: grab;

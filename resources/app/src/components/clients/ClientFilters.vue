@@ -54,7 +54,6 @@ export default {
 					filters[filter.key] = filter.value;
 				}
 			});
-			console.log(filters);
 			// Fetch data and emit update to parent
 			const response = await this.$api('api/clients/filter' , 'GET', filters);
 			this.$emit('update', response.data);

@@ -54,7 +54,6 @@ export default {
 	},
 	methods: {
 		async save() {
-			console.log(this.item);
 			let response;
 			if (this.item.id === undefined) {
 				response = await this.$api(`api/projects/pipeline/checklists/${this.checklist.id}/items/`, 'POST', {

@@ -6,18 +6,7 @@
             <h2 class="board__column-title" v-else @click="editName">{{ column.name }}</h2>
             <span class="board__column-count">{{ column.cards.length }}</span>
         </header>
-<!--		<div v-if="column.cards.length > 0">-->
-<!--			<ul class="board__column-cards"-->
-<!--				v-for="card in column.cards"-->
-<!--				@change="cardUpdate"-->
-<!--				:key="card.cardId">-->
-<!--				<board-card :card="card"/>-->
-<!--			</ul>-->
-<!--		</div>-->
-<!--		<div v-else>-->
-<!--			<ul class="board__column-cards"></ul>-->
-<!--		</div>-->
-		<draggable v-model="column.cards" group="board" item-key="id" tag="transition-group" :component-data="{name:'fade'}">
+		<draggable v-model="column.cards" group="board" item-key="id" @change="update">
 			<template #item="{element}">
 				<board-card :card="element"/>
 			</template>
@@ -49,7 +38,6 @@ export default {
         return {
             edit: false,
             init: true,
-            updateTimeout: null,
         };
     },
 	computed: {
@@ -102,22 +90,10 @@ export default {
         addCard(columnId) {
             const column = this.board.columns.find(col => col.id === columnId);
             column.cards.push({name: '', id: null, columnId: column.id});
-            this.$emit('reinit');
         },
-        async cardUpdate(event) {
-            // if (event.hasOwnProperty('newDraggableIndex')) {
-                // console.log('card moved', event);
-                clearTimeout(this.updateTimeout);
-                this.updateTimeout = await setTimeout(async () => {
-                    // this.$store.commit('util/enableLoader');
-                    // await this.$api(`api/projects/pipeline/boards/${this.board.pipelineEntityId}`, 'PATCH', this.board);
-                    // this.$store.commit('util/disableLoader');
-                }, 5000);
-            // }
+        async update() {
+        	this.$emit('boardUpdate');
         },
-        updateColumn(newData) {
-            // TODO: Find column in board in vuex store and update data there
-        }
     },
 }
 </script>

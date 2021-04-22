@@ -1,7 +1,7 @@
 <template>
     <div class="board-outer">
         <div class="board">
-            <board-column v-for="(column, index) in board.columns" :key="column.id" :columnIndex="index" @reinit="initSortable"/>
+            <board-column v-for="(column, index) in board.columns" :key="column.id" :columnIndex="index" @boardUpdate="update"/>
             <button class="btn btn-default add-column-btn" @click="addColumn">
                 Add Column
                 <i class="far fa-plus-square"></i>
@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import Sortable from 'sortablejs';
 import CardModal from "./CardModal";
 import BoardColumn from "./BoardColumn";
 
@@ -23,17 +22,11 @@ export default {
         BoardColumn,
         CardModal
     },
-    async mounted() {
-        // Fetch Data
-        this.$store.commit('util/enableLoader');
-        const response = await this.$api(`api/projects/pipeline/boards/${this.$route.params.id}`)
-        this.$store.commit('entities/setBoardData', response.data);
-        // Render sortable list after cards have rendered
-        await this.$nextTick(function () {
-            this.initSortable();
-        });
-        this.$store.commit('util/disableLoader');
-    },
+   	data() {
+    	return {
+    		updateTimeout: null,
+		};
+	},
     computed: {
         modalActive() {
             return this.$store.state.entities.board.openCard !== null;
@@ -42,26 +35,24 @@ export default {
             return this.$store.state.entities.board.data;
         }
     },
+	async mounted() {
+		// Fetch Data
+		this.$store.commit('util/enableLoader');
+		const response = await this.$api(`api/projects/pipeline/boards/${this.$route.params.id}`)
+		this.$store.commit('entities/setBoardData', response.data);
+		this.$store.commit('util/disableLoader');
+	},
     methods: {
         addColumn() {
             this.board.columns.push({ name: "", id: null, cards: [] });
-            this.initSortable();
         },
-        initSortable() {
-            // document.querySelectorAll('.board__column-cards').forEach((column, index) => {
-                // new Sortable(column, {
-                //     group: 'board',
-                //     animation: 200,
-				// 	onEnd: this.sortableEnd,
-				// 	setData: this.sortableSetData,
-                // });
-            // });
-        },
-		sortableEnd(evt) {
-			console.log('Sortable element move end', evt);
-		},
-		sortableSetData(dragEl) {
-			console.log('Sortable setting data', dragEl);
+		async update() {
+			clearTimeout(this.updateTimeout);
+			this.updateTimeout = setTimeout(async () => {
+				this.$store.commit('util/enableLoader');
+				await this.$api(`api/projects/pipeline/boards/${this.board.pipelineEntityId}`, 'PATCH', this.board);
+				this.$store.commit('util/disableLoader');
+			}, 2500);
 		}
     }
 }

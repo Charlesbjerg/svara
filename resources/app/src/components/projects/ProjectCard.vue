@@ -3,7 +3,8 @@
         <router-link :to="projectUrl">
             <header class="project-card__top">
                 <div class="project-card__client">
-                    <img :src="projectClientLogo" :alt="projectClientLogoAlt" class="project-card__logo"/>
+                    <img :src="projectClientLogo" :alt="projectClientLogoAlt" class="project-card__logo" v-if="hasLogo" />
+					<span class="project-card__initials" v-else>{{ formatInitials(client.name) }}</span>
                     <span class="project-card__client-name">{{ client.name }}</span>
                 </div>
                 <div class="project-card__state">
@@ -15,7 +16,7 @@
                 <span class="project-card__phase" v-if="project.hasOwnProperty('currentPhase')">{{ project.currentPhase.name }}</span>
             </div>
             <footer class="project-card__bottom">
-                <span class="project-card__completion" v-if="project.hasOwnProperty('meta') && project.meta.length > 0">
+                <span class="project-card__completion" v-if="hasMeta">
                     {{ project.meta[0].key }}: {{ projectMeta }}
                 </span>
                 <div v-else></div>
@@ -50,20 +51,29 @@ export default {
         projectClientLogoAlt() {
             return `Logo for ${this.client.name}`;
         },
+		hasMeta() {
+        	return this.project.hasOwnProperty('meta') && this.project.meta.length > 0 && this.project.meta[0].value !== "";
+		},
         projectMeta() {
             if (this.project.meta[0].valueType === 'date') {
                 return this.formattedDate(this.project.meta[0].value);
-            }
-        }
+            } else {
+				return this.project.meta[0].value;
+			}
+        },
+		hasLogo() {
+        	return this.project.client.logoPath !== "" && this.project.client.logoPath !== null;
+		}
     },
     methods: {
         formattedDate(dateString) {
             const date = new Date(dateString);
             return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-        }
+        },
+		formatInitials(name) {
+        	return name.charAt(0);
+		}
     },
-    // mounted() {
-    // }
 }
 </script>
 
@@ -94,8 +104,8 @@ export default {
     &__logo {
         border-radius: $border-radius;
         border: 2px solid $light-grey;
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
         object-fit: cover;
         object-position: center;
         margin-right: 10px;
@@ -124,6 +134,19 @@ export default {
         border: 2px solid $light-grey;
         @include gradient-purple;
     }
+	&__initials {
+		width: 25px;
+		height: 25px;
+		border-radius: $border-radius;
+		@include gradient-purple;
+		color: #fff;
+		font-family: $font-heading;
+		font-weight: $font-weight-heading;
+		display: inline-block;
+		margin-right: 10px;
+		padding: 5px;
+		text-align: center;
+	}
 }
 
 .state {

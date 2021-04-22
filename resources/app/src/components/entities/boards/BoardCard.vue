@@ -27,10 +27,13 @@ export default {
         };
     },
     mounted() {
+    	// Setup blank card, render, then focus
+		if (this.card.name === "") {
+			this.edit = true;
+			this.init = false;
+		}
         this.$nextTick(function () {
-            if (this.card.name === "") {
-                this.edit = true;
-                this.init = false;
+        	if (this.edit) {
                 this.$el.children[0].focus();
             }
         });

@@ -6,6 +6,7 @@ use App\Models\Board;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BoardController extends Controller
 {
@@ -55,23 +56,15 @@ class BoardController extends Controller
      */
     public function update(Request $request, Board $board)
     {
-        $board->fill($request->all());
-        $board->save();
-
-        // TODO: Should this method receive all data or just the updated data?
-        // Just updated would be more performant
-        // All data could be easier
-
-        // Update all relational data
-//        foreach ($request->input('columns') as $columnData) {
-//            $board->columns()->where('id', $columnData['id'], function($column) {
-//                foreach ($columnData['cards'] as $card) {
-//                    $column->cards()->where('id', $card['id'], function($card) {
-//
-//                    });
-//                }
-//            });
-//        }
+        // Update card positions
+        foreach ($request->input('columns') as $columnData) {
+            $columnFound = $board->columns()->firstWhere('id', $columnData['id']);
+            if ($columnFound) {
+                foreach ($columnData['cards'] as $card) {
+                    DB::table('board_cards')->where('id', $card['id'])->update(['column_id' => $columnData['id']]);
+                }
+            }
+        }
 
         return response()->json($board);
     }

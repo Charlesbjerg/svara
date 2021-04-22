@@ -27,4 +27,16 @@ class ProjectMeta extends Model
         return $this->sortable === 1;
     }
 
+    /**
+     * Converts a meta key from snake case to a standard
+     * string.
+     *
+     * @param $key
+     * @return string
+     */
+    public function getKeyAttribute($key) {
+//        dd(ucwords(str_replace('_', ' ', $key)));
+        return ucwords(str_replace('_', ' ', $key));
+    }
+
 }

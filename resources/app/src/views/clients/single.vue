@@ -114,6 +114,9 @@ export default {
 			margin-top: 20px;
 		}
     }
+	&__users .staff-card {
+		margin-bottom: 15px;
+	}
 	&__users-none {
 		height: 200px;
 		display: flex;

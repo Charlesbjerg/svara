@@ -32,12 +32,8 @@ class ProjectSignoffController extends Controller
      */
     public function store(Request $request)
     {
-        $template = ProjectSignoffTemplate::where('id', $request->input('templateId'))->first();
-        $signoff = new ProjectSignoff([
-            'name' => $template->name,
-            'message' => $template->message,
-            'pipeline_entity_id' => $request->input('pipelineEntityId'),
-        ]);
+        $signoff = new ProjectSignoff($request->all());
+        $signoff->pipeline_entity_id = $request->input('pipelineEntityId');
         $signoff->save();
         return response()->json($signoff);
     }

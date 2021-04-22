@@ -84,7 +84,7 @@ export default {
             this.$store.commit('util/enableLoader');
             const response = await this.$api('api/projects', 'POST', this.project);
             this.$store.commit('util/disableLoader');
-            // this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
+            this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
         }
     }
 }

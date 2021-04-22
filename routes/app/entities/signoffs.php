@@ -8,8 +8,9 @@ Route::prefix('projects/pipeline/signoffs')->group(function() {
     // Need CRUD on templates
     Route::resource('/templates', ProjectSignoffTemplateController::class);
 
-    // Need to display/edit sign off
+    // Need to display/create/edit sign off
     Route::get('/{pipeline_entity_id}', [ProjectSignoffController::class, 'index']);
+    Route::post('/', [ProjectSignoffController::class, 'store']);
     Route::patch('/{signoff:pipeline_entity_id}', [ProjectSignoffController::class, 'update']);
 
     // Dispatch client notification email

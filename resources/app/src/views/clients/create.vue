@@ -2,17 +2,17 @@
 	<div class="client-create">
 		<page-head title="Add new Client"/>
 		<div class="client-create__main">
-			<div class="panel client-create__inner">
+			<form autocomplete="off" class="panel client-create__inner">
 				<h2>Create a new Client in Svara</h2>
 				<p>This is just the initial information about the client, each client user will be added after.</p>
 				<div class="form-item--double">
 					<div class="form-item">
 						<label for="name">Company Name</label>
-						<input type="text" id="name" v-model="name" />
+						<input type="text" id="name" name="companyName" v-model="name" autocomplete="off" />
 					</div>
 					<div class="form-item">
 						<label for="accountManager">Account Manager</label>
-						<input type="text" name="accountManager" id="accountManager" @keyup="findAccountManager" />
+						<input type="text" name="companyAccountManager" id="accountManager" @keyup="findAccountManager" autocomplete="off" />
 						<div class="search-results" v-if="accountManagerResults.length !== 0">
 							<article class="search-results__result" v-for="user in accountManagerResults" :key="user.id"
 									 @click="selectAccountManager(user)">
@@ -29,15 +29,15 @@
 				<div class="form-item--double">
 					<div class="form-item">
 						<label for="name">Contact Number</label>
-						<input type="text" id="number" v-model="number" />
+						<input type="text" id="number" name="companyNumber" v-model="number" autocomplete="off" />
 					</div>
 					<div class="form-item">
 						<label for="name">Contact Email</label>
-						<input type="email" id="email" v-model="email" />
+						<input type="email" id="email" name="companyEmail" v-model="email" autocomplete="off" />
 					</div>
 				</div>
-				<button class="btn btn-default" @click="createClient">Create Client <i class="far fa-plus-square"></i></button>
-			</div>
+				<button class="btn btn-default" type="button" @click="createClient">Create Client <i class="far fa-plus-square"></i></button>
+			</form>
 		</div>
 	</div>
 </template>

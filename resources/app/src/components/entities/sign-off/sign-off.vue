@@ -2,7 +2,7 @@
 	<div class="sign-off">
 		<aside class="sign-off__info panel">
 			<h2>Sign Off</h2>
-			<div v-if="signedOff">
+			<div v-if="signedOff.length > 0">
 				<p>Phase has been signed off by the client on {{ $dateFormatter(signoff.signoffTimestamp) }}</p>
 				<em class="sign-off__notice">See bottom of message for client signature</em>
 			</div>
@@ -17,11 +17,12 @@
 		</aside>
 		<section class="sign-off__message panel">
 			<div>
-				<h2>{{ signoff.name }}</h2>
+				<input type="text" v-model="signoff.name" v-if="editName" @blur="updateName" />
+				<h2 v-else @click="editName = true">{{ signoff.name }}</h2>
 			</div>
 			<div v-if="signoff.message">
 				<div v-if="editMessage">
-					<textarea class="sign-off__input" v-html="signoff.message" @blur="update"></textarea>
+					<textarea class="sign-off__input" v-html="signoff.message" @blur="updateMessage"></textarea>
 				</div>
 				<div v-html="signoff.message" v-else @click="editMessage = true"></div>
 			</div>
@@ -30,7 +31,7 @@
 				<button class="btn btn-default" @click="writeMessage">Write Message</button> or
 				<button class="btn btn-default" @click="viewTemplates">Choose from Template</button>
 			</div>
-			<footer v-if="signedOff">
+			<footer v-if="signedOff.length > 0">
 				<p>Signed off on {{ $dateFormatter(signoff.signoffTimestamp) }}</p>
 				<figure class="sign-off__signature">
 					<img :src="signoff.signature" alt="Client signature" />
@@ -60,6 +61,7 @@ export default {
     		signoff: {},
 			showTemplateModal: false,
 			editMessage: false,
+			editName: false,
 		};
 	},
 	computed: {
@@ -70,16 +72,37 @@ export default {
 	async mounted() {
     	const response = await this.$api(`api/projects/pipeline/signoffs/${this.$route.params.id}`);
     	this.signoff = response.data;
+    	console.log(this.signoff);
 	},
 	methods: {
     	async sendSignoff() {
     		const response = this.$api(`api/projects/pipeline/signoffs/${this.signoff.id}/dispatch`);
     		this.$store.commit('util/setGlobalNotif', 'Sign off email has been sent to the client!');
 		},
-		async update(event) {
-    		this.signoff.message = event.target.value;
-    		this.editMessage = false;
-			const response = await this.$api(`api/projects/pipeline/signoffs/${this.$route.params.id}`, 'PATCH', this.signoff);
+		async updateName(event) {
+    		// Get data and revert fields back to text view
+			this.signoff.name = event.target.value;
+			this.editName = false;
+			await this.update();
+		},
+		async updateMessage(event) {
+			// Get data and revert fields back to text view
+			this.signoff.message = event.target.value;
+			this.editMessage = false;
+			await this.update();
+		},
+		async update() {
+			// If sign off doesn't exist create new
+			let response;
+			if (this.signoff.hasOwnProperty('id')) {
+				response = await this.$api(`api/projects/pipeline/signoffs/${this.$route.params.id}`, 'PATCH', this.signoff);
+			} else {
+				response = await this.$api(`api/projects/pipeline/signoffs`, 'POST', {
+					pipelineEntityId: this.$route.params.id,
+					name: this.signoff.name,
+					message: this.signoff.message,
+				})
+			}
 			this.signoff = response.data;
 		},
 		viewTemplates() {
@@ -92,7 +115,11 @@ export default {
 		},
 		closeTemplateModal() {
     		this.showTemplateModal = false;
-		}
+		},
+		writeMessage() {
+    		this.signoff.name = 'Message Title';
+    		this.signoff.message = 'Add message';
+		},
 	}
 }
 </script>

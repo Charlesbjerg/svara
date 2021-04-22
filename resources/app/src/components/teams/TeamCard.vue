@@ -61,6 +61,7 @@ export default {
 		background-color: darken($light-grey, 10%);
 	}
 	&__name {
+		display: inline-block;
 		@include title($font-sm);
 	}
 	&__input {

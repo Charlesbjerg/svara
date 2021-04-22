@@ -1,13 +1,20 @@
 <template>
     <div class="projects-index">
         <PageHead title="Ongoing Projects" :subtitle="pageSubtitle">A Graph Might go Here</PageHead>
-        <div class="filters">
-            <filter-bar @update="filterProjects" />
-            <router-link to="/projects/create" class="btn btn-default">Create New Project</router-link>
-        </div>
-        <section class="grid">
-            <project-card v-for="(project, index) in projects" :key="index" :project="project"/>
-        </section>
+        <div v-if="hasProjects">
+			<div class="filters">
+				<filter-bar @update="filterProjects" />
+				<router-link to="/projects/create" class="btn btn-default">Create New Project</router-link>
+			</div>
+			<section class="grid">
+				<project-card v-for="(project, index) in projects" :key="index" :project="project"/>
+			</section>
+		</div>
+		<section v-else class="no-projects">
+			<h2>No projects have been setup!</h2>
+			<p>Create your first now!</p>
+			<router-link to="/projects/create" class="btn btn-default">Create a Project</router-link>
+		</section>
     </div>
 </template>
 
@@ -35,7 +42,10 @@ export default {
         }),
         pageSubtitle() {
             return `There are currently ${this.projects.length} in the pipeline`;
-        }
+        },
+		hasProjects() {
+        	return this.projects.length > 0;
+		}
     },
     async mounted() {
         this.$store.commit('util/enableLoader');
@@ -51,7 +61,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

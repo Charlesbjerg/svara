@@ -35,7 +35,7 @@
 			</div>
 		</section>
 	</div>
-	  <action-modal v-if="addUserModal" title="Add User to Team">
+	  <action-modal v-if="addUserModal" :active="addUserModal" title="Add User to Team">
 		  <add-user-to-team :teamId="this.selected" @updated="updateTeams" @close="closeModal" />
 	  </action-modal>
   </div>
@@ -92,6 +92,7 @@ export default {
   			this.teams = teams;
 		},
 		addUser() {
+  			console.log('open modal');
   			this.addUserModal = true;
 		},
 		closeModal() {

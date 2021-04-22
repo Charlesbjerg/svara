@@ -58,7 +58,14 @@ export default {
 	methods: {
 		selectThread(checklist, event) {
 			document.querySelectorAll('.checklist__item.active').forEach(elem => elem.classList.remove('active'));
-			event.target.classList.add('active');
+
+			// Find correct element if child is clicked
+			let elem = event.target;
+			if (!event.target.classList.contains('checklist__item')) {
+				elem = event.path.find(item => item.classList.contains('checklist__item'));
+			}
+			elem.classList.add('active');
+
 			this.$store.commit('entities/setSelectedChecklist', checklist);
 		},
 		createNewThread() {
@@ -73,6 +80,9 @@ export default {
 			this.checklists[index].editingName = false;
 			const response = await this.$api(`api/projects/pipeline/checklists/${this.$route.params.id}`, 'POST', this.checklists[index]);
 			this.checklists[index] = response.data;
+			if (!response.data.hasOwnProperty('items')) {
+				this.checklists[index].items = [];
+			}
 		}
 	}
 }

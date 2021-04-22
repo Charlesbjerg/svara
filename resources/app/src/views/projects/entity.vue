@@ -38,6 +38,15 @@ export default {
     async mounted() {
         const response = await this.$api(`api/projects/pipeline/entities/${this.id}`);
         this.entity = response.data;
+
+        // If no current project selected - Fetch it
+        await this.$nextTick(async () => {
+        	if (this.project.name === undefined) {
+        		const response = await this.$api(`api/projects/${this.entity.project_id}`);
+        		this.$store.commit('projects/setCurrentProject', response.data);
+			}
+		});
+
     }
 }
 </script>

@@ -70,6 +70,8 @@ export default {
             this.$store.commit('util/enableLoader');
             const response = await this.$api(`api/teams/${this.teamId}`);
             this.team = response.data;
+            this.extraStaffMembers = this.$store.state.projects.newProject.staff;
+            console.log(this.extraStaffMembers)
             this.$store.commit('util/disableLoader');
         },
         async searchStaff() {

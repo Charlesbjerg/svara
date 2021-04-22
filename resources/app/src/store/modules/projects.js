@@ -50,12 +50,12 @@ const mutations = {
             state.newProject[key] = value;
         }
     },
+	addProjectLead: (state, payload) => {
+    	state.newProject.staff.push(payload);
+    	console.log(payload, state.newProject.staff);
+	},
     addNewProjectStaff: (state, payload) => {
-        if (state.newProject.staff.length > 0) {
-            state.newProject.staff.concat(payload);
-        } else {
-            state.newProject.staff = payload;
-        }
+		state.newProject.staff.concat(payload);
     },
     newProjectNewPipeline: state => {
         // Make sure opposite option is false

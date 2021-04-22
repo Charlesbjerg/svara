@@ -87,15 +87,31 @@ export default {
             // TODO: Need to add some kind of validation check for clients and project lead
             // May also need to check the project name is unique for that client
 
+			// Setup initial data
+			let data = {
+				name: this.name,
+				client: this.client,
+				projectLead: this.projectLead,
+			};
+
+			// Loop over form data and update
             const formData = new FormData(e.target);
-            let data = {};
             formData.forEach((item, key) => {
                 if (key === 'team') {
-                    item = this.teams[item];
-                }
-                data[key] = item;
+                    data[key] = this.teams[item];
+				// Don't allow client/projectLead object to be overwritten
+                } else if (key !== 'client' && key !== 'projectLead') {
+                	data[key] = item;
+				}
             });
-            console.log(data);
+			console.log(data);
+
+            // Iterate through selected team, if project lead isn't present add to extra staff
+			const projectLeadPresent = data.team.members.find(user => user.id === this.projectLead.id);
+			if (!projectLeadPresent) {
+				this.$store.commit('projects/addProjectLead', this.projectLead);
+			}
+
             this.$store.commit('projects/addNewProjectData', data);
             this.$store.commit('projects/setCurrentStep', 2);
 

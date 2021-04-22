@@ -42,9 +42,17 @@
 						<ul class="message-templates__list" v-if="templates">
 							<li class="message-template" v-for="template in templates" :key="template.id">
 								<span class="message-template__name">{{ template.name }}</span>
+								<div class="message-template__actions">
+									<button @click="editTemplate(template)" class="btn-action" aria-label="Edit Template">
+										<i class="far fa-edit"></i>
+									</button>
+									<button @click="deleteTemplate(template)" class="btn-action btn-action--delete" aria-label="Delete Template">
+										<i class="far fa-trash-alt"></i>
+									</button>
+								</div>
 							</li>
 						</ul>
-						<button class="btn btn-default" @click="openModal('MessageTemplate', 'View a Message Template')">
+						<button class="btn btn-default" @click="openNewTemplateModal">
 							Add New Template
 							<i class="far fa-plus-square ml-5"></i>
 						</button>
@@ -85,9 +93,9 @@ export default {
     methods: {
         addItem() {
             this.metaItems.push({
-                title: 'Meta Item Name',
-                sortable: false,
-                dataType: null,
+                name: 'Meta Item Name',
+                sortable: 0,
+                valueType: null,
             });
         },
         removeItem(item) {
@@ -104,9 +112,19 @@ export default {
             this.modalComponent = '';
             this.modalTitle = '';
         },
-		createTemplate() {
-        	this.$store.commit('entities/createBlankTemplate');
-		}
+		openNewTemplateModal() {
+			this.$store.commit('entities/createBlankTemplate');
+			this.openModal('MessageTemplate', 'View a Message Template')
+		},
+		editTemplate(template) {
+			this.$store.commit('entities/updateTemplate', template);
+			this.openModal('MessageTemplate', 'View a Message Template');
+		},
+		async deleteTemplate(template) {
+			const response = await this.$api(`api/projects/pipeline/signoffs/templates/${template.id}`, 'DELETE');
+			const index = this.templates.findIndex((item) => item.id === template.id);
+			this.templates.splice(index, 1);
+		},
     }
 };
 </script>
@@ -170,7 +188,33 @@ export default {
 	padding: 10px;
 	margin-bottom: 15px;
 	border-radius: $border-radius;
-	@include box-shadow-sm;
 	background-color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	@include box-shadow-sm;
+}
+.btn-action {
+	border: 2px solid $accent-colour;
+	background-color: transparent;
+	cursor: pointer;
+	color: $accent-colour;
+	border-radius: $border-radius;
+	width: 32px;
+	height: 30px;
+	margin-left: 10px;
+	@include transition-default;
+	&:hover {
+		background-color: $accent-colour;
+		color: #fff;
+	}
+	&--delete {
+		border-color: $error-red;
+		color: $error-red;
+	}
+	&--delete:hover  {
+		background-color: $error-red;
+		color: #fff;
+	}
 }
 </style>

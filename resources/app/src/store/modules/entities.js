@@ -52,7 +52,7 @@ const mutations = {
 	},
 	updateTemplate: (state, payload) => {
     	state.signOff.selected = payload;
-	}
+	},
 };
 
 export default {

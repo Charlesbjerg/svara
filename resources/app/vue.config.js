@@ -3,8 +3,8 @@ const { VueLoaderPlugin } = require("vue-loader");
 module.exports = {
   // local Laravel server address for api proxy
   devServer: {
-    proxy: "http://app.svara.local:8000",
-    host: 'app.svara.local',
+    proxy: "http://app.svara.io:8000",
+    host: 'app.svara.io',
     port: 1024
   },
 

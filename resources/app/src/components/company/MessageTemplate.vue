@@ -29,8 +29,15 @@ export default {
 			const self = this;
 			clearTimeout(this.updateTimeout);
 			this.updateTimeout = await setTimeout(async () => {
-				const response = await this.$api('api/projects/pipeline/signoffs/templates', 'POST', self.template);
-				this.$store.commit('entities/updateTemplate', response.data);
+				if (self.template.name !== ""  && self.template.message !== "") {
+					let response;
+					if (self.template.hasOwnProperty('id')) {
+						response = await this.$api(`api/projects/pipeline/signoffs/templates/${self.template.id}`, 'PATCH', self.template);
+					} else {
+						response = await this.$api('api/projects/pipeline/signoffs/templates', 'POST', self.template);
+					}
+					this.$store.commit('entities/updateTemplate', response.data);
+				}
 			}, 500);
 		}
 	}

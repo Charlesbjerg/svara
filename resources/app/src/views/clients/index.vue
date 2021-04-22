@@ -43,15 +43,17 @@ export default {
         pageSubtitle() {
             return `Your currently have ${this.clients.length} clients`;
         },
-		hasProjects() {
-			return this.clients.length > 0;
-		}
+		hasClients() {
+			return Object.entries(this.clients).length > 0;
+		},
     },
     async mounted() {
-        this.$store.commit('util/enableLoader');
-        const response = await this.$api('api/clients', 'GET');
-        this.clients = response.data;
-        this.$store.commit('util/disableLoader');
+		await this.$nextTick(async () => {
+			this.$store.commit('util/enableLoader');
+			const response = await this.$api('api/clients', 'GET');
+			this.clients = response.data;
+			this.$store.commit('util/disableLoader');
+		});
     },
 	methods: {
     	updateClients(filteredClients) {
@@ -90,6 +92,7 @@ export default {
 	&__title,
 	&__message {
 		opacity: 0.8;
+		margin: 0 0 15px;
 	}
 }
 </style>

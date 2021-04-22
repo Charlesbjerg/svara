@@ -88,6 +88,7 @@ export default {
 	&__title,
 	&__message {
 		opacity: 0.8;
+		margin: 0 0 15px;
 	}
 }
 </style>

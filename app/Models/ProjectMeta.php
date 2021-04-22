@@ -11,7 +11,7 @@ class ProjectMeta extends Model
     use HasFactory;
     use CamelCasing;
 
-    protected $fillable = ['name', 'value_type', 'sortable'];
+    protected $fillable = ['value_type', 'sortable'];
     public $timestamps = false;
 
     public function project() {

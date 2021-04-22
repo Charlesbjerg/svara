@@ -75,6 +75,7 @@ export default {
 	methods: {
     	updateUsers(user) {
     		this.data.client.members.push(user);
+    		this.newUserModal = false;
 		}
 	}
 };

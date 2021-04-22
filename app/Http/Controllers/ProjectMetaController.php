@@ -32,9 +32,13 @@ class ProjectMetaController extends Controller
      */
     public function store(Request $request)
     {
-        $meta = new Meta($request->all());
-        $meta->key = Str::snake($request->input('name'));
-        $meta->save();
+        $meta = DB::table('project_meta_options')->insert([
+            'key' => Str::snake($request->input('name')),
+            'name' => $request->input('name'),
+            'value_type' => $request->input('valueType'),
+            'sortable' => $request->input('sortable'),
+        ]);
+
         return response()->json($meta);
     }
 
@@ -56,11 +60,15 @@ class ProjectMetaController extends Controller
      * @param  \App\Models\ProjectMeta  $meta
      * @return JsonResponse
      */
-    public function update(Request $request, ProjectMeta $meta)
+    public function update(Request $request, int $metaId)
     {
-        $meta->fill($request->all());
-        $meta->key = Str::snake($request->input('name'));
-        $meta->save();
+        $meta = DB::table('project_meta_options')->where('id', $metaId)->update([
+            'key' => Str::snake($request->input('name')),
+            'name' => $request->input('name'),
+            'value_type' => $request->input('valueType'),
+            'sortable' => $request->input('sortable'),
+        ]);
+
         return response()->json($meta);
     }
 

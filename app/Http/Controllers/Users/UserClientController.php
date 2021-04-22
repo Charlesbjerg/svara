@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 
 
 use App\Models\User;
+use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
 
 /**
@@ -16,6 +17,20 @@ use Illuminate\Http\Request;
  */
 class UserClientController extends Controller
 {
+
+    /**
+     * @var UserRepositoryInterface
+     */
+    private $userRepository;
+
+    /**
+     * UserStaffController constructor.
+     * @param UserRepositoryInterface $userRepository
+     */
+    public function __construct(UserRepositoryInterface $userRepository) {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *

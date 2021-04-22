@@ -43,4 +43,12 @@ interface UserRepositoryInterface
      */
     public function findProjectLeads(Request $request);
 
+    /**
+     * Filters users without taking type into consideration
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function filterUsers(array $data);
+
 }

@@ -8,7 +8,7 @@
                     <i class="fas fa-times"></i>
                 </button>
             </header>
-            <component :is="component" v-if="component" />
+            <component :is="component" v-if="component" @close="closeModal" />
 			<slot v-else></slot>
         </div>
     </aside>

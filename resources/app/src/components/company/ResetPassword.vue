@@ -30,9 +30,13 @@ export default {
     },
     methods: {
         async findUser(e) {
-            const searchTerm = e.target.value;
-            const response = await this.$api('api/users/staff', 'GET', { name: searchTerm });
-            this.userResults = response.data;
+			const searchTerm = e.target.value;
+        	if (searchTerm !== "") {
+				const response = await this.$api('api/users', 'GET', { name: searchTerm });
+				this.userResults = response.data;
+			} else {
+        		this.userResults = [];
+			}
         },
         selectUser(user) {
             this.user = user;
@@ -40,9 +44,6 @@ export default {
         },
         async resetPassword() {
 			const response = await this.$api(`api/auth/forgot-password/${this.user.id}`, 'POST');
-			if (response.status) {
-				console.log('ok');
-			}
             this.$emit('close');
         }
     },

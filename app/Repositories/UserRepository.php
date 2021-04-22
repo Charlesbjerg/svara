@@ -69,4 +69,15 @@ class UserRepository implements UserRepositoryInterface
             ->get();
     }
 
+    /**
+     * Filters users without taking type into consideration
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function filterUsers(array $data) {
+        return User::where('name', 'like',  '%'.$data['name'].'%')
+            ->orderBy('name')->limit(5)->get();
+    }
+
 }

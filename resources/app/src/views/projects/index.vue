@@ -11,8 +11,8 @@
 			</section>
 		</div>
 		<section v-else class="no-projects">
-			<h2>No projects have been setup!</h2>
-			<p>Create your first now!</p>
+			<h2 class="no-projects__title">No projects have been setup!</h2>
+			<p class="no-projects__message">Create your first now!</p>
 			<router-link to="/projects/create" class="btn btn-default">Create a Project</router-link>
 		</section>
     </div>
@@ -77,6 +77,17 @@ export default {
 		flex-basis: 220px;
 		max-width: 220px;
 		margin-left: 30px;
+	}
+}
+.no-projects {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	min-height: 350px;
+	&__title,
+	&__message {
+		opacity: 0.8;
 	}
 }
 </style>

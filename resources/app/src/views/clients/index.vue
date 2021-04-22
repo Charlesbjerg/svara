@@ -1,13 +1,20 @@
 <template>
     <div class="clients-index">
         <PageHead title="Clients" :subtitle="pageSubtitle"></PageHead>
-        <div class="filters">
-            <client-filters @update="updateClients" />
-			<router-link to="/clients/create" class="btn btn-default">Add New Client</router-link>
-        </div>
-        <section class="grid">
-            <client-card v-for="(client, index) in clients" :key="index" :client="client"/>
-        </section>
+		<div v-if="hasClients">
+			<div class="filters">
+				<client-filters @update="updateClients" />
+				<router-link to="/clients/create" class="btn btn-default">Add New Client</router-link>
+			</div>
+			<section class="grid">
+				<client-card v-for="(client, index) in clients" :key="index" :client="client"/>
+			</section>
+		</div>
+		<section v-else class="no-clients">
+			<h2 class="no-clients__title">No clients have been setup!</h2>
+			<p class="no-clients__message">Create your first now!</p>
+			<router-link to="/clients/create" class="btn btn-default">Add a Client</router-link>
+		</section>
     </div>
 </template>
 
@@ -35,7 +42,10 @@ export default {
         }),
         pageSubtitle() {
             return `Your currently have ${this.clients.length} clients`;
-        }
+        },
+		hasProjects() {
+			return this.clients.length > 0;
+		}
     },
     async mounted() {
         this.$store.commit('util/enableLoader');
@@ -69,6 +79,17 @@ export default {
 		max-width: 200px;
 		text-align: center;
 		margin-left: 30px;
+	}
+}
+.no-clients {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	min-height: 350px;
+	&__title,
+	&__message {
+		opacity: 0.8;
 	}
 }
 </style>

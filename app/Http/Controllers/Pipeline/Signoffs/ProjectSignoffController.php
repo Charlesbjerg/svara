@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pipeline\Signoffs;
 
 use App\Http\Controllers\Controller;
 use App\Mail\ProjectSignoffNotif;
+use App\Mail\ProjectSignoffNotification;
 use App\Models\Project;
 use App\Models\ProjectSignoff;
 use App\Models\ProjectSignoffTemplate;

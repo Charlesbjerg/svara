@@ -16,14 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/mail-test', function() {
-    $user = App\Models\User::all()->last();
-    return new App\Mail\ProjectSignoffNotification($user, \App\Models\ProjectSignoff::first());
-});
+//Route::get('/mail-test', function() {
+//    $user = App\Models\User::all()->last();
+//    return new App\Mail\ProjectSignoffNotification($user, \App\Models\ProjectSignoff::first());
+//});
 
 // These routes require interaction with static views (not the SPA)
 Route::get('/projects/pipeline/signoffs/{signoff}/view', [ProjectSignoffController::class, 'showSignoff']);
-Route::get('/activate/{key}', [RegisteredUserController::class, 'show']);
+Route::get('/activate/{key}', [RegisteredUserController::class, 'show'])
+    ->middleware('guest')
+    ->name('activate');
+Route::post('/activate/{key}', [RegisteredUserController::class, 'activate'])
+    ->middleware('guest')
+    ->name('activate.post');
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
     ->middleware('guest')
     ->name('password.reset');

@@ -89,24 +89,33 @@ class RegisteredUserController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function activate(Request $request, string $key) {
+
         // Get user_activation record
-        $user = DB::table('user_activations')
+        $activation = DB::table('user_activations')
             ->join('users', 'user_activations.user_id', '=', 'users.id')
             ->where('user_activations.key', $key)->first();
 
+        if (empty($activation)) {
+            return back()->withErrors([
+                'general' => 'Activation request does not exist for this account.',
+            ]);
+        }
+
         // Get user and set to active
-        $user = User::where('id', $user->user_id)->first();
+        $user = User::where('id', $activation->user_id)->first();
         $user->password = Hash::make($request->input('password'));
         $user->email_verified_at = now();
         $user->activated = now();
+
         $user->save();
 
         // Delete user_activation record
         DB::table('user_activations')->where('user_id', $user->id)->delete();
 
-        // TODO: Send out account activated email
+        // Login the user
+        Auth::login($user);
 
-        return redirect('/landing');
+        return redirect('/dashboard');
 
     }
 

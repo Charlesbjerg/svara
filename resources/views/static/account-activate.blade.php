@@ -10,7 +10,7 @@
                 <h1 class="title">Activate Account</h1>
                 <p>Just pop in your password below and your account will be active!</p>
             </header>
-            <form action="/reset-password" method="POST">
+            <form action="/activate/{{ $user->key }}" method="POST">
                 @csrf
                 <div class="form-item">
                     <label for="password">Password</label>
@@ -20,7 +20,7 @@
                     <label for="confirmPassword">Confirm Password</label>
                     <input type="password" name="password_confirmation" id="confirmPassword" required />
                 </div>
-                <button class="btn btn-default">Reset Password</button>
+                <button class="btn btn-default">Activate Account</button>
             </form>
         </main>
     </div>

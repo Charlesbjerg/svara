@@ -55,11 +55,13 @@ export default {
         font-family: $font-heading;
         font-weight: $font-weight-heading;
         font-size: 18px;
+		overflow-wrap: anywhere;
     }
     &__link {
         flex-basis: 20px;
         max-width: 20px;
         text-align: right;
+		margin-left: 10px;
         i {
             font-size: 25px;
             @include transition-default;

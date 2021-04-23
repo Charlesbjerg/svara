@@ -50,7 +50,7 @@ export default {
 <style lang="scss">
 .documents {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     gap: 30px;
     &__list,
     &__upload {

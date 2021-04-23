@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 /**
  * Class DocumentController
@@ -56,10 +57,8 @@ class DocumentController extends Controller
         // Setup file path - Must be in project folder
         $file = $request->file('file');
         $path = 'uploads/' . $project->id;
-//        $filename = sha1(time().time());
 
         // Save file
-//        $uploadedPath = $file->storeAs($path, $filename);
         $path = Storage::putFile($path, $file);
 
         // Save document entity
@@ -123,7 +122,14 @@ class DocumentController extends Controller
 //     * @return \Illuminate\Http\Response
      */
     public function download(Document $document) {
-        return Storage::download($document->getSystemPath());
+        $url = Storage::temporaryUrl(
+            $document->path, now()->addMinutes(5),
+            [
+                'ResponseContentType' => 'application/octet-stream',
+                'ResponseContentDisposition' => 'attachment; filename='. $document->name,
+            ]
+        );
+        return response()->redirectTo($url);
     }
 
 }

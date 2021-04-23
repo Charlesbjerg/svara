@@ -22,7 +22,11 @@ export default {
     },
     methods: {
         downloadLink(id) {
-            return `http://app.svara.io:8000/api/projects/pipeline/documents/download/${id}`;
+        	if (process.env.NODE_ENV === 'production') {
+				return `/api/projects/pipeline/documents/download/${id}`;
+			} else {
+        		return `http://app.svara.io:8000/api/projects/pipeline/documents/download/${id}`;
+			}
         },
         formattedDate(dateString) {
             const date = new Date(dateString);

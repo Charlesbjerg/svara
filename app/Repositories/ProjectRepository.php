@@ -47,7 +47,11 @@ class ProjectRepository implements ProjectRepositoryInterface {
         $project = new Project($data);
 
         // Associate Client
-        $client = Client::where('name', $data['client'])->first();
+        if (is_array($data['client'])) {
+            $client = Client::where('id', $data['client']['id'])->first();
+        } else {
+            $client = Client::where('name', $data['client'])->first();
+        }
         $project->client()->associate($client);
 
         $state = ProjectState::first();

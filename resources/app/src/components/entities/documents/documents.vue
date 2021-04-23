@@ -14,7 +14,7 @@
             </div>
         </div>
         <aside class="documents__upload">
-            <file-upload />
+            <file-upload @fileAdded="addFile" />
         </aside>
     </div>
 </template>
@@ -36,13 +36,13 @@ export default {
         this.documents = response.data;
     },
     methods: {
-        downloadLink(id) {
-            return `http://app.svara.io:8000/api/projects/pipeline/documents/download/${id}`;
-        },
         formattedDate(dateString) {
             const date = new Date(dateString);
             return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}`;
         },
+		addFile(file) {
+        	this.documents.push(file);
+		}
     }
 }
 </script>

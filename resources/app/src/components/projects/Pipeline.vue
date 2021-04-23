@@ -38,11 +38,7 @@ export default {
         },
         async phaseCompleted(phase) {
             const response = await this.$api(`api/projects/pipeline/phase/${phase.id}/complete`, 'POST');
-            console.log(response.data);
-            if (response.data.success) {
-                this.$refs[this.phaseRefName(phase.id)].classList.add('disabled');
-            }
-            console.log("Attempting to mark phase as complete");
+			phase.complete = true;
         }
     }
 }
@@ -54,5 +50,4 @@ export default {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 }
-
 </style>

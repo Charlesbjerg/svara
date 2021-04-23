@@ -60,10 +60,9 @@ export default {
             this.$store.commit('projects/openEntityModal', index);
         },
         removePhase() {
-            // TODO: Remove phase
+            this.$emit('removePhase')
         },
         remove(index) {
-            // TODO: Remove entity from pipeline section
             this.section.entities.splice(index, 1);
         },
         entityIcon(entity) {

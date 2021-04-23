@@ -14,7 +14,7 @@ export default {
         return {
             dropzone: null,
             options: {
-                url: '/api/projects/pipeline/documents',
+                url: `/api/projects/pipeline/documents?pipeline_entity_id=${this.$route.params.id}`,
                 thumbnailWidth: 150,
                 maxFilesize: 15,
                 dictDefaultMessage: "<span class='dz-wrap'><i class='fas fa-file-upload'></i> Upload Files</span>",
@@ -23,30 +23,29 @@ export default {
     },
     async mounted() {
         Dropzone.autoDiscover = false;
-        this.$nextTick(() => {
-            this.dropzone = new Dropzone('.js-dropzone-elem', this.options);
-            this.dropzone.on('addedFile', this.filesAdded);
-            this.dropzone.on('sending', this.addDataToFileRequest);
+        await this.$nextTick(async () => {
+
+			const self = this;
+
+			// Setup all of the Dropzone event handlers in separate object so this can be accessed
+			// as the component, not dropzone.
+        	const eventHandlers = {
+				init: function() {
+					this.on("complete", function(file) {
+						if (file.xhr.status === 200) {
+							const response = JSON.parse(file.xhr.response);
+							self.$emit('fileAdded', response.file);
+							this.removeFile(file);
+						}
+					});
+				}
+			}
+
+			// Concatenate options and event handlers when passing to Dropzone
+            this.dropzone = new Dropzone('.js-dropzone-elem', Object.assign({}, this.options, eventHandlers));
+
         });
     },
-    methods: {
-        addDataToFileRequest(file, xhr, formData) {
-            // Add pipeline entity id
-            formData.append('pipeline_entity_id', this.$route.params.id);
-        },
-        uploadComplete(file) {
-            console.log("File uploaded!", file);
-            // TODO: Set time out and hide/clear panel for file that has uploaded
-        },
-        updateProgress(file, progress, bytesSent) {
-            // TODO: Update progress bar
-            console.log(`Progress updated for ${file.name} - ${progress}%`)
-        },
-        filesAdded(files) {
-            // TODO: If not an array, then only one file added
-            console.log("Files added for upload", files);
-        },
-    }
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <aside class="action-modal-outer" :class="activeClass" ref="modal">
+    <aside class="action-modal-outer" ref="modal">
         <div class="action-modal-overlay"></div>
         <div class="action-modal">
             <header class="action-modal__head">
@@ -44,11 +44,6 @@ export default {
 			default: false,
 		},
     },
-	computed: {
-    	activeClass() {
-    		return this.active ? 'active' : '';
-		},
-	},
     mounted() {
         this.$nextTick(() => {
             setTimeout(() => {

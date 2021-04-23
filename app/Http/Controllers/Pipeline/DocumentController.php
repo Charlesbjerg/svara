@@ -42,10 +42,10 @@ class DocumentController extends Controller
 
         // Validate file, if it fails return errors
         $validation = Validator::make($request->all(), array(
-            'file' => 'max:15000',
+            'file' => 'max:100000',
         ));
         if ($validation->fails()) {
-            return response()->json($validation->errors->first(), 400);
+            return response()->json($validation, 400);
         }
 
         // Grab project ID
@@ -115,7 +115,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Downloads a file stored on disk, sending the appropriate
+     * Downloads a file stored on s3, sending the appropriate
      * headers.
      *
      * @param Document $document

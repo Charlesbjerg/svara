@@ -12,7 +12,7 @@
 
             <section class="confirm-section">
                 <h3 class="confirm-project__name">{{ project.name }}</h3>
-                <h4>For {{ project.client }}</h4>
+                <h4>For {{ project.client.name }}</h4>
                 <em>Assigned to the {{ project.team.name }} Team</em>
             </section>
 
@@ -83,8 +83,12 @@ export default {
         async createProject() {
             this.$store.commit('util/enableLoader');
             const response = await this.$api('api/projects', 'POST', this.project);
-            this.$store.commit('util/disableLoader');
-            this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
+			this.$store.commit('util/disableLoader');
+            if (response.status === 'Error') {
+            	this.$store.commit('util/setGlobalNotif', { name: 'There was an issue creating the project, please try again.', type: 'error' });
+			} else {
+            	await this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
+			}
         }
     }
 }

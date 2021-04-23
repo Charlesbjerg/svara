@@ -8,7 +8,7 @@
         <div class="pc-sections">
             <draggable v-model="pipelineSections" ghost-class="pc-card--dragged">
                 <transition-group name="slide-fade">
-                    <pipeline-phase-card v-for="(section, index) in pipelineSections" :key="index" :section="section" :index="index" />
+                    <pipeline-phase-card v-for="(section, index) in pipelineSections" :key="index" :section="section" :index="index" @removePhase="removePhase(index)" />
                 </transition-group>
             </draggable>
             <button class="btn btn-default" @click="addSection">
@@ -66,7 +66,10 @@ export default {
         nextStep() {
             this.$store.commit('projects/addPipelineToProject', this.pipelineSections);
             this.$store.commit('projects/setCurrentStep', 5);
-        }
+        },
+		removePhase(index) {
+			this.pipelineSections.splice(index, 1);
+		}
     },
 
 }

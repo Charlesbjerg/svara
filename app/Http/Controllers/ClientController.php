@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Repositories\ClientRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -32,6 +33,12 @@ class ClientController extends Controller
         } else {
             $clients = $this->clientRepository->filterClients($request->all());
         }
+
+        // Grab the total number of projects per client
+        $clients->each(function($client) {
+            $client->totalProjects = DB::table('projects')->where('client_id', $client->id)->count();
+        });
+
         return response()->json($clients);
     }
 

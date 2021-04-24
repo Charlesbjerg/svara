@@ -132,25 +132,33 @@ class ProjectRepository implements ProjectRepositoryInterface {
      */
     private function createEmptyEntity(array $entity, $phase) {
 
-        switch ($entity['name']) {
+        // Add record to join table
+        $pipelineToEntityId = DB::table('project_pipelines_to_entities')->insertGetId(
+            [
+                'pipeline_id' => $phase->id,
+                'entity_id' => $entity['id'],
+            ],
+        );
+
+        switch ($entity['componentName']) {
             case "checklists":
                 $entity = new Checklist([
                     'name' => $phase->name . ' Checklist',
-                    'pipeline_entity_id' => $phase->id,
+                    'pipeline_entity_id' => $pipelineToEntityId,
                 ]);
                 $entity->save();
                 break;
             case "boards":
                 $entity = new Board([
-                    'name' => $phase->name . ' Checklist',
-                    'pipeline_entity_id' => $phase->id,
+                    'name' => $phase->name . ' Board',
+                    'pipeline_entity_id' => $pipelineToEntityId,
                 ]);
                 $entity->save();
                 break;
             case "sign-off":
                 $entity = new ProjectSignOff([
                     'name' => $phase->name . ' Checklist',
-                    'pipeline_entity_id' => $phase->id,
+                    'pipeline_entity_id' => $pipelineToEntityId,
                 ]);
                 $entity->save();
                 break;

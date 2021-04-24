@@ -55,6 +55,7 @@ export default {
         justify-content: center;
         font-size: $font-md;
         font-family: $font-heading;
+		color: #fff;
         @include gradient-purple;
     }
     &__name {

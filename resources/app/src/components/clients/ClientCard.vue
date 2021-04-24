@@ -3,12 +3,12 @@
         <router-link :to="clientUrl">
             <div class="client-card__body">
                 <div class="client-card__client">
-                    <img :src="clientLogo" :alt="clientLogoAlt" class="client-card__logo" v-if="clientLogo"/>
-                    <span class="client-card__logo logo-placeholder" v-else></span>
+                    <img :src="clientLogo" :alt="clientLogoAlt" class="client-card__logo" v-if="hasClientLogo"/>
+                    <span class="client-card__logo logo-placeholder" v-else>{{ initials }}</span>
                 </div>
                 <div class="client-card__content">
                     <h2 class="client-card__name">{{ client.name }}</h2>
-                    <span class="client-card__subtitle">{{ client.totalNumberProject }} projects in the pipeline</span>
+                    <span class="client-card__subtitle">{{ client.totalProjects }} project(s) in the pipeline</span>
                 </div>
             </div>
         </router-link>
@@ -28,12 +28,21 @@ export default {
         clientUrl() {
             return `/clients/${this.client.id}`;
         },
+		hasClientLogo() {
+        	return this.client.logoPath !== "" && this.client.logoPath !== null;
+		},
         clientLogo() {
             return `http://app.svara.io:8000/${this.client.logoPath}`;
         },
         clientLogoAlt() {
             return `Logo for ${this.client.name}`;
-        }
+        },
+		initials() {
+        	return this.client.name.charAt(0);
+		},
+		totalNumberProjects() {
+        	return this.client.length;
+		},
     },
     props: {
         client: {
@@ -61,12 +70,20 @@ export default {
     }
     &__logo {
         border-radius: $border-radius;
-        border: 2px solid $light-grey;
-        width: 60px;
-        height: 60px;
+        //border: 2px solid $light-grey;
+        width: 50px;
+        height: 50px;
         object-fit: cover;
         object-position: center;
         margin-right: 10px;
+		&.logo-placeholder {
+			color: #fff;
+			padding: 14px;
+			text-align: center;
+			font-family: $font-heading;
+			font-weight: $font-weight-heading;
+			font-size: 20px;
+		}
     }
     &__name {
         font-size: $font-sm;
@@ -89,6 +106,6 @@ export default {
 
 .logo-placeholder {
     display: block;
-    @include gradient-red;
+    @include gradient-purple;
 }
 </style>

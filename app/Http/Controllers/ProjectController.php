@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Repositories\ProjectRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
@@ -49,7 +50,17 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return response()->json($project->load(['client', 'state', 'pipeline', 'staff', 'messageThreads', 'meta']));
+        $project->load(['client', 'state', 'pipeline', 'staff', 'messageThreads', 'meta']);
+        $project->messageThreads->filter(function($thread) {
+//            print('<pre>'.print_r([$thread, Auth::user()], true).'</pre>');
+            if ((Auth::user()->isClient() && $thread->sharedWithClient) || Auth::user()->isStaff()) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+//        dd($project->messageThreads);
+        return response()->json($project);
     }
 
     /**

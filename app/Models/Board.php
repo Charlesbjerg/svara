@@ -12,7 +12,7 @@ class Board extends Model
     use CamelCasing;
 
     public $timestamps = false;
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'pipeline_entity_id'];
 
     public function entity() {
         return $this->belongsTo(PipelineEntity::class);

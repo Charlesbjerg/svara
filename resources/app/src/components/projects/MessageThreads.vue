@@ -65,9 +65,6 @@ export default {
             const response =  await this.$api(`api/projects/message-threads/${thread.id}`);
             this.$store.commit('projects/setSelectedThread', response.data)
         },
-        newThread() {
-            // TODO: Integrate method
-        },
         formattedDate(dateString) {
             const date = new Date(dateString);
             return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}`;
@@ -82,7 +79,6 @@ export default {
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     gap: 30px;
 }
-//.project-messages__main,
 .message-threads {
     background-color: $light-grey;
     padding: 20px;
@@ -101,6 +97,7 @@ export default {
         border-radius: $border-radius;
         background-color: #fff;
         border: 2px solid #fff;
+		cursor: pointer;
         @include box-shadow-sm;
         @include transition-default;
         &.active {

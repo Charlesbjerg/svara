@@ -73,14 +73,12 @@ export default {
                     boardId: this.board.id,
                     createdById: this.user.id,
                 });
-                this.updateColumn(response.data);
                 this.init = true;
             } else if (this.column.name !== "" && this.init) {
                 const response = await this.$api(`api/projects/pipeline/boards/column/${this.column.id}`, 'PATCH', {
                     name: this.column.name,
                     boardId: this.board.id,
                 });
-                this.updateColumn(response.data);
             }
             this.edit = false;
         },
@@ -92,6 +90,7 @@ export default {
             column.cards.push({name: '', id: null, columnId: column.id});
         },
         async update() {
+        	// TODO: Need to update and maintain a sort order -> DB column needs adding for this
         	this.$emit('boardUpdate');
         },
     },

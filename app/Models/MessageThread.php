@@ -12,6 +12,9 @@ class MessageThread extends Model
     use CamelCasing;
 
     protected $fillable = ['title'];
+    protected $casts = [
+        'shared_with_client' => 'boolean',
+    ];
 
     public function project() {
         return $this->belongsTo(Project::class);

@@ -2,9 +2,6 @@
     <div class="content-editor">
         <header class="content-editor__head">
             <h3>Respond to this thread</h3>
-            <button class="btn btn-alt" @click="viewTemplates" aria-label="View message templates">
-                <i class="fas fa-ellipsis-v"></i>
-            </button>
         </header>
         <editor
             class="content-editor__wrap"
@@ -50,10 +47,6 @@ export default {
         },
     },
     methods: {
-        viewTemplates() {
-            // TODO: Display a list of templates in a slide out modal
-            console.log('View templates');
-        },
         async submitMessage() {
             const response = await this.$api('api/projects/message-threads/message', 'POST', {
                threadId: this.thread.id,

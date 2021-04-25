@@ -6,14 +6,38 @@
 		</div>
 		<div class="form-item">
 			<label for="message">Message</label>
-			<textarea id="message" placeholder="We require you to sign off this piece of work." rows="8" v-model="template.message" @keyup="update"></textarea>
+			<editor
+				id="message"
+				class="content-editor__wrap"
+				initialValue="Write your message here."
+				apiKey="2jbjcyf0lfyi82ml1rcyh4ys7wfcidwxwmmi5cdl9xzoeuyc"
+				v-model="template.message"
+				@keyup="update"
+				:init="{
+                height: 400,
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap',
+                    'print preview anchor insertdatetime media',
+                    'paste code help table'
+                ],
+                toolbar:
+                    'formatselect | bold italic | \
+                    bullist numlist | help'
+            }">
+			</editor>
 		</div>
 	</div>
 </template>
 
 <script>
+import Editor from '@tinymce/tinymce-vue'
+
 export default {
 	name: "MessageTemplate",
+	components: {
+		Editor,
+	},
 	computed: {
 		template() {
 			return this.$store.state.entities.signOff.selected;
@@ -38,7 +62,7 @@ export default {
 					}
 					this.$store.commit('entities/updateTemplate', response.data);
 				}
-			}, 500);
+			}, 5000);
 		}
 	}
 }

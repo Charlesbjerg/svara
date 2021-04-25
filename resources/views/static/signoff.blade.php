@@ -15,7 +15,7 @@
         </header>
         <section class="message-panel">
             <h2 class="subtitle">{{ $signoff->name }}</h2>
-            <p>{{ $signoff->message }}</p>
+           {!! $signoff->message !!}
         </section>
         <form action="{{ $submitUrl }}" method="POST">
             @csrf

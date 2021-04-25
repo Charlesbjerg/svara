@@ -17,14 +17,44 @@
 		</aside>
 		<section class="sign-off__message panel">
 			<div>
-				<input type="text" v-model="signoff.name" v-if="editName" @blur="updateName" />
-				<h2 v-else @click="editName = true">{{ signoff.name }}</h2>
+				<input class="sign-off__name-input" type="text" v-model="signoff.name" v-if="editName" @blur="updateName" />
+				<h2 class="sign-off__message-name" v-else @click="editName = true">
+					{{ signoff.name }}
+					<span class="sign-off__edit-hint">
+						Edit
+						<i class="far fa-edit ml-5"></i>
+					</span>
+				</h2>
 			</div>
 			<div v-if="signoff.message">
 				<div v-if="editMessage">
-					<textarea class="sign-off__input" v-html="signoff.message" @blur="updateMessage"></textarea>
+					<editor
+						initialValue="Write your message here."
+						apiKey="2jbjcyf0lfyi82ml1rcyh4ys7wfcidwxwmmi5cdl9xzoeuyc"
+						v-model="signoff.message"
+						@blur="updateMessage"
+						:init="{
+						height: 400,
+						menubar: true,
+						plugins: [
+							'advlist autolink lists link image charmap',
+							'searchreplace visualblocks code fullscreen',
+							'print preview anchor insertdatetime media',
+							'paste code help table'
+						],
+						toolbar:
+							'formatselect | bold italic | \
+							bullist numlist | help'
+					}">
+					</editor>
 				</div>
-				<div v-html="signoff.message" v-else @click="editMessage = true"></div>
+				<div class="sign-off__message-inner" v-else @click="editMessage = true">
+					<div v-html="signoff.message"></div>
+					<span class="sign-off__edit-hint">
+						Edit
+						<i class="far fa-edit ml-5"></i>
+					</span>
+				</div>
 			</div>
 			<div v-else>
 				<h3>Compose a message or pick from a template.</h3>
@@ -47,9 +77,15 @@
 <script>
 import ActionModal from "../../company/ActionModal";
 import MessageTemplates from "./MessageTemplates";
+import Editor from '@tinymce/tinymce-vue';
+
 export default {
     name: "sign-off",
-	components: {MessageTemplates, ActionModal},
+	components: {
+    	MessageTemplates,
+		ActionModal,
+		Editor,
+	},
 	props: {
     	data:{
     		type: Object,
@@ -77,7 +113,7 @@ export default {
 	methods: {
     	async sendSignoff() {
     		const response = this.$api(`api/projects/pipeline/signoffs/${this.signoff.id}/dispatch`);
-    		this.$store.commit('util/setGlobalNotif', 'Sign off email has been sent to the client!');
+    		this.$store.commit('util/setGlobalNotif', { message: 'Sign off email has been sent to the client!', type: 'info' });
 		},
 		async updateName(event) {
     		// Get data and revert fields back to text view
@@ -86,8 +122,6 @@ export default {
 			await this.update();
 		},
 		async updateMessage(event) {
-			// Get data and revert fields back to text view
-			this.signoff.message = event.target.value;
 			this.editMessage = false;
 			await this.update();
 		},
@@ -129,17 +163,53 @@ export default {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
 	gap: 30px;
-	&__info {
-
-	}
 	&__message {
-
+		padding: 10px;
+	}
+	&__message-name {
+		display: inline-block;
+		position: relative;
+		min-width: 320px;
+		padding: 10px;
+		margin: 0;
+	}
+	&__edit-hint {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #fff;
+		opacity: 0;
+		border-radius: $border-radius;
+		font-size: $font-sm;
+		background-color: rgba($background-grey, 0.7);
+		cursor: pointer;
+		@include transition-default;
+	}
+	&__name-input {
+		padding: 5px 10px;
+		font-family: $font-heading;
+		width: 400px;
+		max-width: 100%;
+		margin: 10px;
 	}
 	&__input {
 		border-radius: $border-radius;
 		width: 100%;
 		min-height: 300px;
 		padding: 20px;
+	}
+	&__message-inner {
+		padding: 10px;
+		position: relative;
+	}
+	&__message-inner:hover &__edit-hint,
+	&__message-name:hover &__edit-hint {
+		opacity: 1;
 	}
 	&__notice {
 		display: block;

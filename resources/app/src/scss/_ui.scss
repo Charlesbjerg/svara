@@ -79,6 +79,16 @@
   }
 }
 
+.btn-success {
+  @include gradient-green;
+  color: #fff;
+  position: relative;
+  border-radius: $border-radius;
+  &:hover {
+    @include gradient-green-hover;
+  }
+}
+
 .btn-disabled {
   opacity: 0.5;
   cursor: not-allowed;

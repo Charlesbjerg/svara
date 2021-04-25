@@ -107,9 +107,11 @@ export default {
 			console.log(data);
 
             // Iterate through selected team, if project lead isn't present add to extra staff
-			const projectLeadPresent = data.team.members.find(user => user.id === this.projectLead.id);
-			if (!projectLeadPresent) {
-				this.$store.commit('projects/addProjectLead', this.projectLead);
+			if (this.projectLead) {
+				const projectLeadPresent = data.team.members.find(user => user.id === this.projectLead.id);
+				if (!projectLeadPresent) {
+					this.$store.commit('projects/addProjectLead', this.projectLead);
+				}
 			}
 
             this.$store.commit('projects/addNewProjectData', data);

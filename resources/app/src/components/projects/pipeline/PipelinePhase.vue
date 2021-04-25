@@ -1,5 +1,5 @@
 <template>
-    <article class="pipe-phase" :class="activeItemClass">
+    <article class="pipe-phase" :class="cardClasses">
         <h3>{{ phase.name }}</h3>
         <ul class="pipe-phase__entities">
             <li class="pipe-phase-entity" v-for="entity in phase.entities" :key="entity.id" @click="viewEntity(entity)">
@@ -7,7 +7,7 @@
                 {{ entity.name }}
             </li>
         </ul>
-        <button class="btn btn-default btn-disabled" v-if="phase.complete" disabled>Phase Complete</button>
+        <button class="btn btn-success btn-disabled" v-if="phase.complete" disabled>Phase Complete</button>
         <button class="btn btn-default" @click="completePhase" v-else>Complete Phase</button>
     </article>
 </template>
@@ -28,9 +28,15 @@ export default {
             project: 'projects/getCurrentProject',
             activePhase: 'projects/getCurrentPhase',
         }),
+		cardClasses() {
+        	return `${this.activeItemClass} ${this.completedItemClass}`;
+		} ,
         activeItemClass() {
-            return this.activePhase.id === this.phase.id || this.phase.complete ? 'pipe-phase--active' : '';
-        }
+            return this.activePhase.id === this.phase.id ? 'pipe-phase--active' : '';
+        },
+		completedItemClass() {
+        	return this.phase.complete ? 'pipe-phase--complete' : '';
+		}
     },
     methods: {
         viewEntity(entity) {
@@ -68,14 +74,19 @@ export default {
         padding: 20px;
         opacity: 0.6;
         pointer-events: none;
+		border: 2px solid transparent;
         &__entities {
             list-style-type: none;
             padding: 0;
         }
+		&--complete,
         &--active {
             opacity: 1;
             pointer-events: all;
         }
+		&--active {
+			border-color: $accent-colour;
+		}
     }
     .pipe-phase-entity {
         margin-bottom: 10px;

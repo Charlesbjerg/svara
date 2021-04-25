@@ -83,6 +83,7 @@ export default {
 			if (!response.data.hasOwnProperty('items')) {
 				this.checklists[index].items = [];
 			}
+			this.$store.commit('entities/setSelectedChecklist', this.checklists[index]);
 		}
 	}
 }

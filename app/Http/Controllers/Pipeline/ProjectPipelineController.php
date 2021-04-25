@@ -109,7 +109,9 @@ class ProjectPipelineController extends Controller
         $project->current_phase_id = $nextPhase->id;
         $project->save();
 
-        return response()->json([$pipelinePhase, $nextPhase, $project]);
+        return response()->json([
+            'nextPhase' => $nextPhase,
+        ]);
 
 //        return sendTrueResponse();
 

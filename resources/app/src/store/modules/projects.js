@@ -83,6 +83,9 @@ const mutations = {
     setProjectPipeline: (state, payload) => {
         state.currentProject.pipeline = payload;
     },
+	updateActivePipelinePhase: (state, payload) => {
+		state.currentProject.currentPhaseId = payload;
+	},
     setSelectedThread: (state, payload) => {
         state.currentProject.selectedThread = payload;
     },

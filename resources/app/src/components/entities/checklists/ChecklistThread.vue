@@ -1,6 +1,6 @@
 <template>
 	<section class="checklist-thread panel">
-		<h2>Checklist</h2>
+		<h2>{{ thread.name }}</h2>
 		<ul class="checklist-thread__items" v-if="thread.items">
 			<li v-for="(item, index) in thread.items" :key="index">
 				<checklist-item :item="item" :blank="item.blank !== undefined" @openModal="setSelectedItem"/>

@@ -40,7 +40,8 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
 Route::prefix('api')->group(function() {
 
     // Dashboard
-    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'show']);
+    Route::get('/dashboard/client', [\App\Http\Controllers\DashboardController::class, 'client']);
+    Route::get('/dashboard/staff', [\App\Http\Controllers\DashboardController::class, 'staff']);
 
     // Require other routes
     require __DIR__ . '/app/auth.php';

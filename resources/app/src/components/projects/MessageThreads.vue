@@ -4,9 +4,11 @@
             <div class="message-threads">
                 <h2>Message Threads</h2>
                 <ul v-if="threads.length > 0" class="message-threads__list">
-                    <li class="message-threads__item" v-for="thread in threads" :key="thread.id" @click="selectThread(thread, $event)">
-                        <span class="message-threads__title">{{ thread.title }}</span>
-                        <em>{{ formattedDate(thread.updatedAt) }}</em>
+                    <li v-for="thread in threads" :key="thread.id" @click="selectThread(thread, $event)">
+                        <div class="message-threads__item" v-if="canAccess(thread)">
+							<span class="message-threads__title">{{ thread.title }}</span>
+							<em>{{ formattedDate(thread.updatedAt) }}</em>
+						</div>
                     </li>
                 </ul>
                 <button class="btn btn-default btn-block" @click="creatingNewThread = true; selectedThread = false;">
@@ -56,7 +58,10 @@ export default {
             set(value) {
                 return this.$store.state.projects.currentProject.selectedThread = value;
             }
-        }
+        },
+		user() {
+        	return this.$store.state.auth.user;
+		}
     },
     methods: {
         async selectThread(thread, event) {
@@ -69,6 +74,9 @@ export default {
             const date = new Date(dateString);
             return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}`;
         },
+		canAccess(thread) {
+        	return this.user.typeId != 3 || (this.user.typeId === 3 && thread.sharedWithClient);
+		}
     }
 }
 </script>

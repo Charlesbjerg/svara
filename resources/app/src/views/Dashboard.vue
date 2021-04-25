@@ -7,10 +7,7 @@
 </template>
 
 <script>
-import ProjectCard from "../components/projects/ProjectCard";
 import PageHead from "../components/common/PageHead";
-import BoardCard from "../components/entities/boards/BoardCard";
-import TaskCard from "../components/dashboard/task-card";
 import StaffDashboard from "../components/dashboard/StaffDashboard";
 import ClientDashboard from "../components/dashboard/ClientDashboard";
 

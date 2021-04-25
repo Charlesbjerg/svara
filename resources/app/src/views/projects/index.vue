@@ -3,7 +3,7 @@
         <PageHead title="Ongoing Projects" :subtitle="pageSubtitle">A Graph Might go Here</PageHead>
         <div v-if="hasProjects">
 			<div class="filters">
-				<filter-bar @update="filterProjects" />
+				<filter-bar @update="filterProjects" @reset="resetProjects" />
 				<router-link to="/projects/create" class="btn btn-default">Create New Project</router-link>
 			</div>
 			<section class="grid">
@@ -34,6 +34,7 @@ export default {
 	data() {
     	return {
     		filteredResults: [],
+			filtersApplied: false,
 		}
 	},
     computed: {
@@ -48,14 +49,22 @@ export default {
 		}
     },
     async mounted() {
-        this.$store.commit('util/enableLoader');
-        const response = await this.$api('api/projects', 'GET');
-        this.$store.commit('projects/setProjects', response.data);
-        this.$store.commit('util/disableLoader');
+        await this.fetchProjects();
     },
 	methods: {
+    	async fetchProjects() {
+			this.$store.commit('util/enableLoader');
+			const response = await this.$api('api/projects', 'GET');
+			this.$store.commit('projects/setProjects', response.data);
+			this.$store.commit('util/disableLoader');
+		},
     	filterProjects(projects) {
+    		this.filtersApplied = true;
 			this.$store.commit('projects/setProjects', projects);
+		},
+		async resetProjects() {
+			this.filtersApplied = false;
+			await this.fetchProjects();
 		}
 	}
 };
@@ -64,7 +73,7 @@ export default {
 <style lang="scss" scoped>
 .grid {
     display: grid;
-		grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
     @include custom-scrollbar;
 }

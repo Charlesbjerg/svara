@@ -49,7 +49,7 @@ export default {
 		}
 	},
 	async mounted() {
-		const response = await this.$api('api/dashboard');
+		const response = await this.$api('api/dashboard/staff');
 		this.dashboard = response.data;
 	}
 }

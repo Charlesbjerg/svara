@@ -48,16 +48,13 @@ export default {
 				errors.forEach(elem => {
 					this.$refs[elem].parentNode.classList.add('form-item--error');
 				})
-				this.showError(response.message);
+				this.$store.commit('util/setGlobalNotif', { message: response.data.message, type: 'error' });
 			} else {
 				this.$store.commit('auth/setUser', response.data.user);
 				this.$router.push('/dashboard');
 			}
 
 		},
-		showError(message) {
-			console.error(`Big error: ${message}`);
-		}
 	}
 };
 </script>

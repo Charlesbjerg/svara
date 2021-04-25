@@ -2,7 +2,7 @@
 	<div class="sign-off">
 		<aside class="sign-off__info panel">
 			<h2>Sign Off</h2>
-			<div v-if="signedOff.length > 0">
+			<div v-if="signedOff">
 				<p>Phase has been signed off by the client on {{ $dateFormatter(signoff.signoffTimestamp) }}</p>
 				<em class="sign-off__notice">See bottom of message for client signature</em>
 			</div>
@@ -31,7 +31,7 @@
 				<button class="btn btn-default" @click="writeMessage">Write Message</button> or
 				<button class="btn btn-default" @click="viewTemplates">Choose from Template</button>
 			</div>
-			<footer v-if="signedOff.length > 0">
+			<footer v-if="signedOff">
 				<p>Signed off on {{ $dateFormatter(signoff.signoffTimestamp) }}</p>
 				<figure class="sign-off__signature">
 					<img :src="signoff.signature" alt="Client signature" />
@@ -72,7 +72,7 @@ export default {
 	async mounted() {
     	const response = await this.$api(`api/projects/pipeline/signoffs/${this.$route.params.id}`);
     	this.signoff = response.data;
-    	console.log(this.signoff);
+    	console.log(this.signoff.signoffTimestamp);
 	},
 	methods: {
     	async sendSignoff() {

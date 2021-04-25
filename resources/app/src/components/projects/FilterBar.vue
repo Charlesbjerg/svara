@@ -7,15 +7,7 @@
 		<autocomplete label="Client" url="api/clients" filterKey="client" searchKey="name" @selected="addFilter" />
 <!--		<autocomplete label="Account Manager" url="api/users/account-managers" filterKey="accountManager" searchKey="name" @selected="addFilter" />-->
 		<autocomplete label="Project Lead" url="api/users/project-leads" filterKey="projectLead" searchKey="name" @selected="addFilter" />
-<!--		<div class="form-item">-->
-<!--			<label for="name">Meta</label>-->
-<!--			<select id="meta" v-model="meta">-->
-<!--				<option value="null" disabled selected>Select an Option</option>-->
-<!--			</select>-->
-<!--			<button aria-label="Flip sort order">-->
-<!--				<i class="fas fa-sort-amount-up"></i>-->
-<!--			</button>-->
-<!--		</div>-->
+		<button class="btn btn-alt filter-bar__clear" @click="clearFilters">Clear <i class="fas fa-filter ml-5"></i></button>
 	</div>
 </template>
 
@@ -69,6 +61,13 @@ export default {
 			const response = await this.$api('api/projects/filter' , 'GET', filters);
 			this.$emit('update', response.data);
 			this.$store.commit('util/disableLoader');
+		},
+		clearFilters() {
+			this.name = '';
+			this.meta = null;
+			this.filters = [];
+			document.querySelectorAll('.filter-bar input').forEach(elem => elem.value = '');
+			this.$emit('reset');
 		}
 	}
 }
@@ -81,11 +80,17 @@ export default {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
 	gap: 30px;
+	&__clear {
+		max-width: 110px;
+		padding: 10px;
+		height: 40px;
+	}
 	.form-item {
 		margin: 0;
 	}
 	.form-item label {
 		font-size: 0.001px;
+		margin: 0;
 	}
 }
 </style>

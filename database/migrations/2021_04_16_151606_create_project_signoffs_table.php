@@ -17,7 +17,7 @@ class CreateProjectSignoffsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('pipeline_entity_id');
             $table->string('name');
-            $table->text('message');
+            $table->text('message')->nullable();
             $table->text('signature')->nullable();
             $table->timestamp('signoff_timestamp')->nullable();
             $table->foreign('pipeline_entity_id')->references('id')->on('project_pipelines_to_entities')->cascadeOnDelete();

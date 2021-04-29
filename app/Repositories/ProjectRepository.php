@@ -159,6 +159,7 @@ class ProjectRepository implements ProjectRepositoryInterface {
                 $entity = new ProjectSignOff([
                     'name' => $phase->name . ' Checklist',
                     'pipeline_entity_id' => $pipelineToEntityId,
+                    'message' => ''
                 ]);
                 $entity->save();
                 break;

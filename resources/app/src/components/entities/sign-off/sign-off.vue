@@ -206,6 +206,9 @@ export default {
 	&__message-inner {
 		padding: 10px;
 		position: relative;
+		p {
+			margin: 0 0 15px;
+		}
 	}
 	&__message-inner:hover &__edit-hint,
 	&__message-name:hover &__edit-hint {

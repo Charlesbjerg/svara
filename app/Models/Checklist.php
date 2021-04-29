@@ -10,7 +10,7 @@ class Checklist extends Model
 {
     use HasFactory, CamelCasing;
 
-    protected $guarded = [];
+    protected $fillable = ['name', 'pipeline_entity_id'];
 
     public function entity() {
         return $this->belongsTo(PipelineEntity::class);

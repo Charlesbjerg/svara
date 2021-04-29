@@ -12,7 +12,7 @@ class ProjectSignoff extends Model
 
     public $timestamps = false;
 
-    public $fillable = ['name', 'message'];
+    public $fillable = ['name', 'message', 'pipeline_entity_id'];
 
     public function entity() {
         return $this->belongsTo(PipelinePhase::class, 'pipeline_entity_id', 'id');

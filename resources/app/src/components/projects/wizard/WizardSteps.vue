@@ -4,7 +4,7 @@
         <div class="pc-steps__step" :class="currentStep >= 2 ? '' : 'pc-steps__step--disabled'" @click="changeStep(2, $event)">2</div>
         <div class="pc-steps__step" :class="currentStep >= 3 ? '' : 'pc-steps__step--disabled'" @click="changeStep(3, $event)">3</div>
         <div class="pc-steps__step" :class="currentStep >= 4 ? '' : 'pc-steps__step--disabled'" @click="changeStep(4, $event)">4</div>
-        <div class="pc-steps__step" :class="currentStep >= 5 ? '' : 'pc-steps__step--disabled'" @click="changeStep(5, $event)">5</div>
+<!--        <div class="pc-steps__step" :class="currentStep >= 5 ? '' : 'pc-steps__step&#45;&#45;disabled'" @click="changeStep(5, $event)">5</div>-->
     </article>
 </template>
 

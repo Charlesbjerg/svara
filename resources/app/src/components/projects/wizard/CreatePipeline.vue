@@ -65,7 +65,7 @@ export default {
         },
         nextStep() {
             this.$store.commit('projects/addPipelineToProject', this.pipelineSections);
-            this.$store.commit('projects/setCurrentStep', 5);
+            this.$store.commit('projects/setCurrentStep', 4);
         },
 		removePhase(index) {
 			this.pipelineSections.splice(index, 1);

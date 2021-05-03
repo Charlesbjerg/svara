@@ -5,10 +5,10 @@
             <div class="pc-wizard__view">
                 <essential-data :class="activeView(1)" class="pc-wizard__item" />
                 <project-staff :class="activeView(2)" class="pc-wizard__item" />
-                <pipeline-setup :class="activeView(3)" class="pc-wizard__item" />
-                <pipeline-templates :class="activeView(4)" class="pc-wizard__item" v-if="this.usingTemplates" />
-                <create-pipeline :class="activeView(4)" class="pc-wizard__item" v-if="this.usingNewPipeline" />
-                <confirm-project :class="activeView(5)" class="pc-wizard__item" />
+<!--                <pipeline-setup :class="activeView(3)" class="pc-wizard__item" />-->
+<!--                <pipeline-templates :class="activeView(4)" class="pc-wizard__item" v-if="this.usingTemplates" />-->
+                <create-pipeline :class="activeView(3)" class="pc-wizard__item" />
+                <confirm-project :class="activeView(4)" class="pc-wizard__item" />
             </div>
         </section>
     </div>

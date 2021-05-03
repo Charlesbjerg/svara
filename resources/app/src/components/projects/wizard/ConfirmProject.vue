@@ -8,7 +8,7 @@
             <em>Confirm the data for the new project is correct.</em>
         </header>
 
-        <div class="confirm-panel-inner" v-if="currentStep === 5">
+        <div class="confirm-panel-inner" v-if="currentStep === 4">
 
             <section class="confirm-section">
                 <h3 class="confirm-project__name">{{ project.name }}</h3>
@@ -20,7 +20,7 @@
             <section class="confirm-section">
                 <h3>Project Staff</h3>
                 <div class="confirm-staff">
-                    <staff-member-card v-for="user in project.staff" :key="user.id" :user="user"
+                    <staff-member-card v-for="user in projectStaff" :key="user.id" :user="user"
                                        :deletable="false"/>
                 </div>
             </section>
@@ -77,7 +77,10 @@ export default {
         },
         currentStep() {
             return this.$store.state.projects.currentStep;
-        }
+        },
+		projectStaff() {
+        	return this.project.staff.concat(this.project.team.members);
+		}
     },
     methods: {
         async createProject() {
@@ -87,7 +90,7 @@ export default {
             if (response.status === 'Error') {
             	this.$store.commit('util/setGlobalNotif', { name: 'There was an issue creating the project, please try again.', type: 'error' });
 			} else {
-            	// await this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
+            	await this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
 			}
         }
     }

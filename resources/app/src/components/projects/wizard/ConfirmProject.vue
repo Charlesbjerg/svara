@@ -87,7 +87,7 @@ export default {
             if (response.status === 'Error') {
             	this.$store.commit('util/setGlobalNotif', { name: 'There was an issue creating the project, please try again.', type: 'error' });
 			} else {
-            	await this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
+            	// await this.$router.push({ name: 'projects.single', params: { id: response.data.id } })
 			}
         }
     }

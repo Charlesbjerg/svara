@@ -40,9 +40,6 @@ class ProjectRepository implements ProjectRepositoryInterface {
      */
     public function create(array $data): Project {
 
-        // FIXME: SQL error when setting up project_pipelines_to_entities
-        // pipeline_entity_pipeline_phase
-
         // Create initial project
         $project = new Project($data);
 
@@ -99,23 +96,22 @@ class ProjectRepository implements ProjectRepositoryInterface {
      */
     public function createPipeline(array $data, int $projectId) {
 
+        // Setup empty collection
         $phases = collect();
 
         // Loop through each entity
         foreach ($data['pipeline'] as $key => $pipeline) {
+            // Create a new phase
             $phase = new PipelinePhase([
                 'name' => $pipeline['name'], 
                 'sort_order' => $key,
                 'project_id' => $projectId
             ]);
             $phase->save();
-            $entities = array();
+            // Setup empty versions of entities inside the phase
             foreach ($pipeline['entities'] as $entity) {
-                $entities[] = PipelineEntity::where('id', $entity['id'])->first();
                 $this->createEmptyEntity($entity, $phase);
             }
-            // TODO: Check if a pivot model is setup, may need this to save data correctly
-            $phase->entities()->saveMany($entities);
             $phases->push($phase);
         }
 
@@ -243,10 +239,6 @@ class ProjectRepository implements ProjectRepositoryInterface {
         if (isset($request['client'])) {
             $filters[] = ['client_id', $request['client']];
         }
-
-//        if (isset($request['accountManager'])) {
-//            $filters[] = ['account_manager_id', $request['accountManager']];
-//        }
 
         if (isset($request['projectLead'])) {
             $filters[] = ['project_lead_id', $request['projectLead']];

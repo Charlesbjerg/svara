@@ -1,19 +1,22 @@
 <template>
     <section class="board__column">
         <header class="board__column-top">
-            <input type="text" name="columnName" class="board-column__input" v-if="edit" v-model="column.name"
+            <input type="text" name="columnName" class="board__column-input" v-if="edit" v-model="column.name"
                    @blur.native="nameUpdated" autocomplete="off" placeholder="Column Name"/>
             <h2 class="board__column-title" v-else @click="editName">{{ column.name }}</h2>
             <span class="board__column-count">{{ column.cards.length }}</span>
         </header>
-		<draggable v-model="column.cards" group="board" item-key="id" @change="update" :animation="500">
+		<draggable v-model="column.cards" group="board" item-key="id" @change="update" :animation="500" class="board__column-draggable">
 			<template #item="{element}">
-				<board-card :card="element"/>
+				<board-card :card="element" :columnId="column.id"/>
 			</template>
 		</draggable>
+		<div class="board__column-empty" v-if="column.cards.length === 0">
+			This Column is Empty!
+		</div>
         <button class="btn btn-default" @click="addCard(column.id)">
             Add Card
-            <i class="far fa-plus-square"></i>
+            <i class="far fa-plus-square ml-5"></i>
         </button>
     </section>
 </template>
@@ -73,6 +76,7 @@ export default {
                     boardId: this.board.id,
                     createdById: this.user.id,
                 });
+                this.$store.commit('entities/updateColumnId', response.data);
                 this.init = true;
             } else if (this.column.name !== "" && this.init) {
                 const response = await this.$api(`api/projects/pipeline/boards/column/${this.column.id}`, 'PATCH', {
@@ -99,10 +103,22 @@ export default {
 </script>
 
 <style lang="scss">
-.board-column {
-    &__input {
-        padding: 0.5em 0.25em;
-        font-family: $font-heading;
-    }
+.board__column-input {
+	padding: 0.5em 0.25em;
+	font-family: $font-heading;
+}
+.board__column-empty {
+	padding: 10px 10px;
+	text-align: center;
+	border-radius: $border-radius;
+	font-size: $font-xs;
+	font-family: $font-heading;
+	font-weight: $font-weight-heading;
+	color: $grey;
+	transform: translate3d(0, -20px, 0);
+	pointer-events: none;
+}
+.board__column-draggable {
+	min-height: 30px;
 }
 </style>

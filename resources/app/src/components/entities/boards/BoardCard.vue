@@ -3,8 +3,8 @@
         <input type="text" name="cardname" class="board-card__input" v-if="edit" v-model="card.name" v-focus="" @blur.native="nameUpdated" autocomplete="off" placeholder="Card Name" />
         <span class="board-card__title" v-else @click="editName">{{ card.name }}</span>
         <div class="board-card__icons">
-            <div class="board-card__icon">
-                <i class="far fa-clock"></i>
+            <div class="board-card__icon" v-if="card.updatedAt">
+                <i class="far fa-clock mr-5"></i>
                 {{ $timeDifference(card.updatedAt) }}
             </div>
         </div>
@@ -19,6 +19,10 @@ export default {
             required: true,
             type: Object,
         },
+		columnId: {
+        	required: false,
+			type: Number,
+		},
     },
     data() {
         return {
@@ -31,8 +35,6 @@ export default {
 		if (this.card.name === "") {
 			this.edit = true;
 			this.init = false;
-		} else {
-			console.log(this.card)
 		}
         this.$nextTick(function () {
         	if (this.edit) {
@@ -59,11 +61,17 @@ export default {
             }
         },
         async saveCard() {
-            // TODO: Need to setup the correct route to save a card and update below
-            const response = await this.$api('api/projects/pipeline/boards/card', 'POST', this.card);
-            this.card = response.data;
-            this.$emit('reinit');
-        }
+        	const response = await this.$api('api/projects/pipeline/boards/card', 'POST', {
+				...this.card,
+				sortOrder: this.index(),
+			});
+            this.$store.commit('entities/updateNewCard', { column: this.columnId, data: response.data });
+        },
+		index() {
+        	// Fetch the index of the newly created card
+			const index = this.$store.state.entities.board.data.columns.findIndex(column => column.id === this.columnId);
+			return this.$store.state.entities.board.data.columns[index].cards.findIndex(card => card.id === null);
+		}
     },
     directives: {
         focus: {
@@ -97,5 +105,8 @@ export default {
     &__input {
         padding: 0.25em;
     }
+	&:hover {
+		@include box-shadow;
+	}
 }
 </style>

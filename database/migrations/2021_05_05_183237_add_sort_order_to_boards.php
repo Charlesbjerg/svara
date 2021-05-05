@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSortOrderToBoardCards extends Migration
+class AddSortOrderToBoards extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddSortOrderToBoardCards extends Migration
     public function up()
     {
         Schema::table('board_cards', function (Blueprint $table) {
-            //
+            $table->integer('sort_order')->default(0);
         });
     }
 

@@ -19,7 +19,7 @@ class BoardColumn extends Pivot
     }
 
     public function cards() {
-        return $this->hasMany(BoardCard::class, 'column_id', 'id');
+        return $this->hasMany(BoardCard::class, 'column_id', 'id')->orderBy('sort_order');
     }
 
 }

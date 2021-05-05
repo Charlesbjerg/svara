@@ -30,6 +30,17 @@ const mutations = {
 	updateColumn: (state, payload) => {
 		state.board.data.columns.cards = payload;
 	},
+	updateColumnId: (state, payload) => {
+		const columnIndex = state.board.data.columns.findIndex(column => column.id === null);
+		state.board.data.columns[columnIndex].id = payload.id;
+	},
+	updateNewCard: (state, payload) => {
+    	const columnIndex = state.board.data.columns.findIndex(column => column.id === payload.column);
+    	if (columnIndex !== -1) {
+    		const cardIndex = state.board.data.columns[columnIndex].cards.findIndex(card => card.id === null);
+			state.board.data.columns[columnIndex].cards[cardIndex] = payload.data;
+		}
+	},
 	setSelectedChecklist: (state, payload) => {
     	state.checklist.selected = payload;
 	},

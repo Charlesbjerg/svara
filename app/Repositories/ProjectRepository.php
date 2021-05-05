@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Events\ProjectCreated;
 use App\Models\Board;
+use App\Models\BoardColumn;
 use App\Models\Client;
 use App\Models\Checklist;
 use App\Models\PipelineEntity;
@@ -150,6 +151,10 @@ class ProjectRepository implements ProjectRepositoryInterface {
                     'pipeline_entity_id' => $pipelineToEntityId,
                 ]);
                 $entity->save();
+                // Note: Frontend requires at least one column on first load
+                $column = new BoardColumn(['name' => 'Tasks']);
+                $column->board_id = $entity->id;
+                $column->save();
                 break;
             case "sign-off":
                 $entity = new ProjectSignOff([

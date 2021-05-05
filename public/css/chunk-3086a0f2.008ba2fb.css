@@ -12,7 +12,7 @@
  * Licensed under the MIT license - http://opensource.org/licenses/MIT
  *
  * Copyright (c) 2020 Animate.css
- */.board-card{border:2px solid #777;background-color:#fff;padding:10px;border-radius:5px;cursor:-webkit-grab;cursor:grab;margin-bottom:15px}.board-card__input,.board-card__title{display:block;margin-bottom:.5em;font-family:Montserrat,sans-serif;padding:.25em 0}.board-card__input{padding:.25em}
+ */.board-card{background-color:#fff;padding:15px;border-radius:5px;cursor:-webkit-grab;cursor:grab;margin-bottom:15px;box-shadow:0 1px 2px 0 rgba(0,0,0,.15)}.board-card__input,.board-card__title{display:block;margin-bottom:.5em;font-family:Montserrat,sans-serif;padding:.25em 0}.board-card__title{white-space:pre-wrap;line-height:1.4}.board-card__input{padding:.25em}.board-card:hover{box-shadow:0 0 0 0 transparent,0 0 0 0 transparent,0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06)}
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css *//*!
  * animate.css - https://animate.style/
@@ -20,7 +20,7 @@
  * Licensed under the MIT license - http://opensource.org/licenses/MIT
  *
  * Copyright (c) 2020 Animate.css
- */.board-column__input{padding:.5em .25em;font-family:Montserrat,sans-serif}
+ */.board__column-input{padding:.5em .25em;font-family:Montserrat,sans-serif}.board__column-empty{padding:10px 10px;text-align:center;border-radius:5px;font-size:14px;font-family:Montserrat,sans-serif;font-weight:500;color:#777;transform:translate3d(0,-20px,0);pointer-events:none}.board__column-draggable{min-height:30px}
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css *//*!
  * animate.css - https://animate.style/

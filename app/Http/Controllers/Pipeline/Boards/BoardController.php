@@ -60,8 +60,11 @@ class BoardController extends Controller
         foreach ($request->input('columns') as $columnData) {
             $columnFound = $board->columns()->firstWhere('id', $columnData['id']);
             if ($columnFound) {
-                foreach ($columnData['cards'] as $card) {
-                    DB::table('board_cards')->where('id', $card['id'])->update(['column_id' => $columnData['id']]);
+                foreach ($columnData['cards'] as $index => $card) {
+                    DB::table('board_cards')->where('id', $card['id'])->update([
+                        'column_id' => $columnData['id'],
+                        'sort_order' => $index,
+                    ]);
                 }
             }
         }

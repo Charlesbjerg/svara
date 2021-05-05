@@ -86,6 +86,7 @@ export default {
 		flex-basis: 220px;
 		max-width: 220px;
 		margin-left: 30px;
+		text-align: center;
 	}
 }
 .no-projects {

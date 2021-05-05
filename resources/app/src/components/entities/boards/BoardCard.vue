@@ -4,8 +4,8 @@
         <span class="board-card__title" v-else @click="editName">{{ card.name }}</span>
         <div class="board-card__icons">
             <div class="board-card__icon">
-                <i class="far fa-images"></i>
-                Int
+                <i class="far fa-clock"></i>
+                {{ $timeDifference(card.updatedAt) }}
             </div>
         </div>
     </div>
@@ -31,6 +31,8 @@ export default {
 		if (this.card.name === "") {
 			this.edit = true;
 			this.init = false;
+		} else {
+			console.log(this.card)
 		}
         this.$nextTick(function () {
         	if (this.edit) {
@@ -75,12 +77,12 @@ export default {
 
 <style lang="scss">
 .board-card {
-    border: 2px solid $grey;
     background-color: #fff;
-    padding: 10px;
+    padding: 15px;
     border-radius: $border-radius;
     cursor: grab;
 	margin-bottom: 15px;
+	@include box-shadow-sm;
     &__input,
     &__title {
         display: block;
@@ -88,6 +90,10 @@ export default {
         font-family: $font-heading;
         padding: 0.25em 0;
     }
+	&__title {
+		white-space: pre-wrap;
+		line-height: 1.4;
+	}
     &__input {
         padding: 0.25em;
     }

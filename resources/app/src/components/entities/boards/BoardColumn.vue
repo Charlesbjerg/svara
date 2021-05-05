@@ -6,7 +6,7 @@
             <h2 class="board__column-title" v-else @click="editName">{{ column.name }}</h2>
             <span class="board__column-count">{{ column.cards.length }}</span>
         </header>
-		<draggable v-model="column.cards" group="board" item-key="id" @change="update">
+		<draggable v-model="column.cards" group="board" item-key="id" @change="update" :animation="500">
 			<template #item="{element}">
 				<board-card :card="element"/>
 			</template>
@@ -88,6 +88,7 @@ export default {
         addCard(columnId) {
             const column = this.board.columns.find(col => col.id === columnId);
             column.cards.push({name: '', id: null, columnId: column.id});
+            // console.log(columnId, column);
         },
         async update() {
         	// TODO: Need to update and maintain a sort order -> DB column needs adding for this

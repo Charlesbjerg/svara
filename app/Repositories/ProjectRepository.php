@@ -7,7 +7,6 @@ use App\Models\Board;
 use App\Models\BoardColumn;
 use App\Models\Client;
 use App\Models\Checklist;
-use App\Models\PipelineEntity;
 use App\Models\PipelinePhase;
 use App\Models\Project;
 use App\Models\ProjectMeta;
@@ -16,8 +15,8 @@ use App\Models\ProjectState;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class ProjectRepository implements ProjectRepositoryInterface {
 
@@ -250,6 +249,34 @@ class ProjectRepository implements ProjectRepositoryInterface {
         }
 
         return Project::with(['client', 'state', 'pipeline', 'currentPhase', 'staff', 'meta'])->where($filters)->get();
+
+    }
+
+    /**
+     * Gets all data required for the project, which is most of the
+     * data stored in Svara.
+     *
+     * @param Project $project
+     * @return Project $project
+     */
+    public function getProjectOverview(Project $project) {
+
+        // Load standard relational data
+        $project->load(['client', 'state', 'pipeline', 'staff', 'messageThreads', 'meta']);
+
+        // Check if a message thread can be viewed by current user
+        $project->messageThreads->filter(function($thread) {
+            if ((Auth::user()->isClient() && $thread->sharedWithClient) || Auth::user()->isStaff()) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        // Get account manager and client main contact
+        $project->client->load(['mainContact', 'accountManager']);
+
+        return $project;
 
     }
 

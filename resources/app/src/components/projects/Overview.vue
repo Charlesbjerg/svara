@@ -1,16 +1,15 @@
 d<template>
     <div class="project-overview">
         <div class="project-overview__column">
-            <project-meta icon="far fa-calendar-alt" :metaKey="firstMetaKey" :value="firstMetaValue" v-if="hasFirstMeta" />
-            <project-pipeline-mini />
+            <project-meta icon="fas fa-puzzle-piece" metaKey="Currently In" :value="currentPhaseName"/>
+			<project-overview-mini />
         </div>
         <div class="project-overview__column">
             <project-staff />
-            <project-meta icon="far fa-money-bill-alt" :metaKey="secondMetaKey" :value="secondMetaValue" v-if="hasSecondMeta"/>
+			<project-meta icon="far fa-money-bill-alt" :metaKey="secondMetaKey" :value="secondMetaValue" v-if="hasSecondMeta"/>
         </div>
         <div class="project-overview__column">
-            <project-overview-mini />
-            <project-meta icon="fas fa-puzzle-piece" metaKey="Currently In" :value="currentPhaseName"/>
+			<project-meta icon="far fa-calendar-alt" :metaKey="firstMetaKey" :value="firstMetaValue" v-if="hasFirstMeta" />
             <project-activity-log />
         </div>
     </div>

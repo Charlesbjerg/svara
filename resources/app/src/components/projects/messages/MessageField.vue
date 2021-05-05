@@ -53,6 +53,7 @@ export default {
                message: this.message,
             });
             this.$store.commit('projects/addMessageToCurrentThread', response.data);
+            this.message = '';
         }
     }
 }

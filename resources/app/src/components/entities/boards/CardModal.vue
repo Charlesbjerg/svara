@@ -1,5 +1,5 @@
 <template>
-    <div class="card-modal-outer" :class="modalActive">
+    <div class="card-modal-outer" :class="modalActive" ref="modal">
         <aside class="card-modal">
             <header class="card-modal__head">
                 <div>
@@ -24,11 +24,8 @@
                     <span>Assign to staff member</span>
                 </div>
                 <div class="card-modal__timestamps">
-                    <div class="card-modal__created-at" v-if="datesEqual(card.createdAt, card.updatedAt)">
-                        Created: {{ formattedDate(card.createdAt) }}
-                    </div>
-                    <div class="card-modal__created-at" v-else>
-                        Last Updated: {{ formattedDate(card.updatedAt) }}
+                    <div class="card-modal__created-at">
+                        Last Updated: {{ $dateFormatter(card.updatedAt) }}
                     </div>
                 </div>
 
@@ -103,9 +100,9 @@ export default {
         card() {
             return this.$store.state.entities.board.openCard;
         },
-        modalActive() {
-            return this.card !== null ? 'active' : '';
-        },
+        // modalActive() {
+        //     return this.card !== null ? 'active' : '';
+        // },
         hasComments() {
             return this.card.comments !== undefined && this.card.comments.length > 0;
         },
@@ -114,13 +111,24 @@ export default {
         },
     },
     async mounted() {
-        const response = await this.$api(`api/projects/pipeline/boards/card/${this.card.id}`);
-        this.$store.commit('entities/setOpenCard', response.data);
-        this.dataLoaded = true;
+    	// Fetch data
+		const response = await this.$api(`api/projects/pipeline/boards/card/${this.card.id}`);
+		this.$store.commit('entities/setOpenCard', response.data);
+		this.dataLoaded = true;
+
+		// On next tick, add active class
+    	await this.$nextTick(async () => {
+			setTimeout(() => {
+				this.$refs.modal.classList.add('active');
+			}, 250);
+		});
     },
     methods: {
         closeModal() {
-            this.$store.commit('entities/closeCardModal');
+			this.$refs.modal.classList.remove('active');
+			setTimeout(() => {
+	            this.$store.commit('entities/closeCardModal');
+			}, 400);
         },
         formattedDate(dateString) {
             const date = new Date(dateString);

@@ -64,4 +64,13 @@ interface ProjectRepositoryInterface {
      */
     public function filterProjects(Request $request);
 
+    /**
+     * Gets all data required for the project, which is most of the
+     * data stored in Svara.
+     *
+     * @param Project $project
+     * @return Project $project
+     */
+    public function getProjectOverview(Project $project);
+
 }

@@ -56,7 +56,7 @@
 					</span>
 				</div>
 			</div>
-			<div v-else>
+			<div v-else style="padding: 10px;">
 				<h3>Compose a message or pick from a template.</h3>
 				<button class="btn btn-default" @click="writeMessage">Write Message</button> or
 				<button class="btn btn-default" @click="viewTemplates">Choose from Template</button>

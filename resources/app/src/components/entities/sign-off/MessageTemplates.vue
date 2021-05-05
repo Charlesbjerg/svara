@@ -43,6 +43,7 @@ export default {
 .template{
 	border: 2px solid transparent;
 	cursor: pointer;
+	margin-bottom: 15px;
 	@include transition-default;
 	&:hover {
 		@include box-shadow;

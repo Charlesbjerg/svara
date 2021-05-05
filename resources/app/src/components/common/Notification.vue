@@ -28,7 +28,9 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(() => {
-			this.$refs.notif.classList.add('active');
+			setTimeout(() => {
+				this.$refs.notif.classList.add('active');
+			}, 250);
 			this.autoClose();
 		});
 	},

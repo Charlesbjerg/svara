@@ -26,3 +26,14 @@ if (!function_exists('sendFalseResponse')) {
         return response()->json(['success' => false]);
     }
 }
+
+/**
+ * Formats the timestamp to be a readable date.
+ *
+ * @return string
+ */
+if (!function_exists('formatDate')) {
+    function formatDate($timestamp) {
+        return \Carbon\Carbon::parse($timestamp)->format('d/m/Y');
+    }
+}

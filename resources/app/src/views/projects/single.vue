@@ -1,7 +1,7 @@
 <template>
     <div class="projects-single" v-if="projectIsset">
         <page-head :title="project.name" :subtitle="projectSubtitle">
-            Need project state pills to appear below title
+			{{ project.state.state }}
         </page-head>
         <tabs v-model="selectedTab" class="project-tabs">
             <tab

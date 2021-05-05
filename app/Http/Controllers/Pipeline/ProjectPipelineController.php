@@ -105,15 +105,18 @@ class ProjectPipelineController extends Controller
 
         // Grab the next (first) one and update the project
         $nextPhase = $nextPhases->first();
-        $project = $nextPhase->project;
-        $project->current_phase_id = $nextPhase->id;
-        $project->save();
+        if ($nextPhase) {
+            $project = $nextPhase->project;
+            $project->current_phase_id = $nextPhase->id;
+            $project->save();
+            return response()->json([
+                'nextPhase' => $nextPhase,
+            ]);
+        } else {
+            return sendTrueResponse();
+        }
 
-        return response()->json([
-            'nextPhase' => $nextPhase,
-        ]);
 
-//        return sendTrueResponse();
 
     }
     

@@ -48,7 +48,9 @@ export default {
         	this.$store.commit('util/enableLoader');
             const response = await this.$api(`api/projects/pipeline/phase/${phase.id}/complete`, 'POST');
 			phase.complete = true;
-        	this.$store.commit('projects/updateActivePipelinePhase', response.data.nextPhase.id)
+			if (!response.data.hasOwnProperty('success')) {
+	        	this.$store.commit('projects/updateActivePipelinePhase', response.data.nextPhase.id)
+			}
 			this.$store.commit('util/disableLoader');
         },
     }

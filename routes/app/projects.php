@@ -13,6 +13,7 @@ Route::get('/projects/filter', [ProjectController::class, 'filter']);
 Route::resource('/projects', ProjectController::class);
 Route::get('/projects/{project}/staff', [ProjectController::class, 'allStaffMembers']);
 Route::get('/projects/{project}/documents', [ProjectController::class, 'documents']);
+Route::get('/projects/{project}/activity', [ProjectController::class, 'activity']);
 
 // Pipeline Routes
 Route::resource('/projects/pipeline/entities', PipelineEntityController::class);

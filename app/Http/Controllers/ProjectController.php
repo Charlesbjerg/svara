@@ -50,16 +50,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $project->load(['client', 'state', 'pipeline', 'staff', 'messageThreads', 'meta']);
-        $project->messageThreads->filter(function($thread) {
-//            print('<pre>'.print_r([$thread, Auth::user()], true).'</pre>');
-            if ((Auth::user()->isClient() && $thread->sharedWithClient) || Auth::user()->isStaff()) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-//        dd($project->messageThreads);
+        $project = $this->projectRepo->getProjectOverview($project);
         return response()->json($project);
     }
 
@@ -130,6 +121,35 @@ class ProjectController extends Controller
     public function filter(Request $request) {
         $projects = $this->projectRepo->filterProjects($request);
         return response()->json($projects);
+    }
+
+    /**
+     * Finds all activity for a project to display in
+     * the project log.
+     *
+     * @param Project $project
+     * @return JsonResponse
+     */
+    public function activity(Project $project) {
+
+        $log = [];
+
+        $log[] = 'The project was created! - ' . formatDate($project->createdAt);
+
+        $signoffs = DB::table('pipeline_phases')->select('project_signoffs.*', 'pipeline_phases.name as phase_name')
+            ->join('project_pipelines_to_entities', 'project_pipelines_to_entities.pipeline_id', '=', 'pipeline_phases.id')
+            ->join('project_signoffs', 'project_pipelines_to_entities.id', '=', 'project_signoffs.pipeline_entity_id')
+            ->where('pipeline_phases.project_id', '=', $project->id)->get();
+
+
+        foreach ($signoffs as $item) {
+            if ($item->signature !== "") {
+                $log[] = 'Project Phase ' . $item->phase_name . ' was signed off at ' . formatDate($item->signoff_timestamp);
+            }
+        }
+
+        return response()->json($log);
+
     }
 
 }

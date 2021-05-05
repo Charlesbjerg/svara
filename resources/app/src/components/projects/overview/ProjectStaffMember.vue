@@ -1,9 +1,6 @@
 <template>
-    <article :class="`ps-member ${isLeadClass}`">
-        <figure class="ps-member__avatar" v-if="member.avatar">
-            <img :src="member.avatar" :alt="`Image of ${member.name}`"/>
-        </figure>
-        <div class="ps-member__initials" v-else>
+    <article :class="`ps-member ${isLeadClass} ${isAltStyle}`">
+        <div class="ps-member__initials">
             {{ initials }}
         </div>
         <div class="ps-member__info">
@@ -21,7 +18,12 @@ export default {
         member: {
             required: true,
             type: Object,
-        }
+        },
+		alt: {
+        	required: false,
+			type: Boolean,
+			default: false,
+		}
     },
     computed: {
         initials() {
@@ -30,6 +32,9 @@ export default {
         isLeadClass() {
             return 'ps-member--lead';
         },
+		isAltStyle() {
+        	return this.alt ? 'ps-member--alt' : '';
+		}
     },
 }
 </script>
@@ -64,5 +69,15 @@ export default {
     &__role {
         margin: 0;
     }
+
+	/* Modifiers */
+	&--alt {
+		background-color: #fff;
+		border-radius: $border-radius;
+		color: #000;
+		padding: 10px;
+		margin: 0;
+	}
+
 }
 </style>

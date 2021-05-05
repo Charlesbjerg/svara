@@ -2,27 +2,29 @@
     <section class="project-log">
         <h2 class="project-log__title">Activity Log</h2>
         <!-- TODO: Needs to loop through all items -->
-        <article class="activity-item" v-for="i in 3" :key="i">
+        <article class="activity-item" v-for="(entry, index) in log" :key="index">
             <figure class="activity-item__avatar">
+				<i class="fas fa-exclamation"></i>
             </figure>
             <div class="activity-item__message">
-                Sophie H. completed 'Set up social media assets on Canva
+                {{ entry }}
             </div>
         </article>
-        <button class="btn btn-default" @click="viewMoreActivity">View More</button>
     </section>
 </template>
 
 <script>
-// TODO: Need to fetch activity items from vuex store or from API
-// Just grab it from wherever its available
 export default {
     name: "ProjectActivityLog",
-    methods: {
-        viewMoreActivity() {
-            // TODO: Implement this method, potential open an off canvas menu from the right side with a full log
-        }
-    }
+	data() {
+    	return {
+    		log: [],
+		};
+	},
+    async mounted() {
+    	const response = await this.$api(`api/projects/${this.$route.params.id}/activity`);
+    	this.log = response.data;
+	},
 }
 </script>
 
@@ -54,6 +56,9 @@ export default {
         width: 40px;
         height: 40px;
         flex-basis: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
     }
     &__message {
         flex: 1;

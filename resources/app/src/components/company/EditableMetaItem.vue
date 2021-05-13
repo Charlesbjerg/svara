@@ -4,6 +4,7 @@
                aria-label="Edit the meta item title"
                v-model="meta.name"
                @blur.native="blurInput"
+			   @keyup.native="blurInput"
                v-if="editingTitle" />
         <h3 class="editable-meta__title" @click="editingTitle = true" v-else>{{ meta.name }}</h3>
         <div class="form-item">

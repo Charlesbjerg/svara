@@ -1,6 +1,6 @@
 <template>
     <div class="board-card" @click="openCard">
-        <input type="text" name="cardname" class="board-card__input" v-if="edit" v-model="card.name" v-focus="" @blur.native="nameUpdated" autocomplete="off" placeholder="Card Name" />
+        <input type="text" name="cardname" class="board-card__input" v-if="edit" v-model="card.name" v-focus="" @blur.native="nameUpdated" @keyup.enter="nameUpdated" autocomplete="off" placeholder="Card Name" />
         <span class="board-card__title" v-else @click="editName">{{ card.name }}</span>
         <div class="board-card__icons">
             <div class="board-card__icon" v-if="card.updatedAt">

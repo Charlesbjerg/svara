@@ -4,7 +4,7 @@
 			<input type="checkbox" name="complete" v-model="item.complete" @change="save" />
 		</div>
 		<div class="checklist-item__main">
-			<input class="checklist-item__input" type="text" v-model="item.name" v-if="editTitle" @blur="edit()" ref="itemName" />
+			<input class="checklist-item__input" type="text" v-model="item.name" v-if="editTitle" @blur="edit" @keyup.enter="edit" ref="itemName" />
 			<h3 class="checklist-item__name" v-else @click="editTitle = true">{{ item.name }}</h3>
 		</div>
 		<div class="checklist-item__info">

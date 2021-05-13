@@ -2,7 +2,7 @@
     <section class="board__column">
         <header class="board__column-top">
             <input type="text" name="columnName" class="board__column-input" v-if="edit" v-model="column.name"
-                   @blur.native="nameUpdated" autocomplete="off" placeholder="Column Name"/>
+                   @blur.native="nameUpdated" @keyup.enter="nameUpdated" autocomplete="off" placeholder="Column Name"/>
             <h2 class="board__column-title" v-else @click="editName">{{ column.name }}</h2>
             <span class="board__column-count">{{ column.cards.length }}</span>
         </header>

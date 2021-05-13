@@ -17,7 +17,7 @@
 		</aside>
 		<section class="sign-off__message panel">
 			<div>
-				<input class="sign-off__name-input" type="text" v-model="signoff.name" v-if="editName" @blur="updateName" />
+				<input class="sign-off__name-input" type="text" v-model="signoff.name" v-if="editName" @blur="updateName" @keyup.enter="updateName" />
 				<h2 class="sign-off__message-name" v-else @click="editName = true">
 					{{ signoff.name }}
 					<span class="sign-off__edit-hint">

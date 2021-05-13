@@ -52,15 +52,14 @@ class ProjectRepository implements ProjectRepositoryInterface {
         $project->client()->associate($client);
 
         $state = ProjectState::first();
-        // FIXME: Figure out correct relationship and method for saving these
-        // $project->state()->associate($state);
         $project->projectStateId = $state->id;
 
         $project->save();
 
         // Fetch User models from array of id's
         $staffIds = array();
-        foreach($data['staff'] as $member) {
+        $allStaff = array_merge($data['staff'], $data['team']['members']);
+        foreach($allStaff as $member) {
             $staffIds[] = $member['id'];
         }
         $projectStaff = User::whereIn('id', $staffIds)->get();

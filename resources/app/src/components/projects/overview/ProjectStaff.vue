@@ -2,11 +2,15 @@
     <section class="project-staff">
         <header class="project-staff__head">
             <h2 class="project-staff__title">Project Staff</h2>
-            <!-- TODO: Replace O with options icon -->
-            <button @click="viewOptions" class="project-staff__options">O</button>
+            <button @click="viewOptions" class="project-staff__options">
+				<i class="fas fa-ellipsis-v"></i>
+			</button>
         </header>
         <div class="project-staff__members" v-if="project.staff">
             <project-staff-member v-for="(member, index) in condensedStaffList" :key="index" :member="member"  />
+			<div class="project-staff__other" v-if="project.staff.length > 5">
+				{{ extraStaffCount }} other users are involved with this project
+			</div>
         </div>
     </section>
 </template>
@@ -29,8 +33,11 @@ export default {
             project: state => state.currentProject,
         }),
         condensedStaffList() {
-            return this.project.staff.slice(0, 5)
-        }
+            return this.project.staff.slice(0, 5);
+        },
+		extraStaffCount() {
+        	return this.project.staff.length - 5;
+		}
     },
     methods: {
         viewOptions() {},
@@ -72,5 +79,13 @@ export default {
             background-color: darken(#fff, 25%);
         }
     }
+	&__other {
+		font-family: $font-heading;
+		font-weight: $font-weight-heading;
+		font-size: $font-sm;
+		font-style: italic;
+		margin: 30px 0 0;
+		display: block;
+	}
 }
 </style>

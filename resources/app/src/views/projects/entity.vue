@@ -1,6 +1,7 @@
 <template>
     <section>
         <page-head :title="entity.name" :subtitle="`For ${project.name}`" />
+		<breadcrumbs :breadcrumbs="viewBreadcrumbs" v-if="viewBreadcrumbs.length > 0" />
         <component :is="entity.component_name" :data="entity" />
     </section>
 </template>
@@ -12,10 +13,12 @@ import Boards from "../../components/entities/boards/boards";
 import Checklists from "../../components/entities/checklists/checklists";
 import Documents from "../../components/entities/documents/documents";
 import SignOff from "../../components/entities/sign-off/sign-off";
+import Breadcrumbs from "../../components/common/Breadcrumbs";
 
 export default {
     name: "Projects.Entity",
     components: {
+		Breadcrumbs,
         PageHead,
         Boards,
         Checklists,
@@ -25,6 +28,7 @@ export default {
     data() {
         return {
             entity: {},
+			viewBreadcrumbs: []
         };
     },
     computed: {
@@ -45,6 +49,12 @@ export default {
         		const response = await this.$api(`api/projects/${this.entity.project_id}`);
         		this.$store.commit('projects/setCurrentProject', response.data);
 			}
+        	this.viewBreadcrumbs = [
+				{ name: 'Projects', href: '/projects' },
+				{ name: this.project.name, href: `/projects/${this.project.id}` },
+				{ name: this.entity.entity_label, active: true },
+			];
+        	console.log(this.viewBreadcrumbs);
 		});
 
     }

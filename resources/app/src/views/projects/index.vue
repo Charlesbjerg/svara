@@ -1,6 +1,6 @@
 <template>
     <div class="projects-index">
-        <PageHead title="Ongoing Projects" :subtitle="pageSubtitle">A Graph Might go Here</PageHead>
+        <page-head title="Ongoing Projects" :subtitle="pageSubtitle">A Graph Might go Here</page-head>
         <div v-if="hasProjects">
 			<div class="filters">
 				<filter-bar @update="filterProjects" @reset="resetProjects" />
@@ -23,10 +23,12 @@ import { mapGetters } from 'vuex';
 import ProjectCard from "@/components/projects/ProjectCard";
 import PageHead from "@/components/common/PageHead";
 import FilterBar from "../../components/projects/FilterBar";
+import Breadcrumbs from "../../components/common/Breadcrumbs";
 
 export default {
     name: "ProjectsIndex",
     components: {
+		Breadcrumbs,
 		FilterBar,
         ProjectCard,
         PageHead,

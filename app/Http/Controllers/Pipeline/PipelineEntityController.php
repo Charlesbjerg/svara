@@ -40,7 +40,7 @@ class PipelineEntityController extends Controller
     public function show(int $entity)
     {
         $entities = DB::table('project_pipelines_to_entities')
-            ->selectRaw('*, project_pipelines_to_entities.id as pid')
+            ->selectRaw('*, project_pipelines_to_entities.id as pid, pipeline_entities.name as entity_label')
             ->join('pipeline_entities', 'project_pipelines_to_entities.entity_id', '=', 'pipeline_entities.id')
             ->join('pipeline_phases', 'project_pipelines_to_entities.pipeline_id' ,'=', 'pipeline_phases.id')
             ->where('project_pipelines_to_entities.id', $entity)->first();

@@ -3,7 +3,7 @@
         <page-head :title="project.name" :subtitle="projectSubtitle">
 			{{ project.state.state }}
         </page-head>
-        <tabs v-model="selectedTab" class="project-tabs">
+		<tabs v-model="selectedTab" class="project-tabs">
             <tab
                 :class="'tab-outer ' + getActiveTab(i)"
                 v-for="(tab, i) in tabs"
@@ -13,7 +13,8 @@
                 :indicator="true"
             />
         </tabs>
-        <tab-panels v-model="selectedTab" :animate="true">
+		<Breadcrumbs :breadcrumbs="viewBreadcrumbs" v-if="viewBreadcrumbs.length > 0" />
+		<tab-panels v-model="selectedTab" :animate="true">
             <tab-panel v-for="(tab, i) in tabs" :key="i" :val="tab.name">
                 <component :is="tab.component"></component>
             </tab-panel>
@@ -29,10 +30,12 @@ import MessageThreads from '@/components/projects/MessageThreads';
 import Meetings from '@/components/projects/Meetings';
 import Documents from '@/components/projects/Documents';
 import { Tabs, Tab, TabPanels, TabPanel } from 'vue3-tabs';
+import Breadcrumbs from "../../components/common/Breadcrumbs";
 
 export default {
     name: "ProjectsSingle",
     components: {
+		Breadcrumbs,
         PageHead,
         Tabs,
         Tab,
@@ -55,6 +58,7 @@ export default {
                 { component: 'Documents', name: 'Documents', icon: 'folder' },
             ],
             selectedTab: 0,
+			viewBreadcrumbs: [],
         };
     },
     computed: {
@@ -85,6 +89,10 @@ export default {
         this.project = response.data;
         this.$store.commit('projects/setCurrentProject', response.data);
         this.$store.commit('util/disableLoader');
+        this.viewBreadcrumbs = [
+			{ name: 'Projects', href: '/projects' },
+			{ name: this.project.name, active: true },
+		];
     }
 };
 </script>

@@ -41,8 +41,8 @@
 
         // Form submit event
         const form = document.querySelector('form');
-        form.addEventListener('submit', () => {
-            document.getElementById('signature').value = signaturePad.toDataURL("image/jpeg");
+        form.addEventListener('submit', (e) => {
+            document.getElementById('signature').value = signaturePad.toDataURL();
         });
 
         // Resize canvas fix

@@ -1,11 +1,14 @@
 <template>
     <div class="project-documents">
         <h2>Project Documents</h2>
-        <ul v-if="documentsLoaded" class="documents__list-inner">
+        <ul v-if="documentsLoaded && project.documents.length > 0" class="documents__list-inner">
            <li v-for="document in project.documents" :key="document.id">
                 <document-item :document="document" />
            </li>
         </ul>
+		<div class="no-documents" v-else>
+			No Documents Found
+		</div>
     </div>
 </template>
 

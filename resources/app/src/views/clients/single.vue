@@ -1,6 +1,7 @@
 <template>
     <div class="clients-single" v-if="data">
         <page-head :title="data.client.name" subtitle=""/>
+		<breadcrumbs :breadcrumbs="viewBreadcrumbs" v-if="viewBreadcrumbs.length > 0"/>
         <div class="client-top-info">
             <div v-if="data.client.mainContact !== null">
                 <h3>Main Contact</h3>
@@ -52,10 +53,12 @@ import MiniProjectCard from "../../components/clients/MiniProjectCard";
 import StaffMemberCard from "../../components/projects/wizard/StaffMemberCard";
 import ActionModal from "../../components/company/ActionModal";
 import AddClientUser from "../../components/clients/AddClientUser";
+import Breadcrumbs from "../../components/common/Breadcrumbs";
 
 export default {
     name: 'ClientsSingle',
     components: {
+		Breadcrumbs,
 		AddClientUser,
 		ActionModal,
         StaffMemberCard,
@@ -66,11 +69,16 @@ export default {
         return {
             data: null,
 			newUserModal: false,
+			viewBreadcrumbs: [],
         };
     },
     async mounted() {
         const response = await this.$api(`api/clients/${this.$route.params.id}`);
         this.data = response.data;
+        this.viewBreadcrumbs = [
+			{ name: 'Clients', href: '/clients' },
+			{ name: this.data.client.name, active: true },
+		];
     },
 	methods: {
     	updateUsers(user) {

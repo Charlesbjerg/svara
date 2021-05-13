@@ -68,7 +68,16 @@ export default {
 	padding: 20px;
 	background-color: #fff;
 	border-radius: $border-radius;
+	margin-bottom: 15px;
 	@include box-shadow-sm;
+	@include transition-bounce;
+	&:hover {
+		transform: translate3d(0, -2px, 0);
+		@include box-shadow;
+	}
+	&:last-child {
+		margin-bottom: 0;
+	}
 	&__inner {
 		display: flex;
 		justify-content: space-between;

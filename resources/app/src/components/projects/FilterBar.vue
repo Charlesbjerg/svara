@@ -79,7 +79,7 @@ export default {
 	margin-right: 30px;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
-	gap: 30px;
+	gap: 15px 30px;
 	&__clear {
 		max-width: 110px;
 		padding: 10px;
@@ -92,5 +92,6 @@ export default {
 		font-size: 0.001px;
 		margin: 0;
 	}
+
 }
 </style>

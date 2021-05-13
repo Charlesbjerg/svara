@@ -70,14 +70,14 @@ class DashboardController extends Controller
 
         // Messages
         $threads = DB::table('message_threads')
-            ->select('*')
+            ->select('*', 'message_threads.id as thread_id')
             ->join('projects', 'message_threads.project_id', '=', 'projects.id')
             ->where('projects.client_id', $client->id)
             ->where('message_threads.shared_with_client', 1)->get();
 
         $threads->each(function($thread) {
            $thread->messageCount = DB::table('message_thread_messages')
-                                        ->where('thread_id', $thread->id)->count();
+                                        ->where('thread_id', $thread->thread_id)->count();
         });
 
         // Response

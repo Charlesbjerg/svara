@@ -76,6 +76,12 @@ export default {
 	grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
     @include custom-scrollbar;
+	@media (max-width: 1400px) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	@media (max-width: 1200px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
 .filters {
     margin-bottom: 2rem;
@@ -87,6 +93,12 @@ export default {
 		max-width: 220px;
 		margin-left: 30px;
 		text-align: center;
+	}
+	@media (max-width: 1900px) {
+		.btn {
+			flex-basis: 250px;
+			max-width: 250px;
+		}
 	}
 }
 .no-projects {

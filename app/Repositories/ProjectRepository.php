@@ -273,6 +273,11 @@ class ProjectRepository implements ProjectRepositoryInterface {
             }
         });
 
+        $project->messageThreads->each(function($thread) {
+            $thread->messageCount = DB::table('message_thread_messages')
+                ->where('thread_id', $thread->id)->count();
+        });
+
         // Get account manager and client main contact
         $project->client->load(['mainContact', 'accountManager']);
 

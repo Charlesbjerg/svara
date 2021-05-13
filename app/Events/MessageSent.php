@@ -10,20 +10,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ProjectCreated
+class MessageSent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $project;
+    public $message;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($project)
+    public function __construct($message)
     {
-        $this->project = $project;
+        $this->message = $message;
     }
 
     /**

@@ -41,10 +41,8 @@ export default {
         async disableUser() {
         	const response = await this.$api(`api/auth/deactivate/${this.user.id}`, 'DELETE')
 			if (response.data.success) {
-				console.log('succ')
+				this.$store.commit('util/setGlobalNotif', { message: 'User has been deactivated!', type: 'success' });
 				this.$emit('close');
-			} else {
-
 			}
         }
     },

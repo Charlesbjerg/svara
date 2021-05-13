@@ -81,11 +81,11 @@ export default {
 .project-card {
     padding: 15px 20px;
     border: 1px solid $light-grey;
-    @include box-shadow;
+    @include box-shadow-sm;
     @include transition-bounce;
     &:hover {
-        transform: translate3d(0, -5px, 0);
-        @include box-shadow-hover;
+        transform: translate3d(0, -3px, 0);
+        @include box-shadow;
     }
     &__top {
         display: flex;

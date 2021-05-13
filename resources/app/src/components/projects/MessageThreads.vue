@@ -6,8 +6,14 @@
                 <ul v-if="threads.length > 0" class="message-threads__list">
                     <li v-for="thread in threads" :key="thread.id" @click="selectThread(thread, $event)">
                         <div class="message-threads__item" v-if="canAccess(thread)">
-							<span class="message-threads__title">{{ thread.title }}</span>
-							<em>{{ formattedDate(thread.updatedAt) }}</em>
+							<div class="message-threads__content">
+								<span class="message-threads__title">{{ thread.title }}</span>
+								<em>{{ formattedDate(thread.updatedAt) }}</em>
+							</div>
+							<span class="message-threads__count">
+								{{ thread.messageCount }}
+								<i class="far fa-comments ml-5"></i>
+							</span>
 						</div>
                     </li>
                 </ul>
@@ -106,6 +112,9 @@ export default {
         background-color: #fff;
         border: 2px solid #fff;
 		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
         @include box-shadow-sm;
         @include transition-default;
         &.active {
@@ -122,6 +131,19 @@ export default {
         display: block;
         margin-bottom: 5px;
     }
+	&__count {
+		flex-basis: 75px;
+		max-width: 75px;
+		margin-left: 10px;
+		display: block;
+		border-radius: $border-radius;
+		padding: 10px;
+		color: #fff;
+		font-family: $font-heading;
+		font-size: $font-sm;
+		text-align: center;
+		@include gradient-purple;
+	}
 }
 .message-thread-none {
     display: flex;

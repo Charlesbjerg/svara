@@ -49,7 +49,6 @@ export default {
         const response = await this.$api('api/users/setup-data');
         this.types = response.data.types;
         this.teams = response.data.teams;
-        console.log(response.data.types);
     },
     methods: {
         async submit() {
@@ -61,7 +60,8 @@ export default {
                 team: this.team,
             });
             this.$emit('close');
-        }
+			this.$store.commit('util/setGlobalNotif', { message: 'New user has been added!', type: 'success' });
+		}
     }
 }
 </script>

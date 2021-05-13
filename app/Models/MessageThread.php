@@ -11,7 +11,7 @@ class MessageThread extends Model
     use HasFactory;
     use CamelCasing;
 
-    protected $fillable = ['title'];
+    protected $fillable = ['title', 'shared_with_client'];
     protected $casts = [
         'shared_with_client' => 'boolean',
     ];

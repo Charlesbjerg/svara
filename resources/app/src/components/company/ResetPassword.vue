@@ -44,7 +44,8 @@ export default {
         },
         async resetPassword() {
 			const response = await this.$api(`api/auth/forgot-password/${this.user.id}`, 'POST');
-            this.$emit('close');
+			this.$store.commit('util/setGlobalNotif', { message: 'Password reset has been sent to the users email address!', type: 'success' });
+			this.$emit('close');
         }
     },
 };

@@ -28,6 +28,10 @@ class SendMessageThreadNotification
      */
     public function handle(MessageSent $event)
     {
-        Mail::to($event->user->email)->send(new SendMessageSentNotif($event->user, $event->thread));
+        $emails = [];
+        foreach ($event->project->staff as $staff) {
+            $emails[] = $staff->email;
+        }
+        Mail::to($emails)->send(new SendMessageSentNotif($event->thread, $event->project));
     }
 }

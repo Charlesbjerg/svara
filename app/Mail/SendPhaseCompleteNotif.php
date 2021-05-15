@@ -11,14 +11,18 @@ class SendPhaseCompleteNotif extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $phase;
+    public $project;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($phase, $project)
     {
-        //
+        $this->phase = $phase;
+        $this->project = $project;
     }
 
     /**
@@ -28,6 +32,11 @@ class SendPhaseCompleteNotif extends Mailable
      */
     public function build()
     {
-        return $this->markdown('=markdown');
+        $threadUrl = url("/projects/{$this->project->id}");
+        return $this->markdown('mailables.phase-complete', [
+            'phase' => $this->phase,
+            'project' => $this->project,
+            'url' => $threadUrl,
+        ]);
     }
 }

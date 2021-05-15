@@ -28,6 +28,10 @@ class SendPhaseCompleteNotification
      */
     public function handle(ProjectPhaseCompleted $event)
     {
-        Mail::to($event->user->email)->send(new SendPhaseCompleteNotif($event->user, $event->phase));
+        $emails = [];
+        foreach ($event->project->staff as $staff) {
+            $emails[] = $staff->email;
+        }
+        Mail::to($emails)->send(new SendPhaseCompleteNotif($event->phase, $event->project));
     }
 }

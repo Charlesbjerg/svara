@@ -15,6 +15,7 @@ class PhaseSignedOff
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $project;
+    public $signoff;
 
     /**
      * Create a new event instance.

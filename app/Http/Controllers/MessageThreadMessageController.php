@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\MessageThreadMessage;
+use App\Repositories\ProjectRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MessageThreadMessageController extends Controller
 {
+
+    public $projectRepo;
+
+    public function __construct(ProjectRepositoryInterface $projectRepo) {
+        $this->projectRepo = $projectRepo;
+    }
 
     /**
      * Store a newly created resource in storage.

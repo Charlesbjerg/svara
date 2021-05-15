@@ -14,16 +14,18 @@ class MessageSent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
+    public $thread;
+    public $project;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($thread, $project)
     {
-        $this->message = $message;
+        $this->thread = $thread;
+        $this->thread = $project;
     }
 
     /**

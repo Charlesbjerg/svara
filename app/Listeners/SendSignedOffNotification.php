@@ -32,6 +32,6 @@ class SendSignedOffNotification
         foreach ($event->project->staff as $staff) {
            $emails[] = $staff->email;
         }
-        Mail::to($event->project->staff)->send(new SendSignedOffNotif($event->project, $event->signoff));
+        Mail::to($emails)->send(new SendSignedOffNotif($event->project, $event->signoff));
     }
 }

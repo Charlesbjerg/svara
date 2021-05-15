@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pipeline;
 
+use App\Events\ProjectPhaseCompleted;
 use App\Models\PipelinePhase;
 use App\Models\Project;
 use App\Http\Controllers\Controller;
@@ -102,6 +103,8 @@ class ProjectPipelineController extends Controller
         $nextPhases = $phases->skipUntil(function($item) {
             return $item->complete === 0;
         });
+
+        ProjectPhaseCompleted::dispatch($pipelinePhase, $pipelinePhase->project);
 
         // Grab the next (first) one and update the project
         $nextPhase = $nextPhases->first();

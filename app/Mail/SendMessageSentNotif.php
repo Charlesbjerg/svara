@@ -11,14 +11,18 @@ class SendMessageSentNotif extends Mailable
 {
     use Queueable, SerializesModels;
 
+        public $thread;
+        public $project;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($thread, $project)
     {
-        //
+        $this->thread = $thread;
+        $this->project = $project;
     }
 
     /**
@@ -28,6 +32,11 @@ class SendMessageSentNotif extends Mailable
      */
     public function build()
     {
-        return $this->markdown('=markdown');
+        $threadUrl = url("/projects/{$this->project->id}");
+        return $this->markdown('mailables.message-sent', [
+            'thread' => $this->thread,
+            'project' => $this->project,
+            'url' => $threadUrl,
+        ]);
     }
 }

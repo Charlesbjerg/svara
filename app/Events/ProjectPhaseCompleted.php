@@ -15,14 +15,16 @@ class ProjectPhaseCompleted
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $project;
+    public $phase;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($project)
+    public function __construct($phase, $project)
     {
+        $this->phase = $phase;
         $this->project = $project;
     }
 

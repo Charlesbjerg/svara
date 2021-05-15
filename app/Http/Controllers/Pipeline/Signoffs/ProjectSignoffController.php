@@ -149,8 +149,6 @@ class ProjectSignoffController extends Controller
         // Send sign off complete notifications
         PhaseSignedOff::dispatch($project, $signoff);
 
-        dd($project, $signoff);
-
         return redirect('/');
 
     }

@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Project;
 use App\Models\ProjectSignoff;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,7 +13,7 @@ class SendSignedOffNotif extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $project;
     public $signoff;
 
     /**
@@ -20,9 +21,9 @@ class SendSignedOffNotif extends Mailable
      *
      * @return void
      */
-    public function __construct($user, ProjectSignoff $signoff)
+    public function __construct(Project $project, ProjectSignoff $signoff)
     {
-        $this->user = $user;
+        $this->project = $project;
         $this->signoff = $signoff;
     }
 
@@ -33,9 +34,10 @@ class SendSignedOffNotif extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mailables.signoff-phase', [
-            'user' => $this->user,
+        return $this->markdown('mailables.phase-signed-off', [
+            'project' => $this->project,
             'signoff' => $this->signoff,
+            'url' => url('/projects/' . $this->project->id),
         ]);
     }
 }

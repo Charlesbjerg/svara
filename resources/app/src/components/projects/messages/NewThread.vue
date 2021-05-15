@@ -43,8 +43,10 @@ export default {
                 shared_with_client: this.addClient,
                 projectId: this.project.id,
             });
+            response.data.messages = [];
             this.$store.commit('projects/addNewThread', response.data);
             this.closeForm();
+            this.$emit('created', response.data);
         },
         closeForm() {
             this.threadName = '';

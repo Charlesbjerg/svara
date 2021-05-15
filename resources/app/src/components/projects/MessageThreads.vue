@@ -27,7 +27,7 @@
             <div class="message-thread-outer" v-if="selectedThread">
                 <thread />
             </div>
-            <new-thread v-else-if="creatingNewThread" @close="creatingNewThread = false; " />
+            <new-thread v-else-if="creatingNewThread" @close="creatingNewThread = false;" @created="selectNewThread" />
             <div class="message-thread-none" v-else>
                 <i class="fas fa-comments"></i>
                 <h3>Select a Message Thread</h3>
@@ -82,6 +82,9 @@ export default {
         },
 		canAccess(thread) {
         	return this.user.typeId != 3 || (this.user.typeId === 3 && thread.sharedWithClient);
+		},
+		selectNewThread(newThread) {
+			this.$store.commit('projects/setSelectedThread', newThread)
 		}
     }
 }

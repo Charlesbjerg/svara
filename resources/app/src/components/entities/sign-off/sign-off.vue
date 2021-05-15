@@ -9,7 +9,7 @@
 			<div v-else>
 				<p>Currently awaiting sign off from client.</p>
 				<em class="sign-off__notice">This project sign-off will be sent via email to the main contact assigned to the client.</em>
-				<button class="btn btn-default" @click="sendSignoff">
+				<button class="btn btn-default sign-off__btn" @click="sendSignoff" ref="signoffBtn">
 					Send Sign-off to Client
 					<i class="fas fa-envelope-open-text ml-10"></i>
 				</button>
@@ -114,6 +114,7 @@ export default {
     	async sendSignoff() {
     		const response = this.$api(`api/projects/pipeline/signoffs/${this.signoff.id}/dispatch`);
     		this.$store.commit('util/setGlobalNotif', { message: 'Sign off email has been sent to the client!', type: 'info' });
+    		this.$refs.signoffBtn.classList.add('btn-disabled');
 		},
 		async updateName(event) {
     		// Get data and revert fields back to text view
@@ -220,6 +221,9 @@ export default {
 	}
 	&__signature {
 		margin: 0;
+	}
+	&__btn.btn-disabled {
+		pointer-events: none;
 	}
 }
 </style>

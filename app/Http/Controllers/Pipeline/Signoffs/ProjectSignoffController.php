@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers\Pipeline\Signoffs;
 
+use App\Events\PhaseSignedOff;
 use App\Http\Controllers\Controller;
 use App\Mail\ProjectSignoffNotif;
 use App\Mail\ProjectSignoffNotification;
 use App\Models\Project;
 use App\Models\ProjectSignoff;
 use App\Models\ProjectSignoffTemplate;
+use App\Repositories\ProjectRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class ProjectSignoffController extends Controller
 {
+
+    public $projectRepo;
+
+    public function __construct(ProjectRepositoryInterface $projectRepo) {
+        $this->projectRepo = $projectRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -123,8 +132,6 @@ class ProjectSignoffController extends Controller
 
     /**
      * Processes the sign off form for a client.
-     *
-     *
      */
     public function signoff(Request $request, ProjectSignoff $signoff) {
 
@@ -135,6 +142,14 @@ class ProjectSignoffController extends Controller
         $signoff->signature = $request->input('signature');
         $signoff->signoff_timestamp = now();
         $signoff->save();
+
+        // Grab project for notification
+        $project = $this->projectRepo->getProjectByEntity($signoff);
+
+        // Send sign off complete notifications
+        PhaseSignedOff::dispatch($project, $signoff);
+
+        dd($project, $signoff);
 
         return redirect('/');
 

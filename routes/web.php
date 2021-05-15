@@ -16,10 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/mail-test', function() {
-//    $user = App\Models\User::all()->last();
-//    return new App\Mail\ProjectSignoffNotification($user, \App\Models\ProjectSignoff::first());
-//});
+Route::get('/mail-test', function() {
+    return new App\Mail\SendSignedOffNotif(App\Models\Project::where('id', 76)->first(), \App\Models\ProjectSignoff::where('id', 10)->first());
+});
 
 // These routes require interaction with static views (not the SPA)
 Route::get('/projects/pipeline/signoffs/{signoff}/view', [ProjectSignoffController::class, 'showSignoff']);

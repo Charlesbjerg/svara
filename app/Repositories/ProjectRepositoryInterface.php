@@ -73,4 +73,12 @@ interface ProjectRepositoryInterface {
      */
     public function getProjectOverview(Project $project);
 
+    /**
+     * Gets a project by an entity of a pipeline phase.
+     *
+     * @param mixed $entity
+     * @return Project
+     */
+    public function getProjectByEntity($entity);
+
 }

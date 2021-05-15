@@ -9,7 +9,7 @@ d<template>
 			<project-meta icon="far fa-money-bill-alt" :metaKey="secondMetaKey" :value="secondMetaValue" v-if="hasSecondMeta"/>
         </div>
         <div class="project-overview__column">
-			<project-meta icon="far fa-calendar-alt" :metaKey="firstMetaKey" :value="firstMetaValue" v-if="hasFirstMeta" />
+			<project-meta icon="far fa-calendar-alt" :metaKey="firstMetaKey" :value="$dateFormatter(firstMetaValue, false)" v-if="hasFirstMeta" />
             <project-activity-log />
         </div>
     </div>

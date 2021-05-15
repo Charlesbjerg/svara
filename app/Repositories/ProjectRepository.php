@@ -284,4 +284,18 @@ class ProjectRepository implements ProjectRepositoryInterface {
 
     }
 
+    /**
+     * Gets a project by an entity of a pipeline phase.
+     *
+     * @param mixed $entity
+     * @return Project
+     */
+    public function getProjectByEntity($entity) {
+         $rawProject = DB::table('projects')->select('projects.id')
+            ->join('pipeline_phases', 'pipeline_phases.project_id', '=', 'projects.id')
+            ->join('project_pipelines_to_entities', 'project_pipelines_to_entities.pipeline_id', 'pipeline_phases.id')
+            ->where('project_pipelines_to_entities.id', $entity->pipeline_entity_id)->first();
+        return Project::where('id', $rawProject->id)->with('staff')->first();
+    }
+
 }

@@ -13,7 +13,7 @@
                 :indicator="true"
             />
         </tabs>
-		<Breadcrumbs :breadcrumbs="viewBreadcrumbs" v-if="viewBreadcrumbs.length > 0" />
+		<Breadcrumbs :breadcrumbs="viewBreadcrumbs" v-if="viewBreadcrumbs.length > 0" style="margin: 30px 0 0;" />
 		<tab-panels v-model="selectedTab" :animate="true">
             <tab-panel v-for="(tab, i) in tabs" :key="i" :val="tab.name">
                 <component :is="tab.component"></component>

@@ -21,9 +21,10 @@ class PhaseSignedOff
      *
      * @return void
      */
-    public function __construct($project)
+    public function __construct($project, $signoff)
     {
         $this->project = $project;
+        $this->signoff = $signoff;
     }
 
     /**

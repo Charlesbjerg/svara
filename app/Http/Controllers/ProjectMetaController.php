@@ -32,14 +32,16 @@ class ProjectMetaController extends Controller
      */
     public function store(Request $request)
     {
-        $meta = DB::table('project_meta_options')->insert([
+        $data = [
             'key' => Str::snake($request->input('name')),
             'name' => $request->input('name'),
-            'value_type' => $request->input('valueType'),
+            'value_type' => $request->input('value_type'),
             'sortable' => $request->input('sortable'),
-        ]);
-
-        return response()->json($meta);
+        ];
+        DB::table('project_meta_options')->updateOrInsert(['key' => $data['key']], $data);
+        $id = DB::table('project_meta_options')->select('id')->where('key', $data['key'])->first();
+        $data['id'] = $id->id;
+        return response()->json($data);
     }
 
     /**
@@ -62,14 +64,16 @@ class ProjectMetaController extends Controller
      */
     public function update(Request $request, int $metaId)
     {
-        $meta = DB::table('project_meta_options')->where('id', $metaId)->update([
+        $data = [
             'key' => Str::snake($request->input('name')),
             'name' => $request->input('name'),
-            'value_type' => $request->input('valueType'),
+            'value_type' => $request->input('value_type'),
             'sortable' => $request->input('sortable'),
-        ]);
+        ];
+        $meta = DB::table('project_meta_options')->where('id', $metaId)->update($data);
+        $data['id'] = $metaId;
 
-        return response()->json($meta);
+        return response()->json($data);
     }
 
     /**
@@ -78,9 +82,9 @@ class ProjectMetaController extends Controller
      * @param  \App\Models\ProjectMeta  $meta
      * @return JsonResponse
      */
-    public function destroy(ProjectMeta $meta)
+    public function destroy(int $meta)
     {
-        $meta->delete();
+        DB::table('project_meta_options')->delete($meta);
         return sendTrueResponse();
     }
 }

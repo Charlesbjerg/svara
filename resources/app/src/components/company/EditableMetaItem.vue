@@ -4,12 +4,12 @@
                aria-label="Edit the meta item title"
                v-model="meta.name"
                @blur.native="blurInput"
-			   @keyup.native="blurInput"
+			   @keyup.enter="blurInput"
                v-if="editingTitle" />
         <h3 class="editable-meta__title" @click="editingTitle = true" v-else>{{ meta.name }}</h3>
         <div class="form-item">
             <label for="valueType">Data Type:</label>
-            <select v-model="meta.valueType" id="valueType" @change="updateMeta">
+            <select v-model="meta.value_type" id="valueType" @change="updateMeta">
                 <option value="null" selected disabled>Select a Data Type</option>
                 <option value="text">Text</option>
                 <option value="number">Number</option>
@@ -22,6 +22,9 @@
                 Meta data can be used to sort the list of projects
             </label>
         </div>
+		<button class="editable-meta__close btn-action btn-action--delete" @click="deleteItem">
+			<i class="far fa-trash-alt"></i>
+		</button>
     </article>
 </template>
 
@@ -59,7 +62,7 @@ export default {
 			this.updateMeta();
 		},
         async updateMeta() {
-            if (this.meta.name != null && this.meta.valueType != null) {
+            if (this.meta.name != null && this.meta.value_type != null) {
                 // If meta has just been created, create new with API - Otherwise update existing
                 const reqMethod = this.meta.hasOwnProperty('id') ? 'PATCH' : 'POST';
                 const url = this.meta.hasOwnProperty('id') ? `api/project-meta/${this.meta.id}` : 'api/project-meta';
@@ -68,7 +71,7 @@ export default {
             }
         },
         deleteItem() {
-            this.$emit('delete', meta.id);
+            this.$emit('delete', this.meta.id);
         }
     }
 }
@@ -93,8 +96,8 @@ export default {
     }
     &__close {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 20px;
+        right: 20px;
         width: 30px;
         height: 30px;
     }

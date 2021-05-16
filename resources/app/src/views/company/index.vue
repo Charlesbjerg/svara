@@ -6,7 +6,12 @@
                 <h2>Project Metadata</h2>
                 <p>The fields below allow you to setup the metadata that can be captured per project.</p>
                 <div class="company-data__card">
-                    <editable-meta-item v-for="(item, index) in metaItems" :key="index" :meta="item" :index="index" @delete="removeItem" />
+                    <editable-meta-item v-for="(item, index) in metaItems"
+										:key="index"
+										:meta="item"
+										:index="index"
+										@update="updateMetaItem"
+										@delete="removeItem" />
                     <hr style="margin: 20px 0;" v-if="metaItems.length > 0" />
                     <button class="btn btn-default" @click="addItem">
 						Add meta item
@@ -95,12 +100,26 @@ export default {
             this.metaItems.push({
                 name: 'Meta Item Name',
                 sortable: 0,
-                valueType: null,
+                value_type: null,
             });
         },
-        removeItem(item) {
-            // TODO: Remove item from the array
-            // TODO: Remove from API if has an id
+		updateMetaItem(data) {
+        	const index = this.metaItems.findIndex(item => item.id === data.id || item.id === null);
+        	this.metaItems[index] = data;
+        	console.log(data, this.metaItems[index]);
+		},
+        async removeItem(itemId) {
+        	if (itemId) {
+				const response = await this.$api(`api/project-meta/${itemId}`, 'DELETE');
+				if (response.data.success) {
+					const index = this.metaItems.findIndex(item => itemId === item.id);
+					this.metaItems.splice(index, 1);
+				}
+        	// If no ID is present, remove the newly created but not saved meta item
+			} else {
+				const index = this.metaItems.findIndex(item => item.id === undefined);
+				this.metaItems.splice(index, 1);
+			}
         },
         openModal(component, modalTitle) {
             this.modalActive = true;

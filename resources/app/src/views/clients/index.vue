@@ -41,7 +41,9 @@ export default {
             searchTerm: 'clients/getSearchTerm',
         }),
         pageSubtitle() {
-            return `Your currently have ${this.clients.length} clients`;
+        	console.log(this.clients);
+        	const clients = Object.values(this.clients);
+            return `You currently have ${clients.length} clients`;
         },
 		hasClients() {
 			return Object.entries(this.clients).length > 0;

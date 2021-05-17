@@ -1,6 +1,6 @@
 <template>
     <div class="projects-index">
-        <page-head title="Ongoing Projects" :subtitle="pageSubtitle">A Graph Might go Here</page-head>
+        <page-head title="Ongoing Projects" :subtitle="pageSubtitle"></page-head>
         <div v-if="hasProjects">
 			<div class="filters">
 				<filter-bar @update="filterProjects" @reset="resetProjects" />

@@ -28,6 +28,7 @@ export default {
         return {
             init: true,
             edit: false,
+			updating: false,
         };
     },
     mounted() {
@@ -61,11 +62,15 @@ export default {
             }
         },
         async saveCard() {
-        	const response = await this.$api('api/projects/pipeline/boards/card', 'POST', {
-				...this.card,
-				sortOrder: this.index(),
-			});
-            this.$store.commit('entities/updateNewCard', { column: this.columnId, data: response.data });
+        	if (!this.updating) {
+				this.updating = true;
+				const response = await this.$api('api/projects/pipeline/boards/card', 'POST', {
+					...this.card,
+					sortOrder: this.index(),
+				});
+				this.$store.commit('entities/updateNewCard', { column: this.columnId, data: response.data });
+        		this.updating = false;
+			}
         },
 		index() {
         	// Fetch the index of the newly created card

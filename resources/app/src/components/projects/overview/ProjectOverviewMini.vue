@@ -3,8 +3,10 @@
         <h2 class="po-mini__title">Points of Contact</h2>
 		<project-staff-member :member="accountManager" :alt="true" />
 		<em class="po-mini__subtitle">Account Manager</em>
-		<project-staff-member :member="clientMainContact" :alt="true" />
-    	<em class="po-mini__subtitle">Client Main Contact</em>
+		<div v-if="clientMainContact">
+			<project-staff-member :member="clientMainContact" :alt="true" />
+			<em class="po-mini__subtitle">Client Main Contact</em>
+		</div>
 	</section>
 </template>
 

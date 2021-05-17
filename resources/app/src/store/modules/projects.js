@@ -98,6 +98,9 @@ const mutations = {
     setProjectDocuments: (state, payload) => {
         state.currentProject.documents = payload;
     },
+	updateCurrentProjectState: (state, payload) => {
+    	state.currentProject.state = payload;
+	}
 };
 
 export default {

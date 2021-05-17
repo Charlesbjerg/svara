@@ -1,7 +1,7 @@
 <template>
     <div class="projects-single" v-if="projectIsset">
         <page-head :title="project.name" :subtitle="projectSubtitle">
-			{{ project.state.state }}
+			<project-state :state="project.state" :projectId="project.id" />
         </page-head>
 		<tabs v-model="selectedTab" class="project-tabs">
             <tab
@@ -29,12 +29,14 @@ import Pipeline from '@/components/projects/Pipeline';
 import MessageThreads from '@/components/projects/MessageThreads';
 import Meetings from '@/components/projects/Meetings';
 import Documents from '@/components/projects/Documents';
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import ProjectState from "@/components/projects/ProjectState";
 import { Tabs, Tab, TabPanels, TabPanel } from 'vue3-tabs';
-import Breadcrumbs from "../../components/common/Breadcrumbs";
 
 export default {
     name: "ProjectsSingle",
     components: {
+		ProjectState,
 		Breadcrumbs,
         PageHead,
         Tabs,

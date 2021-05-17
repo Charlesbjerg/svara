@@ -8,7 +8,7 @@
                     <span class="project-card__client-name">{{ client.name }}</span>
                 </div>
                 <div class="project-card__state">
-                    <span class="state state--overdue">{{ state }}</span>
+                    <span class="state" :class="stateClass">{{ state }}</span>
                 </div>
             </header>
             <div class="project-card__body">
@@ -63,7 +63,10 @@ export default {
         },
 		hasLogo() {
         	return this.project.client.logoPath !== "" && this.project.client.logoPath !== null;
-		}
+		},
+		stateClass() {
+        	return `state--${this.project.state.style}`;
+		},
     },
     methods: {
         formattedDate(dateString) {

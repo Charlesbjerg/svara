@@ -64,7 +64,9 @@ class RegisteredUserController extends Controller
         $this->userRepository->createActivationRecord($user);
 
         // Send out activation email
-        AccountCreated::dispatch($user);
+        if ((boolean)env('ENABLE_NOTIFICATIONS')) {
+            AccountCreated::dispatch($user);
+        }
 
         return response()->json(['success' => true, 'data' => $user]);
     }

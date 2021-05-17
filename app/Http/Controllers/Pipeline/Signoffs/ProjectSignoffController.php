@@ -147,7 +147,9 @@ class ProjectSignoffController extends Controller
         $project = $this->projectRepo->getProjectByEntity($signoff);
 
         // Send sign off complete notifications
-        PhaseSignedOff::dispatch($project, $signoff);
+        if ((boolean)env('ENABLE_NOTIFICATIONS')) {
+            PhaseSignedOff::dispatch($project, $signoff);
+        }
 
         return redirect('/');
 

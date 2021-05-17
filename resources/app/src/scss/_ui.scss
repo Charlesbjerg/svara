@@ -105,3 +105,25 @@
   background-color: $light-grey;
   @include box-shadow-sm;
 }
+
+/* State label colours */
+.state {
+  &--info {
+    @include gradient-purple;
+    &:hover {
+      @include gradient-purple-hover;
+    }
+  }
+  &--warning {
+    @include gradient-red;
+    &:hover {
+      @include gradient-red-hover;
+    }
+  }
+  &--success {
+    @include gradient-green;
+    &:hover {
+      @include gradient-green-hover;
+    }
+  }
+}

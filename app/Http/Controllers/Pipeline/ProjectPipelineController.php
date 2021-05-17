@@ -104,7 +104,9 @@ class ProjectPipelineController extends Controller
             return $item->complete === 0;
         });
 
-        ProjectPhaseCompleted::dispatch($pipelinePhase, $pipelinePhase->project);
+        if ((boolean)env('ENABLE_NOTIFICATIONS')) {
+            ProjectPhaseCompleted::dispatch($pipelinePhase, $pipelinePhase->project);
+        }
 
         // Grab the next (first) one and update the project
         $nextPhase = $nextPhases->first();

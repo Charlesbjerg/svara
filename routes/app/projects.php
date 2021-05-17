@@ -5,6 +5,11 @@ use App\Http\Controllers\MessageThreadMessageController;
 use App\Http\Controllers\Pipeline\PipelineEntityController;
 use App\Http\Controllers\Pipeline\ProjectPipelineController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectStateController;
+
+// Project States
+Route::get('/projects/state', [ProjectStateController::class, 'index']);
+Route::post('/projects/state/{project}', [ProjectStateController::class, 'updateProject']);
 
 // Filter projects
 Route::get('/projects/filter', [ProjectController::class, 'filter']);

@@ -77,8 +77,10 @@ class ProjectRepository implements ProjectRepositoryInterface {
         // TODO: Save project meta data
         $this->saveProjectMeta($project, $data);
 
-        // Trigger notification event 
-        ProjectCreated::dispatch($project);
+        // Trigger notification event
+        if ((boolean)env('ENABLE_NOTIFICATIONS')) {
+            ProjectCreated::dispatch($project);
+        }
 
         return $project;
 
